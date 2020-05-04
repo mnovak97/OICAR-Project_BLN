@@ -11,9 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.oicar_project.UserModel.TemporaryUserList;
-import com.example.oicar_project.UserModel.User;
+import com.example.oicar_project.Database.User;
+import com.orm.query.Condition;
+import com.orm.query.Select;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
@@ -37,19 +38,10 @@ public class LoginActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<User> users = TemporaryUserList.getUsers();
-                boolean exists = false;
                 EditText txtUsername = findViewById(R.id.txtUsername);
                 EditText txtPassword = findViewById(R.id.txtPassword);
-                for (User user : users){
-                    if(user.geteMail().equals(txtUsername.getText().toString()) && user.getPassword().equals(txtPassword.getText().toString())){
-                        exists = true;
-                    }
-                }
-                if (exists){
-                    Intent intent = new Intent(view.getContext(),MainActivity.class);
-                    startActivity(intent);
-                }
+
+                if()
                 else{
                     Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
                 }

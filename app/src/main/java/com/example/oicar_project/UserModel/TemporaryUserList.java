@@ -1,5 +1,7 @@
 package com.example.oicar_project.UserModel;
 
+import com.example.oicar_project.Database.User;
+
 import java.util.ArrayList;
 import java.util.List;
 

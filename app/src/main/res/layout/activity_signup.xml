@@ -108,7 +108,7 @@
         android:layout_marginTop="8dp"/>
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/txtPasswordSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -132,6 +132,6 @@
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPasswordSignUp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

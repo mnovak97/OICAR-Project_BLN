@@ -1,7 +1,9 @@
-package com.example.oicar_project.UserModel;
+package com.example.oicar_project.Database;
 
-public class User {
-    int idUser;
+import com.orm.SugarRecord;
+
+public class User extends SugarRecord {
+
     String firstName;
     String lastName;
     String mobilePhone;
