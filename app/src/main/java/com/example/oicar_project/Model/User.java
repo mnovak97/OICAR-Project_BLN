@@ -1,15 +1,34 @@
-package com.example.oicar_project.Database;
+package com.example.oicar_project.Model;
 
-import com.orm.SugarRecord;
 
-public class User extends SugarRecord {
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
+import java.util.List;
+
+@Table(name ="User")
+public class User extends Model {
+
+    @Column(name = "firstName")
     String firstName;
+
+    @Column(name = "lastName")
     String lastName;
+
+    @Column(name = "mobilePhone")
     String mobilePhone;
+
+    @Column(name = "eMail")
     String eMail;
+
+    @Column(name = "password")
     String password;
 
+    public User(){
+
+    }
 
     public User(String firstname, String lastname, String mobilephone,String email,String pass ) {
         this.firstName = firstname;
@@ -57,5 +76,9 @@ public class User extends SugarRecord {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public static List<User> getAllUsers(){
+        return new Select().from(User.class).execute();
     }
 }

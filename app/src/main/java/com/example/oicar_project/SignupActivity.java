@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.oicar_project.Database.User;
+import com.example.oicar_project.Model.User;
+
+import java.util.List;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -24,6 +27,10 @@ public class SignupActivity extends AppCompatActivity {
         final EditText etPassword = findViewById(R.id.txtPasswordSignUp);
 
         Button btnSignUp = findViewById(R.id.btnSignUp);
+
+        /*List<User> storedUsers = User.getAllUsers();
+        Log.d("EA","All done");
+        */
 
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
