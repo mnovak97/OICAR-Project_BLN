@@ -61,7 +61,7 @@
             android:layout_marginTop="8dp"
             />
 
-        <EditText
+        <TextView
             android:id="@+id/txtFirstNameEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,7 +69,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@null"
-            android:text="Martin"
             android:textColor="@android:color/black"
             />
     </LinearLayout>
@@ -91,7 +90,7 @@
             android:layout_marginTop="8dp"
             />
 
-        <EditText
+        <TextView
             android:id="@+id/txtLastNameEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,7 +98,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@null"
-            android:text="Novak"
             android:textColor="@android:color/black"
             />
     </LinearLayout>
@@ -121,7 +119,7 @@
             android:layout_marginTop="8dp"
             />
 
-        <EditText
+        <TextView
             android:id="@+id/txtPhoneNumberEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -129,7 +127,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@null"
-            android:text="0919158566"
             android:textColor="@android:color/black"
             />
     </LinearLayout>
@@ -151,7 +148,7 @@
             android:layout_marginTop="8dp"
             />
 
-        <EditText
+        <TextView
             android:id="@+id/txtEmailAddressEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -159,7 +156,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@null"
-            android:text="ipad3monkey@gmail.com"
             android:textColor="@android:color/black"
             />
     </LinearLayout>
@@ -181,7 +177,7 @@
             android:layout_marginTop="8dp"
             />
 
-        <EditText
+        <TextView
             android:id="@+id/txtPasswordEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

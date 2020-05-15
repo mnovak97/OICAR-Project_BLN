@@ -3,7 +3,9 @@ package com.example.oicar_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.activeandroid.util.SQLiteUtils;
 import com.example.oicar_project.Model.User;
+import com.example.oicar_project.utils.PreferenceUtils;
 
 import java.util.List;
 
@@ -25,6 +28,10 @@ public class LoginActivity extends AppCompatActivity {
 
         TextView lblSignUp = findViewById(R.id.lblSignUp);
         Button btnSignIn = findViewById(R.id.btnSignIn);
+        if (PreferenceUtils.getEmail(this) != null){
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+        }
 
         lblSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,10 +69,10 @@ public class LoginActivity extends AppCompatActivity {
         for (User user: users) {
 
             if (user.geteMail().equals(eMail) && user.getPassword().equals(password))
+                PreferenceUtils.saveID(user.getId(),this);
+                PreferenceUtils.saveEmail(user.geteMail(),this);
                 return true;
-
         }
-
         return false;
     }
 }

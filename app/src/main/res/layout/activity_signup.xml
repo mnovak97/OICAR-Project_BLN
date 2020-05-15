@@ -114,6 +114,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
+        android:inputType="textPassword"
         android:hint="At least 5 characters"
         android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
