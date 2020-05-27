@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="dbe5122d1dd946b0b627551b772aa184" Name="Diagram1" ZoomLevel="92" >
+        <EntityTypeShape EntityType="Model.WorkCategory" PointX="2.125" PointY="4.25" Width="1.5" />
+        <EntityTypeShape EntityType="Model.WorkType" Width="1.5" PointX="2.125" PointY="0.5" />
+        <EntityTypeShape EntityType="Model.Listing" Width="1.5" PointX="4.75" PointY="0.5" />
+        <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="12.25" PointY="0.5" />
+        <EntityTypeShape EntityType="Model.Location" Width="1.5" PointX="7.125" PointY="4.25" />
+        <EntityTypeShape EntityType="Model.Review" Width="1.5" PointX="15" PointY="3.375" />
+        <EntityTypeShape EntityType="Model.Employee" Width="1.5" PointX="9.875" PointY="0.5" />
+        <InheritanceConnector EntityType="Model.Employee" />
+        <EntityTypeShape EntityType="Model.Employer" Width="1.5" PointX="9.75" PointY="2.375" />
+        <InheritanceConnector EntityType="Model.Employer" />
+        <AssociationConnector Association="Model.EmployerListing" />
+        <AssociationConnector Association="Model.ListingWorkType" />
+        <EntityTypeShape EntityType="Model.Offer" Width="1.5" PointX="7.25" PointY="0.5" />
+        <AssociationConnector Association="Model.EmployeeOffer" />
+        <AssociationConnector Association="Model.ListingOffer" />
+        <EntityTypeShape EntityType="Model.WorkCategory_Listing" Width="1.5" PointX="4.75" PointY="4.25" />
+        <AssociationConnector Association="Model.WorkCategory_ListingListing" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="Model.WorkCategoryWorkCategory_Listing" />
+        <AssociationConnector Association="Model.UserReview" />
+        <AssociationConnector Association="Model.UserReview1" />
+        <EntityTypeShape EntityType="Model.Transaction" Width="1.5" PointX="15" PointY="0.5" />
+        <AssociationConnector Association="Model.LocationListing" />
+        <AssociationConnector Association="Model.UserTransaction" />
+        <AssociationConnector Association="Model.UserTransaction_PaidTo" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

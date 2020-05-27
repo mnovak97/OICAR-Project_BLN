@@ -1,0 +1,765 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="WorkCategories" EntityType="Model.Store.WorkCategories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="WorkTypes" EntityType="Model.Store.WorkTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Listings" EntityType="Model.Store.Listings" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="Model.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Locations" EntityType="Model.Store.Locations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reviews" EntityType="Model.Store.Reviews" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Offers" EntityType="Model.Store.Offers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="WorkCategory_Listings" EntityType="Model.Store.WorkCategory_Listings" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Transactions" EntityType="Model.Store.Transactions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users_Employer" EntityType="Model.Store.Users_Employer" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users_Employee" EntityType="Model.Store.Users_Employee" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="EmployerListing" Association="Model.Store.EmployerListing">
+      <End Role="Employer" EntitySet="Users_Employer" />
+      <End Role="Listing" EntitySet="Listings" />
+    </AssociationSet>
+    <AssociationSet Name="ListingWorkType" Association="Model.Store.ListingWorkType">
+      <End Role="Listing" EntitySet="Listings" />
+      <End Role="WorkType" EntitySet="WorkTypes" />
+    </AssociationSet>
+    <AssociationSet Name="EmployeeOffer" Association="Model.Store.EmployeeOffer">
+      <End Role="Employee" EntitySet="Users_Employee" />
+      <End Role="Offer" EntitySet="Offers" />
+    </AssociationSet>
+    <AssociationSet Name="ListingOffer" Association="Model.Store.ListingOffer">
+      <End Role="Listing" EntitySet="Listings" />
+      <End Role="Offer" EntitySet="Offers" />
+    </AssociationSet>
+    <AssociationSet Name="WorkCategory_ListingListing" Association="Model.Store.WorkCategory_ListingListing">
+      <End Role="WorkCategory_Listing" EntitySet="WorkCategory_Listings" />
+      <End Role="Listing" EntitySet="Listings" />
+    </AssociationSet>
+    <AssociationSet Name="WorkCategoryWorkCategory_Listing" Association="Model.Store.WorkCategoryWorkCategory_Listing">
+      <End Role="WorkCategory" EntitySet="WorkCategories" />
+      <End Role="WorkCategory_Listing" EntitySet="WorkCategory_Listings" />
+    </AssociationSet>
+    <AssociationSet Name="UserReview" Association="Model.Store.UserReview">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
+    <AssociationSet Name="UserReview1" Association="Model.Store.UserReview1">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
+    <AssociationSet Name="LocationListing" Association="Model.Store.LocationListing">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="Listing" EntitySet="Listings" />
+    </AssociationSet>
+    <AssociationSet Name="UserTransaction" Association="Model.Store.UserTransaction">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Transaction" EntitySet="Transactions" />
+    </AssociationSet>
+    <AssociationSet Name="UserTransaction_PaidTo" Association="Model.Store.UserTransaction_PaidTo">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Transaction" EntitySet="Transactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employer_inherits_User" Association="Model.Store.FK_Employer_inherits_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Employer" EntitySet="Users_Employer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_inherits_User" Association="Model.Store.FK_Employee_inherits_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Employee" EntitySet="Users_Employee" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="WorkCategories">
+    <Key>
+      <PropertyRef Name="IdWorkCategory" />
+    </Key>
+    <Property Name="IdWorkCategory" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ListingIdListing" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WorkTypes">
+    <Key>
+      <PropertyRef Name="IdWorkType" />
+    </Key>
+    <Property Name="IdWorkType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Listings">
+    <Key>
+      <PropertyRef Name="IdListing" />
+    </Key>
+    <Property Name="IdListing" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EmployerIdUser" Type="int" Nullable="false" />
+    <Property Name="ToolsRequired" Type="bit" Nullable="false" />
+    <Property Name="WorkType_IdWorkType" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="IdUser" />
+    </Key>
+    <Property Name="IdUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PasswordSalt" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Balance" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Locations">
+    <Key>
+      <PropertyRef Name="IdLocation" />
+    </Key>
+    <Property Name="IdLocation" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Coordinates" Type="geography" Nullable="false" SRID="4326" />
+    <Property Name="Listing_IdListing" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reviews">
+    <Key>
+      <PropertyRef Name="IdReview" />
+    </Key>
+    <Property Name="IdReview" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Grade" Type="int" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserIdUser" Type="int" Nullable="false" />
+    <Property Name="UserReviewed_IdUser" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Offers">
+    <Key>
+      <PropertyRef Name="IdOffer" />
+    </Key>
+    <Property Name="IdOffer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmployeeIdUser" Type="int" Nullable="false" />
+    <Property Name="ListingIdListing" Type="int" Nullable="false" />
+    <Property Name="Price" Type="float" Nullable="false" />
+    <Property Name="HasTools" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WorkCategory_Listings">
+    <Key>
+      <PropertyRef Name="IdWorkCategory_Listing" />
+    </Key>
+    <Property Name="IdWorkCategory_Listing" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WorkCategoryIdWorkCategory" Type="int" Nullable="false" />
+    <Property Name="Listing_IdListing" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Transactions">
+    <Key>
+      <PropertyRef Name="IdTransaction" />
+    </Key>
+    <Property Name="IdTransaction" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Time" Type="datetime" Nullable="false" />
+    <Property Name="Balance" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserIdPaid" Type="int" Nullable="false" />
+    <Property Name="UserIdPaidTo" Type="int" Nullable="false" />
+    <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users_Employer">
+    <Key>
+      <PropertyRef Name="IdUser" />
+    </Key>
+    <Property Name="IdUser" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users_Employee">
+    <Key>
+      <PropertyRef Name="IdUser" />
+    </Key>
+    <Property Name="IBAN" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IdUser" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="EmployerListing">
+    <End Role="Employer" Type="Model.Store.Users_Employer" Multiplicity="1" />
+    <End Role="Listing" Type="Model.Store.Listings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employer">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Listing">
+        <PropertyRef Name="EmployerIdUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ListingWorkType">
+    <End Role="Listing" Type="Model.Store.Listings" Multiplicity="*" />
+    <End Role="WorkType" Type="Model.Store.WorkTypes" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="WorkType">
+        <PropertyRef Name="IdWorkType" />
+      </Principal>
+      <Dependent Role="Listing">
+        <PropertyRef Name="WorkType_IdWorkType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmployeeOffer">
+    <End Role="Employee" Type="Model.Store.Users_Employee" Multiplicity="1" />
+    <End Role="Offer" Type="Model.Store.Offers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Offer">
+        <PropertyRef Name="EmployeeIdUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ListingOffer">
+    <End Role="Listing" Type="Model.Store.Listings" Multiplicity="1" />
+    <End Role="Offer" Type="Model.Store.Offers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Listing">
+        <PropertyRef Name="IdListing" />
+      </Principal>
+      <Dependent Role="Offer">
+        <PropertyRef Name="ListingIdListing" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WorkCategory_ListingListing">
+    <End Role="WorkCategory_Listing" Type="Model.Store.WorkCategory_Listings" Multiplicity="*" />
+    <End Role="Listing" Type="Model.Store.Listings" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Listing">
+        <PropertyRef Name="IdListing" />
+      </Principal>
+      <Dependent Role="WorkCategory_Listing">
+        <PropertyRef Name="Listing_IdListing" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WorkCategoryWorkCategory_Listing">
+    <End Role="WorkCategory" Type="Model.Store.WorkCategories" Multiplicity="1" />
+    <End Role="WorkCategory_Listing" Type="Model.Store.WorkCategory_Listings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkCategory">
+        <PropertyRef Name="IdWorkCategory" />
+      </Principal>
+      <Dependent Role="WorkCategory_Listing">
+        <PropertyRef Name="WorkCategoryIdWorkCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserReview">
+    <End Role="User" Type="Model.Store.Users" Multiplicity="1" />
+    <End Role="Review" Type="Model.Store.Reviews" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="UserIdUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserReview1">
+    <End Role="User" Type="Model.Store.Users" Multiplicity="1" />
+    <End Role="Review" Type="Model.Store.Reviews" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="UserReviewed_IdUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LocationListing">
+    <End Role="Location" Type="Model.Store.Locations" Multiplicity="*" />
+    <End Role="Listing" Type="Model.Store.Listings" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Listing">
+        <PropertyRef Name="IdListing" />
+      </Principal>
+      <Dependent Role="Location">
+        <PropertyRef Name="Listing_IdListing" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserTransaction">
+    <End Role="User" Type="Model.Store.Users" Multiplicity="1" />
+    <End Role="Transaction" Type="Model.Store.Transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="UserIdPaid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserTransaction_PaidTo">
+    <End Role="User" Type="Model.Store.Users" Multiplicity="1" />
+    <End Role="Transaction" Type="Model.Store.Transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="UserIdPaidTo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employer_inherits_User">
+    <End Role="User" Type="Model.Store.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Employer" Type="Model.Store.Users_Employer" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Employer">
+        <PropertyRef Name="IdUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_inherits_User">
+    <End Role="User" Type="Model.Store.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Employee" Type="Model.Store.Users_Employee" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="IdUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="WorkCategories" EntityType="Model.WorkCategory" />
+          <EntitySet Name="WorkTypes" EntityType="Model.WorkType" />
+          <EntitySet Name="Listings" EntityType="Model.Listing" />
+          <EntitySet Name="Users" EntityType="Model.User" />
+          <EntitySet Name="Locations" EntityType="Model.Location" />
+          <EntitySet Name="Reviews" EntityType="Model.Review" />
+          <AssociationSet Name="EmployerListing" Association="Model.EmployerListing">
+            <End Role="Employer" EntitySet="Users" />
+            <End Role="Listing" EntitySet="Listings" />
+          </AssociationSet>
+          <AssociationSet Name="ListingWorkType" Association="Model.ListingWorkType">
+            <End Role="Listing" EntitySet="Listings" />
+            <End Role="WorkType" EntitySet="WorkTypes" />
+          </AssociationSet>
+          <EntitySet Name="Offers" EntityType="Model.Offer" />
+          <AssociationSet Name="EmployeeOffer" Association="Model.EmployeeOffer">
+            <End Role="Employee" EntitySet="Users" />
+            <End Role="Offer" EntitySet="Offers" />
+          </AssociationSet>
+          <AssociationSet Name="ListingOffer" Association="Model.ListingOffer">
+            <End Role="Listing" EntitySet="Listings" />
+            <End Role="Offer" EntitySet="Offers" />
+          </AssociationSet>
+          <EntitySet Name="WorkCategory_Listings" EntityType="Model.WorkCategory_Listing" />
+          <AssociationSet Name="WorkCategory_ListingListing" Association="Model.WorkCategory_ListingListing">
+            <End Role="WorkCategory_Listing" EntitySet="WorkCategory_Listings" />
+            <End Role="Listing" EntitySet="Listings" />
+          </AssociationSet>
+          <AssociationSet Name="WorkCategoryWorkCategory_Listing" Association="Model.WorkCategoryWorkCategory_Listing">
+            <End Role="WorkCategory" EntitySet="WorkCategories" />
+            <End Role="WorkCategory_Listing" EntitySet="WorkCategory_Listings" />
+          </AssociationSet>
+          <AssociationSet Name="UserReview" Association="Model.UserReview">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="UserReview1" Association="Model.UserReview1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <EntitySet Name="Transactions" EntityType="Model.Transaction" />
+          <AssociationSet Name="LocationListing" Association="Model.LocationListing">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Listing" EntitySet="Listings" />
+          </AssociationSet>
+          <AssociationSet Name="UserTransaction" Association="Model.UserTransaction">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="UserTransaction_PaidTo" Association="Model.UserTransaction_PaidTo">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="WorkCategory">
+          <Key>
+            <PropertyRef Name="IdWorkCategory" />
+          </Key>
+          <Property Name="IdWorkCategory" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Title" Nullable="false" Type="String" />
+          <Property Name="ListingIdListing" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="WorkCategory_Listing" Relationship="Model.WorkCategoryWorkCategory_Listing" FromRole="WorkCategory" ToRole="WorkCategory_Listing" />
+        </EntityType>
+        <EntityType Name="WorkType">
+          <Key>
+            <PropertyRef Name="IdWorkType" />
+          </Key>
+          <Property Name="IdWorkType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" />
+          <NavigationProperty Name="Listings" Relationship="Model.ListingWorkType" FromRole="WorkType" ToRole="Listing" />
+        </EntityType>
+        <EntityType Name="Listing">
+          <Key>
+            <PropertyRef Name="IdListing" />
+          </Key>
+          <Property Name="IdListing" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <NavigationProperty Name="Employer" Relationship="Model.EmployerListing" FromRole="Listing" ToRole="Employer" />
+          <Property Name="EmployerIdUser" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="WorkType" Relationship="Model.ListingWorkType" FromRole="Listing" ToRole="WorkType" />
+          <NavigationProperty Name="Offers" Relationship="Model.ListingOffer" FromRole="Listing" ToRole="Offer" />
+          <NavigationProperty Name="WorkCategory_Listings" Relationship="Model.WorkCategory_ListingListing" FromRole="Listing" ToRole="WorkCategory_Listing" />
+          <NavigationProperty Name="Location" Relationship="Model.LocationListing" FromRole="Listing" ToRole="Location" />
+          <Property Name="ToolsRequired" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="IdUser" />
+          </Key>
+          <Property Name="IdUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" />
+          <Property Name="LastName" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" Nullable="false" />
+          <Property Name="PasswordSalt" Type="String" Nullable="false" />
+          <Property Name="Balance" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Reviews" Relationship="Model.UserReview" FromRole="User" ToRole="Review" />
+          <NavigationProperty Name="Reviewed" Relationship="Model.UserReview1" FromRole="User" ToRole="Review" />
+          <NavigationProperty Name="TransactionsPaid" Relationship="Model.UserTransaction" FromRole="User" ToRole="Transaction" />
+          <NavigationProperty Name="TransactionsPaidTo" Relationship="Model.UserTransaction_PaidTo" FromRole="User" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="IdLocation" />
+          </Key>
+          <Property Name="IdLocation" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" />
+          <Property Name="Coordinates" Type="GeographyPoint" Nullable="false" />
+          <NavigationProperty Name="Listing" Relationship="Model.LocationListing" FromRole="Location" ToRole="Listing" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="IdReview" />
+          </Key>
+          <Property Name="IdReview" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Grade" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" Nullable="false" />
+          <NavigationProperty Name="UserReviewer" Relationship="Model.UserReview" FromRole="Review" ToRole="User" />
+          <Property Name="UserIdUser" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserReviewed" Relationship="Model.UserReview1" FromRole="Review" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Employee" BaseType="Model.User" >
+          <Property Name="IBAN" Type="String" Nullable="false" />
+          <NavigationProperty Name="Offers" Relationship="Model.EmployeeOffer" FromRole="Employee" ToRole="Offer" />
+        </EntityType>
+        <EntityType Name="Employer" BaseType="Model.User" >
+          <NavigationProperty Name="Listings" Relationship="Model.EmployerListing" FromRole="Employer" ToRole="Listing" />
+        </EntityType>
+        <Association Name="EmployerListing">
+          <End Type="Model.Employer" Role="Employer" Multiplicity="1" />
+          <End Type="Model.Listing" Role="Listing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employer">
+              <PropertyRef Name="IdUser" />
+            </Principal>
+            <Dependent Role="Listing">
+              <PropertyRef Name="EmployerIdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ListingWorkType">
+          <End Type="Model.Listing" Role="Listing" Multiplicity="*" />
+          <End Type="Model.WorkType" Role="WorkType" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Offer">
+          <Key>
+            <PropertyRef Name="IdOffer" />
+          </Key>
+          <Property Name="IdOffer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Employee" Relationship="Model.EmployeeOffer" FromRole="Offer" ToRole="Employee" />
+          <Property Name="EmployeeIdUser" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Listing" Relationship="Model.ListingOffer" FromRole="Offer" ToRole="Listing" />
+          <Property Name="ListingIdListing" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="HasTools" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="EmployeeOffer">
+          <End Type="Model.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="Model.Offer" Role="Offer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="IdUser" />
+            </Principal>
+            <Dependent Role="Offer">
+              <PropertyRef Name="EmployeeIdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ListingOffer">
+          <End Type="Model.Listing" Role="Listing" Multiplicity="1" />
+          <End Type="Model.Offer" Role="Offer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listing">
+              <PropertyRef Name="IdListing" />
+            </Principal>
+            <Dependent Role="Offer">
+              <PropertyRef Name="ListingIdListing" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WorkCategory_Listing">
+          <Key>
+            <PropertyRef Name="IdWorkCategory_Listing" />
+          </Key>
+          <Property Name="IdWorkCategory_Listing" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Listing" Relationship="Model.WorkCategory_ListingListing" FromRole="WorkCategory_Listing" ToRole="Listing" />
+          <NavigationProperty Name="WorkCategory" Relationship="Model.WorkCategoryWorkCategory_Listing" FromRole="WorkCategory_Listing" ToRole="WorkCategory" />
+          <Property Name="WorkCategoryIdWorkCategory" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="WorkCategory_ListingListing">
+          <End Type="Model.WorkCategory_Listing" Role="WorkCategory_Listing" Multiplicity="*" />
+          <End Type="Model.Listing" Role="Listing" Multiplicity="1" />
+        </Association>
+        <Association Name="WorkCategoryWorkCategory_Listing">
+          <End Type="Model.WorkCategory" Role="WorkCategory" Multiplicity="1" />
+          <End Type="Model.WorkCategory_Listing" Role="WorkCategory_Listing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkCategory">
+              <PropertyRef Name="IdWorkCategory" />
+            </Principal>
+            <Dependent Role="WorkCategory_Listing">
+              <PropertyRef Name="WorkCategoryIdWorkCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserReview">
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="IdUser" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="UserIdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserReview1">
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.Review" Role="Review" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="IdTransaction" />
+          </Key>
+          <Property Name="IdTransaction" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Time" Type="DateTime" Nullable="false" />
+          <Property Name="Balance" Type="String" Nullable="false" />
+          <NavigationProperty Name="UserPaid" Relationship="Model.UserTransaction" FromRole="Transaction" ToRole="User" />
+          <Property Name="UserIdPaid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserPaidTo" Relationship="Model.UserTransaction_PaidTo" FromRole="Transaction" ToRole="User" />
+          <Property Name="UserIdPaidTo" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="LocationListing">
+          <End Type="Model.Location" Role="Location" Multiplicity="1" />
+          <End Type="Model.Listing" Role="Listing" Multiplicity="1" />
+        </Association>
+        <Association Name="UserTransaction">
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="IdUser" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="UserIdPaid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserTransaction_PaidTo">
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="IdUser" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="UserIdPaidTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="ModelContainer">
+    <EntitySetMapping Name="WorkCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.WorkCategory)">
+        <MappingFragment StoreEntitySet="WorkCategories">
+          <ScalarProperty Name="IdWorkCategory" ColumnName="IdWorkCategory" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="ListingIdListing" ColumnName="ListingIdListing" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WorkTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.WorkType)">
+        <MappingFragment StoreEntitySet="WorkTypes">
+          <ScalarProperty Name="IdWorkType" ColumnName="IdWorkType" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Listings">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Listing)">
+        <MappingFragment StoreEntitySet="Listings">
+          <ScalarProperty Name="IdListing" ColumnName="IdListing" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="EmployerIdUser" ColumnName="EmployerIdUser" />
+          <ScalarProperty Name="ToolsRequired" ColumnName="ToolsRequired" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Employer)">
+        <MappingFragment StoreEntitySet="Users_Employer">
+          <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Employee)">
+        <MappingFragment StoreEntitySet="Users_Employee">
+          <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+          <ScalarProperty Name="IBAN" ColumnName="IBAN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Location)">
+        <MappingFragment StoreEntitySet="Locations">
+          <ScalarProperty Name="IdLocation" ColumnName="IdLocation" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Coordinates" ColumnName="Coordinates" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reviews">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Review)">
+        <MappingFragment StoreEntitySet="Reviews">
+          <ScalarProperty Name="IdReview" ColumnName="IdReview" />
+          <ScalarProperty Name="Grade" ColumnName="Grade" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="UserIdUser" ColumnName="UserIdUser" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Offers">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Offer)">
+        <MappingFragment StoreEntitySet="Offers">
+          <ScalarProperty Name="IdOffer" ColumnName="IdOffer" />
+          <ScalarProperty Name="EmployeeIdUser" ColumnName="EmployeeIdUser" />
+          <ScalarProperty Name="ListingIdListing" ColumnName="ListingIdListing" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="HasTools" ColumnName="HasTools" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WorkCategory_Listings">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.WorkCategory_Listing)">
+        <MappingFragment StoreEntitySet="WorkCategory_Listings">
+          <ScalarProperty Name="IdWorkCategory_Listing" ColumnName="IdWorkCategory_Listing" />
+          <ScalarProperty Name="WorkCategoryIdWorkCategory" ColumnName="WorkCategoryIdWorkCategory" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transactions">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Transaction)">
+        <MappingFragment StoreEntitySet="Transactions">
+          <ScalarProperty Name="IdTransaction" ColumnName="IdTransaction" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="Balance" ColumnName="Balance" />
+          <ScalarProperty Name="UserIdPaid" ColumnName="UserIdPaid" />
+          <ScalarProperty Name="UserIdPaidTo" ColumnName="UserIdPaidTo" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ListingWorkType" TypeName="Model.ListingWorkType" StoreEntitySet="Listings">
+      <EndProperty Name="WorkType">
+        <ScalarProperty Name="IdWorkType" ColumnName="WorkType_IdWorkType" />
+      </EndProperty>
+      <EndProperty Name="Listing">
+        <ScalarProperty Name="IdListing" ColumnName="IdListing" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="WorkCategory_ListingListing" TypeName="Model.WorkCategory_ListingListing" StoreEntitySet="WorkCategory_Listings">
+      <EndProperty Name="Listing">
+        <ScalarProperty Name="IdListing" ColumnName="Listing_IdListing" />
+      </EndProperty>
+      <EndProperty Name="WorkCategory_Listing">
+        <ScalarProperty Name="IdWorkCategory_Listing" ColumnName="IdWorkCategory_Listing" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserReview1" TypeName="Model.UserReview1" StoreEntitySet="Reviews">
+      <EndProperty Name="User">
+        <ScalarProperty Name="IdUser" ColumnName="UserReviewed_IdUser" />
+      </EndProperty>
+      <EndProperty Name="Review">
+        <ScalarProperty Name="IdReview" ColumnName="IdReview" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="LocationListing" TypeName="Model.LocationListing" StoreEntitySet="Locations">
+      <EndProperty Name="Listing">
+        <ScalarProperty Name="IdListing" ColumnName="Listing_IdListing" />
+      </EndProperty>
+      <EndProperty Name="Location">
+        <ScalarProperty Name="IdLocation" ColumnName="IdLocation" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
