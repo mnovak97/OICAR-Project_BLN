@@ -11,7 +11,9 @@ namespace DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class Listing
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,11 +22,16 @@ namespace DAL
             this.Offers = new HashSet<Offer>();
             this.WorkCategory_Listings = new HashSet<WorkCategory_Listing>();
         }
-    
+
+        [DataMember]
         public int IdListing { get; set; }
+        [DataMember]
         public string Title { get; set; }
+        [DataMember]
         public string Description { get; set; }
+        [DataMember]
         public int EmployerIdUser { get; set; }
+        [DataMember]
         public bool ToolsRequired { get; set; }
     
         public virtual Employer Employer { get; set; }

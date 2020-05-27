@@ -11,12 +11,18 @@ namespace DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class Review
     {
+        [DataMember]
         public int IdReview { get; set; }
+        [DataMember]
         public int Grade { get; set; }
+        [DataMember]
         public string Comment { get; set; }
+        [DataMember]
         public int UserIdUser { get; set; }
     
         public virtual User UserReviewer { get; set; }

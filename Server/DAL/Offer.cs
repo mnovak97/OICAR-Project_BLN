@@ -11,13 +11,20 @@ namespace DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class Offer
     {
+        [DataMember]
         public int IdOffer { get; set; }
+        [DataMember]
         public int EmployeeIdUser { get; set; }
+        [DataMember]
         public int ListingIdListing { get; set; }
+        [DataMember]
         public double Price { get; set; }
+        [DataMember]
         public bool HasTools { get; set; }
     
         public virtual Employee Employee { get; set; }

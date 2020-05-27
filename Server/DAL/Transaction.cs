@@ -11,14 +11,22 @@ namespace DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class Transaction
     {
+        [DataMember]
         public int IdTransaction { get; set; }
+        [DataMember]
         public System.DateTime Time { get; set; }
+        [DataMember]
         public string Balance { get; set; }
+        [DataMember]
         public int UserIdPaid { get; set; }
+        [DataMember]
         public int UserIdPaidTo { get; set; }
+        [DataMember]
         public string Note { get; set; }
     
         public virtual User UserPaid { get; set; }

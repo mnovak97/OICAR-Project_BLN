@@ -11,7 +11,9 @@ namespace DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class WorkCategory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,9 +21,12 @@ namespace DAL
         {
             this.WorkCategory_Listing = new HashSet<WorkCategory_Listing>();
         }
-    
+
+        [DataMember]
         public int IdWorkCategory { get; set; }
+        [DataMember]
         public string Title { get; set; }
+        [DataMember]
         public int ListingIdListing { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

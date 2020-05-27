@@ -11,7 +11,9 @@ namespace DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,14 +24,22 @@ namespace DAL
             this.TransactionsPaid = new HashSet<Transaction>();
             this.TransactionsPaidTo = new HashSet<Transaction>();
         }
-    
+
+        [DataMember]
         public int IdUser { get; set; }
+        [DataMember]
         public string FirstName { get; set; }
+        [DataMember]
         public string LastName { get; set; }
+        [DataMember]
         public string Email { get; set; }
+        [DataMember]
         public string PhoneNumber { get; set; }
+        [DataMember]
         public string PasswordHash { get; set; }
+        [DataMember]
         public string PasswordSalt { get; set; }
+        [DataMember]
         public double Balance { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
