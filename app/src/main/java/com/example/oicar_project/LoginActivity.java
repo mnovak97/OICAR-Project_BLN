@@ -62,17 +62,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean checkUsers(String eMail, String password) {
 
-        List<User> users =  SQLiteUtils.rawQuery(User.class,
-                "SELECT * from User where eMail = ? and password = ?",
-                new String[] { eMail,password });
-
-        for (User user: users) {
-
-            if (user.geteMail().equals(eMail) && user.getPassword().equals(password))
-                PreferenceUtils.saveID(user.getId(),this);
-                PreferenceUtils.saveEmail(user.geteMail(),this);
-                return true;
-        }
         return false;
     }
 }

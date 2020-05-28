@@ -13,10 +13,18 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.example.oicar_project.Model.User;
+import com.example.oicar_project.network.JsonPlaceHolderApi;
+import com.example.oicar_project.network.RetrofitClientInstance;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -52,7 +60,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        JsonPlaceHolderApi service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
+        Call<List<User>> call = service.getUsers();
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if (!response.isSuccessful()){
+                    Toast.makeText(MainActivity.this, "Code:" + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
+
+
 
     @Override
     public void onBackPressed() {

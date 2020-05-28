@@ -1,41 +1,44 @@
 package com.example.oicar_project.Model;
 
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Select;
+import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+public class User {
 
-@Table(name ="User")
-public class User extends Model {
+    @SerializedName("IdUser")
+    private int userID;
 
-    @Column(name = "firstName")
-    String firstName;
+    @SerializedName("FirstName")
+    private String firstName;
 
-    @Column(name = "lastName")
-    String lastName;
+    @SerializedName("LastName")
+    private String lastName;
 
-    @Column(name = "mobilePhone")
-    String mobilePhone;
+    @SerializedName("PhoneNumber")
+    private String mobilePhone;
 
-    @Column(name = "eMail")
-    String eMail;
+    @SerializedName("Email")
+    private String eMail;
 
-    @Column(name = "password")
-    String password;
+    @SerializedName("PasswordSalt")
+    private String passwordSalt;
+
+    @SerializedName("PasswordHash")
+    private String passwordHash;
+
+    @SerializedName("Balance")
+    private double balance;
+
 
     public User(){
 
     }
 
-    public User(String firstname, String lastname, String mobilephone,String email,String pass ) {
+    public User(String firstname, String lastname, String mobilephone,String email ) {
         this.firstName = firstname;
         this.lastName = lastname;
         this.mobilePhone = mobilephone;
         this.eMail = email;
-        this.password = pass;
     }
 
     public String getFirstName() {
@@ -70,15 +73,28 @@ public class User extends Model {
         this.eMail = eMail;
     }
 
-    public String getPassword() {
-        return password;
+    public double getBalance() {
+        return balance;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
-    public static List<User> getAllUsers(){
-        return new Select().from(User.class).execute();
+    public String getPasswordSalt() {
+        return passwordSalt;
     }
+
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
 }

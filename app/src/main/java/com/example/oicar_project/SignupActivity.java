@@ -49,8 +49,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void createNewUser(EditText etFirstName, EditText etLastName, EditText etMobilePhone, EditText etEmailAddress, EditText etPassword,View view) {
         if (checkIfUserAlreadyExists(etEmailAddress)){
-            User newUser = new User(etFirstName.getText().toString(),etLastName.getText().toString(),etMobilePhone.getText().toString(),etEmailAddress.getText().toString(),etPassword.getText().toString());
-            newUser.save();
+            //User newUser = new User(etFirstName.getText().toString(),etLastName.getText().toString(),etMobilePhone.getText().toString(),etEmailAddress.getText().toString(),etPassword.getText().toString());
             Intent intent = new Intent(view.getContext(),LoginActivity.class);
             startActivity(intent);
         }
@@ -61,12 +60,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private boolean checkIfUserAlreadyExists(EditText etEmailAddress) {
-        List<User> allUsers = User.getAllUsers();
-        for (User user : allUsers) {
-            if (user.geteMail().equals(etEmailAddress)){
-                return true;
-            }
-        }
+
         return false;
     }
 }
