@@ -36,12 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ImageButton btnMenu = findViewById(R.id.btnMenu);
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(Gravity.LEFT);
-            }
-        });
+        ImageButton btnAdd = findViewById(R.id.btnAdd);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
@@ -59,23 +54,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
-
-        JsonPlaceHolderApi service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
-        Call<List<User>> call = service.getUsers();
-        call.enqueue(new Callback<List<User>>() {
+        btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if (!response.isSuccessful()){
-                    Toast.makeText(MainActivity.this, "Code:" + response.code(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                drawer.openDrawer(Gravity.LEFT);
             }
         });
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(),JobAddActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".JobAddActivity">
+
+    <TextView
+    android:id="@+id/tvAddTitle"
+    android:text="@string/string_title"
+    android:textColor="@android:color/holo_green_dark"
+    android:textSize="18dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_margin="16dp"/>
+
+    <EditText
+        android:id="@+id/txtAddTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter title"
+        android:textColorHint="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvAddTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddTitle"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tvAddDescription"
+        android:text="@string/string_description"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAddTitle"
+        android:layout_margin="16dp"/>
+
+    <EditText
+        android:id="@+id/txtAddDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter description"
+        android:textColorHint="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvAddDescription"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddDescription"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tvAddType"
+        android:text="@string/string_type"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtAddDescription"
+        android:layout_margin="16dp"/>
+
+    <EditText
+        android:id="@+id/txtAddType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter type"
+        android:textColorHint="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvAddType"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddType"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tvAddCategory"
+        android:text="@string/string_type"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtAddType"
+        android:layout_margin="16dp"/>
+
+   <Spinner
+       android:id="@+id/ddlAddCategory"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       app:layout_constraintStart_toStartOf="@id/tvAddCategory"
+       app:layout_constraintTop_toBottomOf="@id/tvAddCategory"
+       android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/tvAddAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/string_address"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ddlAddCategory"
+        android:layout_margin="16dp" />
+
+    <EditText
+        android:id="@+id/txtAddAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter address"
+        android:textColorHint="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvAddAddress"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddAddress"
+        android:layout_marginTop="16dp"
+        />
+
+
+    <Button
+        android:id="@+id/btnAddJob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAddAddress"
+        android:background="@android:color/holo_green_dark"
+        android:text="Add job"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        />
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
