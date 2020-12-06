@@ -17,6 +17,11 @@ namespace DAL
             }
         }
 
+        public static User AuthorizeUser(string email, string password)
+        {
+            return GetUsers().FirstOrDefault(x => x.Email == email && x.PasswordHash == Utils.Hmac.ComputeHMAC_SHA256(password, x.PasswordSalt)) ?? new User() { Email = email, PasswordHash = password };
+        }
+
         public static int AddUser(User user)
         {
             using (var db = new ModelContainer())

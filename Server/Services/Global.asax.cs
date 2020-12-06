@@ -30,7 +30,7 @@ namespace Services
             GlobalConfiguration.Configuration.Formatters.Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
 
             // add test record
-            var salt = Utils.Hmac.GenerateSalt();
+            /*var salt = DAL.Utils.Hmac.GenerateSalt();
             DAL.DAL.AddUser(new User()
             {
                 IdUser = 0,
@@ -39,9 +39,9 @@ namespace Services
                 PhoneNumber = "0987654321",
                 Email = "nameless@mail.com",
                 PasswordSalt = salt,
-                PasswordHash = Utils.Hmac.ComputeHMAC_SHA256("PaSswOrD", salt),
+                PasswordHash = DAL.Utils.Hmac.ComputeHMAC_SHA256("PaSswOrD", salt),
                 Balance = 0.0
-            });
+            });*/
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Services.Controllers
 {
     public class TestController : ApiController
     {
-        [Route("api/Users")]
+        [Route("api/test/users")]
         public string Post(User user)
         {
             try
@@ -24,7 +24,7 @@ namespace Services.Controllers
             }
         }
 
-        [Route("api/Users")]
+        [Route("api/test/users")]
         public List<User> Get()
         {
             var users = DAL.DAL.GetUsers();

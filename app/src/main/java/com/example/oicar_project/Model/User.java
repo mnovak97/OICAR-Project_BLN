@@ -29,12 +29,25 @@ public class User {
     @SerializedName("Balance")
     private double balance;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID=" + userID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", eMail='" + eMail + '\'' +
+                ", passwordSalt='" + passwordSalt + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
 
     public User(){
 
     }
 
-    public User(String firstname, String lastname, String mobilephone,String email ) {
+    public User(String firstname, String lastname, String mobilephone, String email ) {
         this.firstName = firstname;
         this.lastName = lastname;
         this.mobilePhone = mobilephone;
@@ -97,4 +110,11 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
 }

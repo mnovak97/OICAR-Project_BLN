@@ -91,6 +91,7 @@
     <Compile Include="User.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Hmac.cs" />
     <Compile Include="WorkCategory.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

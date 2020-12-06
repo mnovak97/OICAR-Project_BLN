@@ -11,3 +11,11 @@
 /build
 /captures
 .externalNativeBuild
+.vs
+Server/DAL/bin
+Server/DAL/obj
+Server/Services/bin
+Server/Services/obj
+Server/Services/bin
+Server/packages
+/packages
