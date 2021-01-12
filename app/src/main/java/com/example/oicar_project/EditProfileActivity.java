@@ -10,12 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.oicar_project.Model.User;
-import com.example.oicar_project.Repository.Repo;
 import com.example.oicar_project.utils.PreferenceUtils;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -23,7 +18,6 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        User currentUser = Repo.getUserById(PreferenceUtils.getID(this));
 
         ImageButton btnExit = findViewById(R.id.btnExitEditProfile);
         LinearLayout LLFirstName = findViewById(R.id.LLFirstName);
@@ -31,7 +25,7 @@ public class EditProfileActivity extends AppCompatActivity {
         TextView txtLastName = findViewById(R.id.txtLastNameEdit);
         TextView txtMobilePhone = findViewById(R.id.txtPhoneNumberEdit);
         TextView txtEmail = findViewById(R.id.txtEmailAddressEdit);
-        setData(txtName,txtLastName,txtMobilePhone,txtEmail,currentUser);
+        //setData(txtName,txtLastName,txtMobilePhone,txtEmail);
 
         LLFirstName.setOnClickListener(new View.OnClickListener() {
             @Override

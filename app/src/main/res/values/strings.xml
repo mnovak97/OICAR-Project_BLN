@@ -7,4 +7,8 @@
     <string name="title_activity_signup">SignupActivity</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
+    <string name="string_title">Title</string>
+    <string name="string_description">Description</string>
+    <string name="string_type">Type</string>
+    <string name="string_address">Address</string>
 </resources>
