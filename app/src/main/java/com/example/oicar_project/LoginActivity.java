@@ -19,6 +19,7 @@ import com.activeandroid.util.SQLiteUtils;
 import com.example.oicar_project.Model.LoginModel;
 import com.example.oicar_project.Model.User;
 import com.example.oicar_project.network.HttpsTrustManager;
+import com.example.oicar_project.utils.Constants;
 import com.example.oicar_project.utils.HashUtil;
 import com.example.oicar_project.utils.PreferenceUtils;
 import com.google.gson.Gson;
@@ -32,6 +33,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -65,7 +67,9 @@ public class LoginActivity extends AppCompatActivity {
                 EditText txtUsername = findViewById(R.id.txtUsername);
                 EditText txtPassword = findViewById(R.id.txtPassword);
 
-                login(txtUsername.getText().toString(), txtPassword.getText().toString());
+                User user = login(txtUsername.getText().toString(), txtPassword.getText().toString());
+
+                Log.e("user returned", user.toString());
 
                 /*if(checkUsers(txtUsername.getText().toString(),txtPassword.getText().toString())){
                     Intent intent = new Intent(view.getContext(),MainActivity.class);
@@ -78,55 +82,47 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    private void login(String email, String password) {
+    private User login(String email, String password) {
+        User userReturned = null;
+        HttpURLConnection client = null;
+
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            return null;
+        }
+
         //DISABLE UNSAFE CONNECTION ERROR
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         //DISABLE INVALID CERTIFICATE ERROR
         HttpsTrustManager.allowAllSSL();
 
+        //create user data json
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-/*
         LoginModel loginModel = new LoginModel(email, password);
-
-
-        Log.e(ContentValues.TAG, "user:" + loginModel.toString());
-        Log.e(ContentValues.TAG, "userJson:" + gson.toJson(loginModel));
-*/
-        HttpURLConnection client = null;
-        Log.e(ContentValues.TAG, "try");
+        //String userData = "{\n\"Email\":\"nameless@mail.com\",\n\"Password\":\"PaSswOrD\"\n}";
+        String userData = gson.toJson(loginModel);
 
         try {
-            //URL url = new URL("https://10.0.2.2:44322/api/users/login");
-            URL url = new URL("https://10.0.2.2:44322/api/test/users");
+            //setup connection
+            URL url = new URL(Constants.ServerURL + "/api/users/login");
             client = (HttpURLConnection) url.openConnection();
-
-            client.setRequestMethod("GET");
-            client.setReadTimeout(10000);
-            client.setConnectTimeout(10000);
-            //client.setDoOutput(true);
+            client.setRequestMethod("POST");
+            client.setReadTimeout(15000);
+            client.setConnectTimeout(15000);
+            client.setDoOutput(true);
             client.setDoInput(true);
             client.setRequestProperty("Accept", "application/json");
-            //client.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-
-            Log.e(ContentValues.TAG, "request");
-            //String str = "{\n\"Email\":\"nameless@mail.com\",\n\"Password\":\"PaSswOrD\"\n}";     //gson.toJson(loginModel);
-            //Log.e("OUTPUT DATA",  str);
-
-            //OutputStream os = client.getOutputStream();
-            //os.write(str.getBytes("UTF-8"));
-            //os.close();
-            //Log.e(ContentValues.TAG, "getResponseCode");
-
-            Log.e("client.toString()", client.toString());
+            client.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 
 
+            //send user data
+            OutputStream os = client.getOutputStream();
+            os.write(userData.getBytes(StandardCharsets.UTF_8));
+            os.close();
             client.connect();
 
+            //read server response
             int responseCode = client.getResponseCode();
-            Log.e(ContentValues.TAG, "response: " + responseCode);
-
-
             String response = "";
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 Log.e(ContentValues.TAG, "HTTP_OK");
@@ -137,17 +133,12 @@ public class LoginActivity extends AppCompatActivity {
                 while ((line = br.readLine()) != null) {
                     response += line;
                 }
+                Log.e("RESPONSE", response);
             } else {
                 Log.e(ContentValues.TAG, "NOT HTTP_OK");
-                response = "";
             }
 
-            Log.e("RESPONSE", response);
-
-            User userReturned = gson.fromJson(response, User.class);
-            Log.e(ContentValues.TAG, userReturned.toString());
-
-            //Toast.makeText(this, userReturned.toString(), Toast.LENGTH_LONG).show();
+            userReturned = gson.fromJson(response, User.class);
 
         } catch(MalformedURLException error) {
             //Handles an incorrectly entered URL
@@ -167,9 +158,10 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("EMessage", error.getMessage());
             error.printStackTrace();
         } finally {
-            if(client != null)
+            if (client != null)
                 client.disconnect();
             Log.e(ContentValues.TAG, "finally");
         }
+        return userReturned;
     }
 }

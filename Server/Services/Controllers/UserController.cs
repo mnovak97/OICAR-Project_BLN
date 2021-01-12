@@ -53,11 +53,18 @@ namespace Services.Controllers
             }
         }
 
-        [Route("api/users/{id}")]
-        public List<User> Get(int id)
+        [Route("api/users/profile/{id}")]
+        public User Get(int id)
         {
-            var users = DAL.DAL.GetUsers();
-            return users;
+            try
+            {
+                var user = DAL.DAL.GetUsers().FirstOrDefault(x => x.IdUser == id);
+                return user;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }

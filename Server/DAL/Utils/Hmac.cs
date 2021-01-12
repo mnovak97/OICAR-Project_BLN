@@ -16,18 +16,19 @@ namespace DAL.Utils
             using (var rng = new RNGCryptoServiceProvider())
             {
                 var randomNumber = new byte[SaltSize];
-
                 rng.GetBytes(randomNumber);
-
                 return Convert.ToBase64String(randomNumber);
             }
         }
 
-        public static string ComputeHMAC_SHA256(string data, string salt)
+        public static string ComputeSHA256(string data, string salt)
         {
-            using (var hmac = new HMACSHA256(Convert.FromBase64String(salt)))
+            using (var sha256 = SHA256.Create())
             {
-                return Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(data)));
+                string saltedPassword = string.Format("{0}{1}", salt, data);
+                byte[] saltedPasswordAsBytes = Encoding.UTF8.GetBytes(saltedPassword);
+                byte[] hash = sha256.ComputeHash(saltedPasswordAsBytes);
+                return Convert.ToBase64String(hash);
             }
         }
     }

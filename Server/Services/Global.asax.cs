@@ -39,7 +39,7 @@ namespace Services
                 PhoneNumber = "0987654321",
                 Email = "nameless@mail.com",
                 PasswordSalt = salt,
-                PasswordHash = DAL.Utils.Hmac.ComputeHMAC_SHA256("PaSswOrD", salt),
+                PasswordHash = DAL.Utils.Hmac.ComputeSHA256("PaSswOrD", salt),
                 Balance = 0.0
             });*/
         }

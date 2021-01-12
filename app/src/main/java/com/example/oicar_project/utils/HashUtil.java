@@ -18,16 +18,29 @@ public class HashUtil {
         return Base64.encodeToString(saltBytes, Base64.DEFAULT);
     }
 
-    public static String computeHMAC_SHA256(String data, String salt) {
-        MessageDigest md = null;
+    public static String compute_SHA256(String data, String salt) {
         try {
-            md = MessageDigest.getInstance("SHA-256");
-            md.update(Base64.decode(salt, Base64.DEFAULT));
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            data = String.format("%s%s", salt, data);
+
+            byte[] hashedData = md.digest(data.getBytes(StandardCharsets.UTF_8));
+            String encodedString = Base64.encodeToString(hashedData, Base64.DEFAULT);
+            return encodedString;
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+        return null;
+    }
 
-        byte[] hashedPassword = md.digest(data.getBytes(StandardCharsets.UTF_8));
-        return Base64.encodeToString(hashedPassword, Base64.DEFAULT);
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if(hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 }
