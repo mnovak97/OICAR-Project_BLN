@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="Edit profile"
+        android:text="@string/edit_profile"
         android:textColor="@android:color/black"
         android:textSize="28dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,7 @@
             android:id="@+id/tvFirstNameEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="First name"
+            android:text="@string/first_name_Edit"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             />
@@ -85,7 +85,7 @@
             android:id="@+id/tvLastNameEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Last name"
+            android:text="@string/last_name_edit"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             />
@@ -114,7 +114,7 @@
             android:id="@+id/tvPhoneNumberEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone number"
+            android:text="@string/phone_number_edit"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             />
@@ -143,7 +143,7 @@
             android:id="@+id/tvEmailAddressEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email address"
+            android:text="@string/email_address_edit"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             />
@@ -172,7 +172,7 @@
             android:id="@+id/tvPasswordEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Password"
+            android:text="@string/password_edit"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             />

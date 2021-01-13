@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
         TextView lblSignUp = findViewById(R.id.lblSignUp);
         Button btnSignIn = findViewById(R.id.btnSignIn);
-        if (PreferenceUtils.getEmail(this) != null){
+        if (PreferenceUtils.getUser(this) != null){
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
         }
@@ -69,15 +69,16 @@ public class LoginActivity extends AppCompatActivity {
 
                 User user = login(txtUsername.getText().toString(), txtPassword.getText().toString());
 
-                Log.e("user returned", user.toString());
+                //Log.e("user returned", user.toString());
 
-                /*if(checkUsers(txtUsername.getText().toString(),txtPassword.getText().toString())){
+                if(user != null){
+                    PreferenceUtils.saveUser(user,view.getContext());
                     Intent intent = new Intent(view.getContext(),MainActivity.class);
                     startActivity(intent);
                 }
                 else{
                     Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
-                }*/
+                }
 
             }
         });

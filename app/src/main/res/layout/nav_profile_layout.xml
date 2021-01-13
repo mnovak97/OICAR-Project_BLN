@@ -22,14 +22,14 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="@string/name_Profile"
             android:textColor="@color/colorPrimary"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
         <TextView
             android:id="@+id/lastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Last Name"
+            android:text="@string/last_nameProfile"
             android:textColor="@color/colorPrimary"
             android:layout_marginLeft="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>

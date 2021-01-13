@@ -4,35 +4,34 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.example.oicar_project.Model.User;
+import com.google.gson.Gson;
+
 public class PreferenceUtils {
 
     public PreferenceUtils() {
     }
 
-    public static boolean saveID(Long id, Context context){
+    public static void saveUser(User user,Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putLong(Constants.USER_ID,id);
-        editor.apply();
-        return true;
+        Gson gson = new Gson();
+        String jsonUser = gson.toJson(user);
+        editor.putString(Constants.USER,jsonUser);
+        editor.commit();
     }
-
-
-    public static Long getID(Context context){
+    public static User getUser(Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getLong(Constants.USER_ID,0);
+        String jsonUser = preferences.getString(Constants.USER,null);
+        Gson gson = new Gson();
+        User user = gson.fromJson(jsonUser,User.class);
+        return user;
     }
 
-    public static boolean saveEmail(String email,Context context){
+    public static void clearPreference(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(Constants.EMAIL,email);
-        editor.apply();
-        return true;
-    }
-
-    public static String getEmail(Context context){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString(Constants.EMAIL,null);
+        editor.clear();
+        editor.commit();
     }
 }

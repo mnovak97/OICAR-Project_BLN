@@ -19,13 +19,14 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        User currentUser = PreferenceUtils.getUser(this);
         ImageButton btnExit = findViewById(R.id.btnExitEditProfile);
         LinearLayout LLFirstName = findViewById(R.id.LLFirstName);
         TextView txtName = findViewById(R.id.txtFirstNameEdit);
         TextView txtLastName = findViewById(R.id.txtLastNameEdit);
         TextView txtMobilePhone = findViewById(R.id.txtPhoneNumberEdit);
         TextView txtEmail = findViewById(R.id.txtEmailAddressEdit);
-        //setData(txtName,txtLastName,txtMobilePhone,txtEmail);
+        setData(txtName,txtLastName,txtMobilePhone,txtEmail,currentUser);
 
         LLFirstName.setOnClickListener(new View.OnClickListener() {
             @Override

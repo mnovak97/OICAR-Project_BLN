@@ -8,16 +8,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.oicar_project.Model.User;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
 import com.example.oicar_project.network.RetrofitClientInstance;
+import com.example.oicar_project.utils.PreferenceUtils;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        User currentUser = PreferenceUtils.getUser(this);
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ImageButton btnMenu = findViewById(R.id.btnMenu);
         ImageButton btnAdd = findViewById(R.id.btnAdd);
@@ -41,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         ImageButton btnProfile = headerView.findViewById(R.id.btnProfile);
+        TextView userName = headerView.findViewById(R.id.name);
+        TextView userLastName = headerView.findViewById(R.id.lastName);
+        userName.setText(currentUser.getFirstName());
+        userLastName.setText(currentUser.getLastName());
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -86,6 +96,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+        switch (item.getItemId()) {
+
+            case R.id.menuLogOut: {
+                PreferenceUtils.clearPreference(this);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            }
+        }
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
