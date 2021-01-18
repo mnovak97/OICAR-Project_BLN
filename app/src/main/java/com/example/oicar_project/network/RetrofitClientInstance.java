@@ -11,7 +11,7 @@ import retrofit2.http.POST;
 
 public class RetrofitClientInstance {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://10.0.2.2:44322/api";
+    private static final String BASE_URL = "https://bc582b8b9095.ngrok.io/api/";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {

@@ -9,15 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.oicar_project.Model.Listing;
+
 import java.util.List;
 
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
-    private List<Item> items;
+    private List<Listing> listings;
     private LayoutInflater inflater;
 
-    public BoardAdapter(List<Item> items, Context context) {
-        this.items = items;
+    public BoardAdapter(List<Listing> listings, Context context) {
+        this.listings = listings;
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -30,15 +32,16 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Item item = items.get(position);
-        holder.title.setText(item.title);
-        holder.description.setText(item.description);
-        holder.location.setText(item.loaction);
+        Listing listing = listings.get(position);
+        holder.title.setText(listing.getTitle());
+        holder.description.setText(listing.getDescription());
+        //zasada hardkodirano dok nemam lokacije jer inace baca null
+        holder.location.setText("Lokacija");
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return listings.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

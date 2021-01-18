@@ -7,9 +7,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,13 +22,28 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.oicar_project.Model.Listing;
 import com.example.oicar_project.Model.User;
+import com.example.oicar_project.network.HttpsTrustManager;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
 import com.example.oicar_project.network.RetrofitClientInstance;
+import com.example.oicar_project.utils.Constants;
 import com.example.oicar_project.utils.PreferenceUtils;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,8 +51,9 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    BoardAdapter adapter;
-    List<Item> items = DefaultBoard.getItems();
+    private BoardAdapter adapter;
+    private RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +71,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView userLastName = headerView.findViewById(R.id.lastName);
         userName.setText(currentUser.getFirstName());
         userLastName.setText(currentUser.getLastName());
+        JsonPlaceHolderApi service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
+        Call<List<Listing>> call = service.getAllListings();
+        call.enqueue(new Callback<List<Listing>>() {
+            @Override
+            public void onResponse(Call<List<Listing>> call, Response<List<Listing>> response) {
+                generateDataList(response.body(),getApplicationContext());
+            }
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new BoardAdapter(items,this);
-        recyclerView.setAdapter(adapter);
+            @Override
+            public void onFailure(Call<List<Listing>> call, Throwable t) {
+                call.cancel();
+            }
+        });
+
 
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +110,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void generateDataList(List<Listing> listings, Context context) {
+        recyclerView = findViewById(R.id.recyclerView);
+        adapter = new BoardAdapter(listings,context);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(adapter);
+    }
 
 
     @Override
@@ -110,4 +145,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

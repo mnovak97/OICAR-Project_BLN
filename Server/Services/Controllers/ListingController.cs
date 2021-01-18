@@ -23,5 +23,26 @@ namespace Services.Controllers
             var listings = DAL.DAL.GetListings().Where(x => email == x.Employer.Email);
             return listings.ToList();
         }
+
+        [Route("api/listings/add")]
+        public Listing Post (Listing listing)
+        {
+            try
+            {
+                DAL.DAL.AddListing(listing);
+                return Get(listing.EmployerIdUser);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        [Route("api/listings/all")]
+        public List<Listing> Get()
+        {
+            var listings = DAL.DAL.GetListings();
+            return listings;
+        }
     }
 }

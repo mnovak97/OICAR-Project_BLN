@@ -30,4 +30,67 @@ public class Listing {
     @SerializedName("WorkCategories")
     private ArrayList<WorkCategory> WorkCategories;
 
+    public int getIdListing() {
+        return idListing;
+    }
+
+    public void setIdListing(int idListing) {
+        this.idListing = idListing;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public int getEmployerId() {
+        return employerId;
+    }
+
+    public void setEmployerId(int employerId) {
+        this.employerId = employerId;
+    }
+
+    public boolean isToolsRequired() {
+        return toolsRequired;
+    }
+
+    public void setToolsRequired(boolean toolsRequired) {
+        this.toolsRequired = toolsRequired;
+    }
+
+    public WorkType getWorkType() {
+        return workType;
+    }
+
+    public void setWorkType(WorkType workType) {
+        this.workType = workType;
+    }
+
+    public ArrayList<WorkCategory> getWorkCategories() {
+        return WorkCategories;
+    }
+
+    public void setWorkCategories(ArrayList<WorkCategory> workCategories) {
+        WorkCategories = workCategories;
+    }
 }
