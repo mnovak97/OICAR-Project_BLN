@@ -1,5 +1,7 @@
 package com.example.oicar_project.Model;
 
+import android.graphics.PointF;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -29,6 +31,15 @@ public class Listing {
 
     @SerializedName("WorkCategories")
     private ArrayList<WorkCategory> WorkCategories;
+
+    public Listing(String title, String description, int employerId, boolean toolsRequired, WorkType workType) {
+        this.title = title;
+        this.description = description;
+        this.employerId = employerId;
+        this.location = new Location("Gornji Bukovac 96",new PointF(45,22));
+        this.toolsRequired = toolsRequired;
+        this.workType = workType;
+    }
 
     public int getIdListing() {
         return idListing;

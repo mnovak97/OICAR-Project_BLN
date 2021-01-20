@@ -1,17 +1,12 @@
 package com.example.oicar_project.network;
 
-import com.example.oicar_project.Model.User;
-
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
+
 
 public class RetrofitClientInstance {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://bc582b8b9095.ngrok.io/api/";
+    private static final String BASE_URL = "https://aab579cab81b.ngrok.io/api/";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {

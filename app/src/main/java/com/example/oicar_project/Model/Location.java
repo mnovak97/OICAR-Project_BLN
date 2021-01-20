@@ -18,8 +18,7 @@ public class Location {
     public Location() {
     }
 
-    public Location(int idLocation, String title, PointF coordinates) {
-        this.idLocation = idLocation;
+    public Location(String title, PointF coordinates) {
         this.title = title;
         this.coordinates = coordinates;
     }

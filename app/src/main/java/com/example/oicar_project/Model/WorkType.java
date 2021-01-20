@@ -10,6 +10,11 @@ public class WorkType {
     @SerializedName("Title")
     private String title;
 
+    @Override
+    public String toString() {
+        return this.title;
+    }
+
     public WorkType() {
     }
 
