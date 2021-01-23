@@ -50,7 +50,7 @@ namespace Services.Models
                 IdListing = listing.IdListing,
                 Title = listing.Title,
                 Description = listing.Description,
-                EmployerIdUser = listing.IdListing,
+                EmployerIdUser = listing.EmployerIdUser,
                 ToolsRequired = listing.ToolsRequired,
                 WorkCategoryId = listing.WorkCategoryId,
                 WorkTypeId = listing.WorkTypeId,

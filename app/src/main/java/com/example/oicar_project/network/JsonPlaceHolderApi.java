@@ -1,7 +1,6 @@
 package com.example.oicar_project.network;
 
 
-import com.example.oicar_project.Model.Listing;
 import com.example.oicar_project.Model.ListingModel;
 import com.example.oicar_project.Model.LoginModel;
 import com.example.oicar_project.Model.User;
@@ -14,8 +13,10 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface JsonPlaceHolderApi {
+
     @POST("users/login")
     Call<User> userLogin(@Body LoginModel loginModel);
 
@@ -33,5 +34,8 @@ public interface JsonPlaceHolderApi {
 
     @GET("workcategory/all")
     Call<List<WorkCategory>> getAllWorkCategories();
+
+    @GET("listings/{email}/")
+    Call<List<ListingModel>> getUserListings(@Path("email") String email);
 
 }

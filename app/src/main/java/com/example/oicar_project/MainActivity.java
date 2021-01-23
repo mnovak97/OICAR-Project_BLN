@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.oicar_project.Model.Listing;
+import com.example.oicar_project.Model.ListingModel;
 import com.example.oicar_project.Model.User;
 import com.example.oicar_project.network.HttpsTrustManager;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
@@ -72,15 +73,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userName.setText(currentUser.getFirstName());
         userLastName.setText(currentUser.getLastName());
         JsonPlaceHolderApi service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
-        Call<List<Listing>> call = service.getAllListings();
-        call.enqueue(new Callback<List<Listing>>() {
+        Call<List<ListingModel>> call = service.getAllListings();
+        call.enqueue(new Callback<List<ListingModel>>() {
             @Override
-            public void onResponse(Call<List<Listing>> call, Response<List<Listing>> response) {
+            public void onResponse(Call<List<ListingModel>> call, Response<List<ListingModel>> response) {
                 generateDataList(response.body(),getApplicationContext());
             }
 
             @Override
-            public void onFailure(Call<List<Listing>> call, Throwable t) {
+            public void onFailure(Call<List<ListingModel>> call, Throwable t) {
                 call.cancel();
             }
         });
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void generateDataList(List<Listing> listings, Context context) {
+    private void generateDataList(List<ListingModel> listings, Context context) {
         recyclerView = findViewById(R.id.recyclerView);
         adapter = new BoardAdapter(listings,context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -132,6 +133,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.menuJobs:{
+                Intent intent = new Intent(MainActivity.this, UserJobsActivity.class);
+                startActivity(intent);
+                break;
+            }
 
             case R.id.menuLogOut: {
                 PreferenceUtils.clearPreference(this);

@@ -46,4 +46,6 @@
     <string name="tools">I have my own tools</string>
     <string name="employer">I am employer</string>
     <string name="categories">Categories</string>
+    <string name="title_activity_user_jobs">UserJobsActivity</string>
+    <string name="your_jobs_title">Your jobs</string>
 </resources>

@@ -9,16 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.oicar_project.Model.Listing;
+import com.example.oicar_project.Model.ListingModel;
 
 import java.util.List;
 
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
-    private List<Listing> listings;
+    private List<ListingModel> listings;
     private LayoutInflater inflater;
 
-    public BoardAdapter(List<Listing> listings, Context context) {
+    public BoardAdapter(List<ListingModel> listings, Context context) {
         this.listings = listings;
         this.inflater = LayoutInflater.from(context);
     }
@@ -32,7 +32,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Listing listing = listings.get(position);
+        ListingModel listing = listings.get(position);
         holder.title.setText(listing.getTitle());
         holder.description.setText(listing.getDescription());
         //zasada hardkodirano dok nemam lokacije jer inace baca null

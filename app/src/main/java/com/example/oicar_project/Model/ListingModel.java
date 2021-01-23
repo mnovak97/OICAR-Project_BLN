@@ -33,8 +33,7 @@ public class ListingModel {
     public ListingModel() {
     }
 
-    public ListingModel(int idListing, String title, String description, double latitude, double longitude, int employerId, boolean toolsRequired, int workTypeId, int workCategoryId) {
-        this.idListing = idListing;
+    public ListingModel(String title, String description, double latitude, double longitude, int employerId, boolean toolsRequired, int workTypeId, int workCategoryId) {
         this.title = title;
         this.description = description;
         this.latitude = latitude;

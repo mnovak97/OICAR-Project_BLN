@@ -5,7 +5,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:name=".config.MyApplication"
         android:allowBackup="true"
@@ -14,7 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".JobAddActivity"></activity>
+        <activity
+            android:name=".UserJobsActivity"
+            android:label="@string/title_activity_user_jobs"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".JobAddActivity" />
 
         <meta-data
             android:name="AA_DB_NAME"

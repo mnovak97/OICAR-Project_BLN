@@ -21,6 +21,7 @@ import com.example.oicar_project.network.JsonPlaceHolderApi;
 import com.example.oicar_project.network.RetrofitClientInstance;
 import com.example.oicar_project.utils.PreferenceUtils;
 
+import java.net.HttpURLConnection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -96,17 +97,19 @@ public class JobAddActivity extends AppCompatActivity {
         double latitude = 45.814556;
         double longitude = 15.944449;
 
-        ListingModel newListing = new ListingModel(0, title, description, latitude, longitude, user.getUserID(), toolsRequired, workType.getIdWorkType(), workCategory.getIdWorkCategory());
+        ListingModel newListing = new ListingModel(title, description, latitude, longitude, user.getUserID(), toolsRequired, workType.getIdWorkType(), workCategory.getIdWorkCategory());
 
-        Call<Listing> call = service.addNewListing(newListing);
-        call.enqueue(new Callback<Listing>() {
+        Call<ListingModel> call = service.addNewListing(newListing);
+        call.enqueue(new Callback<ListingModel>() {
             @Override
-            public void onResponse(Call<Listing> call, Response<Listing> response) {
-                Toast.makeText(JobAddActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<ListingModel> call, Response<ListingModel> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK)
+                {
+                    Toast.makeText(JobAddActivity.this, "New Listing added", Toast.LENGTH_SHORT).show();
+                }
             }
-
             @Override
-            public void onFailure(Call<Listing> call, Throwable t) {
+            public void onFailure(Call<ListingModel> call, Throwable t) {
                 call.cancel();
             }
         });
