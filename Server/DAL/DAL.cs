@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DAL
 {
@@ -71,7 +72,7 @@ namespace DAL
         {
             using (var db = new ModelContainer())
             {
-                var listings = db.Listings?.ToList();
+                var listings = db.Listings.Include(l => l.Location).ToList();
                 return listings;
             }
         }

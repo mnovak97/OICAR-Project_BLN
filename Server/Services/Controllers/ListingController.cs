@@ -13,12 +13,12 @@ namespace Services.Controllers
     public class ListingController : ApiController
     {
         [Route("api/listings/{id}")]
-        public List<Listing> Get(int idUser)
+        public List<ListingModel> Get(int idUser)
         {
             try
             {
                 var listings = DAL.DAL.GetListings().Where(x => x.EmployerIdUser == idUser);
-                return listings.ToList();
+                return listings.Select(x => ListingModel.FromListing(x)).ToList();
             }
             catch (Exception)
             {
@@ -27,12 +27,12 @@ namespace Services.Controllers
         }
 
         [Route("api/listings/{email}")]
-        public List<Listing> Get(string email)
+        public List<ListingModel> Get(string email)
         {
             try
             {
                 var listings = DAL.DAL.GetListings().Where(x => email == x.Employer.Email);
-                return listings.ToList();
+                return listings.Select(x => ListingModel.FromListing(x)).ToList();
             }
             catch (Exception)
             {
@@ -41,7 +41,7 @@ namespace Services.Controllers
         }
 
         [Route("api/listings/add")]
-        public Listing Post(ListingModel listingModel)
+        public ListingModel Post(ListingModel listingModel)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace Services.Controllers
                 };
 
                 DAL.DAL.AddListing(listing);
-                return DAL.DAL.GetListings().LastOrDefault();
+                return ListingModel.FromListing(DAL.DAL.GetListings().LastOrDefault());
             }
             catch (Exception)
             {
@@ -63,12 +63,12 @@ namespace Services.Controllers
         }
 
         [Route("api/listings/all")]
-        public List<Listing> Get()
+        public List<ListingModel> Get()
         {
             try
             {
                 var listings = DAL.DAL.GetListings();
-                return listings;
+                return listings.Select(x => ListingModel.FromListing(x)).ToList();
             }
             catch (Exception)
             {

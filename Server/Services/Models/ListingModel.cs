@@ -42,5 +42,22 @@ namespace Services.Models
             };
             return listing;
         }
+
+        public static ListingModel FromListing(Listing listing)
+        {
+            ListingModel model = new ListingModel()
+            {
+                IdListing = listing.IdListing,
+                Title = listing.Title,
+                Description = listing.Description,
+                EmployerIdUser = listing.IdListing,
+                ToolsRequired = listing.ToolsRequired,
+                WorkCategoryId = listing.WorkCategoryId,
+                WorkTypeId = listing.WorkTypeId,
+                Longitude = listing.Location?.Coordinates.Longitude ?? 0,
+                Latitude = listing.Location?.Coordinates.Latitude ?? 0
+            };
+            return model;
+        }
     }
 }
