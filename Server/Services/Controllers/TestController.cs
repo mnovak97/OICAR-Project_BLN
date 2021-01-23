@@ -1,4 +1,5 @@
 ﻿using DAL;
+using Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,11 @@ namespace Services.Controllers
     public class TestController : ApiController
     {
         [Route("api/test/users")]
-        public string Post(User user)
+        public string Post(UserModel model)
         {
             try
             {
+                User user = model.GetUser();
                 return DAL.DAL.AddUser(user) + "";
             }
             catch (Exception e)

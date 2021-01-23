@@ -2,6 +2,7 @@ package com.example.oicar_project.network;
 
 
 import com.example.oicar_project.Model.Listing;
+import com.example.oicar_project.Model.ListingModel;
 import com.example.oicar_project.Model.LoginModel;
 import com.example.oicar_project.Model.User;
 import com.example.oicar_project.Model.WorkCategory;
@@ -22,13 +23,13 @@ public interface JsonPlaceHolderApi {
     Call<User> userRegister(@Body User user);
 
     @GET("listings/all")
-    Call<List<Listing>> getAllListings();
+    Call<List<ListingModel>> getAllListings();
 
     @GET("worktype/all")
     Call<List<WorkType>> getAllWorkTypes();
 
     @POST("listings/add")
-    Call<Listing> addNewListing(@Body Listing listing);
+    Call<ListingModel> addNewListing(@Body ListingModel listing);
 
     @GET("workcategory/all")
     Call<List<WorkCategory>> getAllWorkCategories();

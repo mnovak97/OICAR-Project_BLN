@@ -95,9 +95,6 @@
     <Compile Include="WorkCategory.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="WorkCategory_Listing.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="WorkType.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

@@ -13,14 +13,15 @@ namespace Services.Controllers
     {
 
         [Route("api/users/register")]
-        public User Post(User user)
+        public User Post(UserModel model)
         {
             try
             {
+                User user = model.GetUser();
                 DAL.DAL.AddUser(user);
                 return Get(user.Email);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -33,7 +34,7 @@ namespace Services.Controllers
             {
                 return DAL.DAL.AuthorizeUser(user.Email, user.Password);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -47,7 +48,7 @@ namespace Services.Controllers
                 return DAL.DAL.GetUsers().FirstOrDefault(x => x.Email == email);
                 //return DAL.DAL.AddUser(user) + "";
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -61,7 +62,7 @@ namespace Services.Controllers
                 var user = DAL.DAL.GetUsers().FirstOrDefault(x => x.IdUser == id);
                 return user;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

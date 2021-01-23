@@ -29,19 +29,40 @@ namespace Services
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             GlobalConfiguration.Configuration.Formatters.Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
 
-            // add test record
-            /*var salt = DAL.Utils.Hmac.GenerateSalt();
-            DAL.DAL.AddUser(new User()
+            // ADD ENUM VALUES
+            if (DAL.DAL.GetWorkCategories().Count == 0)
             {
-                IdUser = 0,
-                FirstName = "Nameless",
-                LastName = "Kirk",
-                PhoneNumber = "0987654321",
-                Email = "nameless@mail.com",
-                PasswordSalt = salt,
-                PasswordHash = DAL.Utils.Hmac.ComputeSHA256("PaSswOrD", salt),
-                Balance = 0.0
-            });*/
+                DAL.DAL.AddWorkCategory(new WorkCategory() { Title = "Household" });
+                DAL.DAL.AddWorkCategory(new WorkCategory() { Title = "Gardening" });
+                DAL.DAL.AddWorkCategory(new WorkCategory() { Title = "Technology" });
+                DAL.DAL.AddWorkCategory(new WorkCategory() { Title = "Machinery" });
+                DAL.DAL.AddWorkCategory(new WorkCategory() { Title = "Pets" });
+            }
+
+            if (DAL.DAL.GetWorkTypes().Count == 0)
+            {
+                DAL.DAL.AddWorkType(new WorkType() { Title = "Addition" });
+                DAL.DAL.AddWorkType(new WorkType() { Title = "Replacement" });
+                DAL.DAL.AddWorkType(new WorkType() { Title = "Maintenance" });
+                DAL.DAL.AddWorkType(new WorkType() { Title = "Repair" });
+            }
+
+            // ADD TEST RECORD
+            if (DAL.DAL.GetUsers().Count == 0)
+            {
+                var salt = DAL.Utils.Hmac.GenerateSalt();
+                DAL.DAL.AddUser(new Employer()
+                {
+                    IdUser = 0,
+                    FirstName = "Nameless",
+                    LastName = "Kirk",
+                    PhoneNumber = "0987654321",
+                    Email = "nameless@mail.com",
+                    PasswordSalt = salt,
+                    PasswordHash = DAL.Utils.Hmac.ComputeSHA256("password", salt),
+                    Balance = 0.0
+                });
+            }
         }
     }
 }

@@ -17,10 +17,10 @@ namespace DAL
     public partial class Listing
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+
         public Listing()
         {
             this.Offers = new HashSet<Offer>();
-            this.WorkCategory_Listings = new HashSet<WorkCategory_Listing>();
         }
 
         [DataMember]
@@ -33,13 +33,16 @@ namespace DAL
         public int EmployerIdUser { get; set; }
         [DataMember]
         public bool ToolsRequired { get; set; }
-    
+        [DataMember]
+        public int WorkCategoryId { get; set; }
+        [DataMember]
+        public int WorkTypeId { get; set; }
+
         public virtual Employer Employer { get; set; }
-        public virtual WorkType WorkType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Offer> Offers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkCategory_Listing> WorkCategory_Listings { get; set; }
         public virtual Location Location { get; set; }
+        public virtual WorkCategory WorkCategory { get; set; }
+        public virtual WorkType WorkType { get; set; }
     }
 }

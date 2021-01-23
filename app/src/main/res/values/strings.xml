@@ -11,6 +11,7 @@
     <string name="string_description">Description</string>
     <string name="string_Location">Location</string>
     <string name="string_tools">Tools</string>
+    <string name="string_employer">Employer/Employee</string>
     <string name="log_out">Log out</string>
     <string name="settings">Settings</string>
     <string name="payment">Payment</string>
@@ -43,5 +44,6 @@
     <string name="work_type">Work type</string>
     <string name="enter_location">Enter location</string>
     <string name="tools">I have my own tools</string>
+    <string name="employer">I am employer</string>
     <string name="categories">Categories</string>
 </resources>

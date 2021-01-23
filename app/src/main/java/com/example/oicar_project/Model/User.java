@@ -29,6 +29,12 @@ public class User {
     @SerializedName("Balance")
     private double balance;
 
+    @SerializedName("IsEmployer")
+    private boolean isEmployer;
+
+    @SerializedName("IBAN")
+    private String IBAN;
+
     @Override
     public String toString() {
         return "User{" +
@@ -43,15 +49,30 @@ public class User {
                 '}';
     }
 
-    public User(){
+    public User() {}
 
-    }
-
-    public User(String firstname, String lastname, String mobilephone, String email ) {
+    public User(String firstname, String lastname, String mobilephone, String email, boolean isEmployer) {
         this.firstName = firstname;
         this.lastName = lastname;
         this.mobilePhone = mobilephone;
         this.eMail = email;
+        this.isEmployer = isEmployer;
+    }
+
+    public String getIBAN() {
+        return IBAN;
+    }
+
+    public void setIBAN(String IBAN) {
+        this.IBAN = IBAN;
+    }
+
+    public boolean isEmployer() {
+        return isEmployer;
+    }
+
+    public void setEmployer(boolean employer) {
+        isEmployer = employer;
     }
 
     public String getFirstName() {

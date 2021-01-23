@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.WorkSource;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.oicar_project.Model.Listing;
+import com.example.oicar_project.Model.ListingModel;
 import com.example.oicar_project.Model.User;
 import com.example.oicar_project.Model.WorkCategory;
 import com.example.oicar_project.Model.WorkType;
@@ -21,8 +21,6 @@ import com.example.oicar_project.network.JsonPlaceHolderApi;
 import com.example.oicar_project.network.RetrofitClientInstance;
 import com.example.oicar_project.utils.PreferenceUtils;
 
-import java.lang.reflect.Array;
-import java.net.HttpURLConnection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,20 +33,21 @@ public class JobAddActivity extends AppCompatActivity {
     TextView txtDescription;
     Spinner workTypes;
     Spinner workCategories;
-    Boolean tools = false;
+    Boolean toolsRequired = true;
     Button btnAddJob;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_add);
         initializeComponents();
-
     }
 
     private void initializeComponents() {
         final JsonPlaceHolderApi service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
         final User currentUser = PreferenceUtils.getUser(this);
         workTypes = findViewById(R.id.ddlAddWorkType);
+        workCategories = findViewById(R.id.ddlAddCategory);
         txtTitle = findViewById(R.id.txtAddTitle);
         txtDescription = findViewById(R.id.txtAddDescription);
         btnAddJob = findViewById(R.id.btnAddJob);
@@ -57,7 +56,7 @@ public class JobAddActivity extends AppCompatActivity {
         callTypes.enqueue(new Callback<List<WorkType>>() {
             @Override
             public void onResponse(Call<List<WorkType>> call, Response<List<WorkType>> response) {
-                populateSpinnerTypes(response.body(),getApplicationContext());
+                populateSpinnerTypes(response.body(), getApplicationContext());
             }
 
             @Override
@@ -66,24 +65,23 @@ public class JobAddActivity extends AppCompatActivity {
             }
         });
 
-       /* Call<List<WorkCategory>> callCategories = service.getAllWorkCategories();
+        Call<List<WorkCategory>> callCategories = service.getAllWorkCategories();
         callCategories.enqueue(new Callback<List<WorkCategory>>() {
             @Override
             public void onResponse(Call<List<WorkCategory>> call, Response<List<WorkCategory>> response) {
-                populateSpinnerCategories(response.body(),getApplicationContext());
+                populateSpinnerCategories(response.body(), getApplicationContext());
             }
 
             @Override
             public void onFailure(Call<List<WorkCategory>> call, Throwable t) {
-
+                call.cancel();
             }
         });
-        */
+
         btnAddJob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                addNewJob(txtTitle.getText().toString(),txtDescription.getText().toString(),currentUser,workTypes.getSelectedItem(),workCategories.getSelectedItem(),view.getContext(),service);
+                addNewJob(txtTitle.getText().toString(), txtDescription.getText().toString(), currentUser, workTypes.getSelectedItem(), workCategories.getSelectedItem(), view.getContext(), service);
             }
         });
 
@@ -91,11 +89,15 @@ public class JobAddActivity extends AppCompatActivity {
 
 
 
-    private void addNewJob(String title, String description,User user, Object spinnerItem,Object categoriyitem, Context context,JsonPlaceHolderApi service) {
-        WorkType workType = (WorkType) spinnerItem;
-        Listing newListing = new Listing(title,description,user.getUserID(),tools,workType);
+    private void addNewJob(String title, String description, User user, Object typeitem, Object categoriyitem, Context context, JsonPlaceHolderApi service) {
+        WorkType workType = (WorkType) typeitem;
         WorkCategory workCategory = (WorkCategory) categoriyitem;
-        newListing.getWorkCategories().add(workCategory);
+
+        double latitude = 45.814556;
+        double longitude = 15.944449;
+
+        ListingModel newListing = new ListingModel(0, title, description, latitude, longitude, user.getUserID(), toolsRequired, workType.getIdWorkType(), workCategory.getIdWorkCategory());
+
         Call<Listing> call = service.addNewListing(newListing);
         call.enqueue(new Callback<Listing>() {
             @Override
@@ -128,10 +130,7 @@ public class JobAddActivity extends AppCompatActivity {
 
         switch (view.getId()){
             case R.id.cbTools:
-                if (checked)
-                    tools = true;
-                else
-                    tools = false;
+                toolsRequired = !checked;
                 break;
         }
     }

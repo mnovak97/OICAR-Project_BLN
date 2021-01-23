@@ -24,7 +24,7 @@ namespace Services.Controllers
                 DAL.DAL.AddTransaction(transaction);
                 return Get(transaction.IdTransaction);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

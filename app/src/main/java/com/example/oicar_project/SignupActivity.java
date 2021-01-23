@@ -8,6 +8,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -48,13 +49,14 @@ public class SignupActivity extends AppCompatActivity {
         final EditText etMobilePhone = findViewById(R.id.txtMobilePhone);
         final EditText etEmailAddress = findViewById(R.id.txtEmail);
         final EditText etPassword = findViewById(R.id.txtPasswordSignUp);
+        final CheckBox cbEmployer = findViewById(R.id.cbIsEmployer);
 
         Button btnSignUp = findViewById(R.id.btnSignUp);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = createNewUser(etFirstName, etLastName, etMobilePhone, etEmailAddress, etPassword);
+                User user = createNewUser(etFirstName, etLastName, etMobilePhone, etEmailAddress, etPassword, cbEmployer);
                 Call<User> call = service.userRegister(user);
                 call.enqueue(new Callback<User>() {
                     @Override
@@ -63,7 +65,6 @@ public class SignupActivity extends AppCompatActivity {
                         {
                             Toast.makeText(SignupActivity.this, "Signup successful", Toast.LENGTH_SHORT).show();
                         }
-
                     }
 
                     @Override
@@ -75,12 +76,13 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    private User createNewUser(EditText etFirstName, EditText etLastName, EditText etMobilePhone, EditText etEmailAddress, EditText etPassword) {
+    private User createNewUser(EditText etFirstName, EditText etLastName, EditText etMobilePhone, EditText etEmailAddress, EditText etPassword, CheckBox cbEmployer) {
 
         User user = new User(etFirstName.getText().toString(),
                 etLastName.getText().toString(),
                 etMobilePhone.getText().toString(),
-                etEmailAddress.getText().toString());
+                etEmailAddress.getText().toString(),
+                cbEmployer.isChecked());
         String salt = HashUtil.generateSalt().trim();
         String etPasswordText = etPassword.getText().toString().trim();
         String password = HashUtil.compute_SHA256(etPasswordText, salt);

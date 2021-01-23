@@ -10,13 +10,11 @@ namespace Services.Controllers
 {
     public class WorkTypeController : ApiController
     {
-       [Route("api/worktype/all")]
-       public List<WorkType> Get()
+        [Route("api/worktype/all")]
+        public List<WorkType> Get()
         {
             var workTypes = DAL.DAL.GetWorkTypes();
             return workTypes;
         }
-
-        
     }
 }

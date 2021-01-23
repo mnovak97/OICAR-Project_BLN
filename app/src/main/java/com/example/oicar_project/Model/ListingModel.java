@@ -1,13 +1,8 @@
 package com.example.oicar_project.Model;
 
-import android.graphics.PointF;
-
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
-public class Listing {
-
+public class ListingModel {
     @SerializedName("IdListing")
     private int idListing;
 
@@ -17,8 +12,11 @@ public class Listing {
     @SerializedName("Description")
     private String description;
 
-    @SerializedName("Location")
-    private Location location;
+    @SerializedName("Longitude")
+    private double longitude;
+
+    @SerializedName("Latitude")
+    private double latitude;
 
     @SerializedName("EmployerIdUser")
     private int employerId;
@@ -26,19 +24,25 @@ public class Listing {
     @SerializedName("ToolsRequired")
     private boolean toolsRequired;
 
-    @SerializedName("WorkType")
-    private WorkType workType;
+    @SerializedName("WorkTypeId")
+    private int workTypeId;
 
-    @SerializedName("WorkCategory")
-    private WorkCategory WorkCategory;
+    @SerializedName("WorkCategoryId")
+    private int WorkCategoryId;
 
-    public Listing(String title, String description, int employerId, boolean toolsRequired, WorkType workType, WorkCategory workCategory) {
+    public ListingModel() {
+    }
+
+    public ListingModel(int idListing, String title, String description, double latitude, double longitude, int employerId, boolean toolsRequired, int workTypeId, int workCategoryId) {
+        this.idListing = idListing;
         this.title = title;
         this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.employerId = employerId;
-        this.location = new Location("Gornji Bukovac 96",new PointF(45,22));
         this.toolsRequired = toolsRequired;
-        this.workType = workType;
+        this.workTypeId = workTypeId;
+        WorkCategoryId = workCategoryId;
     }
 
     public int getIdListing() {
@@ -65,12 +69,20 @@ public class Listing {
         this.description = description;
     }
 
-    public Location getLocation() {
-        return location;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     public int getEmployerId() {
@@ -89,19 +101,19 @@ public class Listing {
         this.toolsRequired = toolsRequired;
     }
 
-    public WorkType getWorkType() {
-        return workType;
+    public int getWorkTypeId() {
+        return workTypeId;
     }
 
-    public void setWorkType(WorkType workType) {
-        this.workType = workType;
+    public void setWorkTypeId(int workTypeId) {
+        this.workTypeId = workTypeId;
     }
 
-    public WorkCategory getWorkCategory() {
-        return WorkCategory;
+    public int getWorkCategoryId() {
+        return WorkCategoryId;
     }
 
-    public void setWorkCategory(WorkCategory workCategory) {
-        WorkCategory = workCategory;
+    public void setWorkCategoryId(int workCategoryId) {
+        WorkCategoryId = workCategoryId;
     }
 }

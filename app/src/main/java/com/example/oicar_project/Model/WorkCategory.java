@@ -2,9 +2,6 @@ package com.example.oicar_project.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Enumeration;
-import java.util.List;
-
 public class WorkCategory {
 
     @SerializedName("IdWorkCategory")
@@ -12,6 +9,11 @@ public class WorkCategory {
 
     @SerializedName("Title")
     private String title;
+
+    @Override
+    public String toString() {
+        return this.title;
+    }
 
     public WorkCategory() {
     }

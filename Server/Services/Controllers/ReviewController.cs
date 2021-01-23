@@ -25,7 +25,7 @@ namespace Services.Controllers
                 DAL.DAL.AddReview(review);
                 return Get(review.UserReviewed.IdUser);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

@@ -19,17 +19,15 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public WorkCategory()
         {
-            this.WorkCategory_Listing = new HashSet<WorkCategory_Listing>();
+            this.Listings = new HashSet<Listing>();
         }
 
         [DataMember]
         public int IdWorkCategory { get; set; }
         [DataMember]
         public string Title { get; set; }
-        [DataMember]
-        public int ListingIdListing { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkCategory_Listing> WorkCategory_Listing { get; set; }
+        public virtual ICollection<Listing> Listings { get; set; }
     }
 }

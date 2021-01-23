@@ -32,7 +32,6 @@ namespace DAL
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<Offer> Offers { get; set; }
-        public virtual DbSet<WorkCategory_Listing> WorkCategory_Listings { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
     }
 }

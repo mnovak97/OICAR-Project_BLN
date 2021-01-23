@@ -13,17 +13,12 @@
     <EntitySet Name="Locations" EntityType="Model.Store.Locations" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Reviews" EntityType="Model.Store.Reviews" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Offers" EntityType="Model.Store.Offers" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="WorkCategory_Listings" EntityType="Model.Store.WorkCategory_Listings" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions" EntityType="Model.Store.Transactions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users_Employer" EntityType="Model.Store.Users_Employer" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users_Employee" EntityType="Model.Store.Users_Employee" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="EmployerListing" Association="Model.Store.EmployerListing">
       <End Role="Employer" EntitySet="Users_Employer" />
       <End Role="Listing" EntitySet="Listings" />
-    </AssociationSet>
-    <AssociationSet Name="ListingWorkType" Association="Model.Store.ListingWorkType">
-      <End Role="Listing" EntitySet="Listings" />
-      <End Role="WorkType" EntitySet="WorkTypes" />
     </AssociationSet>
     <AssociationSet Name="EmployeeOffer" Association="Model.Store.EmployeeOffer">
       <End Role="Employee" EntitySet="Users_Employee" />
@@ -32,14 +27,6 @@
     <AssociationSet Name="ListingOffer" Association="Model.Store.ListingOffer">
       <End Role="Listing" EntitySet="Listings" />
       <End Role="Offer" EntitySet="Offers" />
-    </AssociationSet>
-    <AssociationSet Name="WorkCategory_ListingListing" Association="Model.Store.WorkCategory_ListingListing">
-      <End Role="WorkCategory_Listing" EntitySet="WorkCategory_Listings" />
-      <End Role="Listing" EntitySet="Listings" />
-    </AssociationSet>
-    <AssociationSet Name="WorkCategoryWorkCategory_Listing" Association="Model.Store.WorkCategoryWorkCategory_Listing">
-      <End Role="WorkCategory" EntitySet="WorkCategories" />
-      <End Role="WorkCategory_Listing" EntitySet="WorkCategory_Listings" />
     </AssociationSet>
     <AssociationSet Name="UserReview" Association="Model.Store.UserReview">
       <End Role="User" EntitySet="Users" />
@@ -61,6 +48,14 @@
       <End Role="User" EntitySet="Users" />
       <End Role="Transaction" EntitySet="Transactions" />
     </AssociationSet>
+    <AssociationSet Name="WorkCategoryListing" Association="Model.Store.WorkCategoryListing">
+      <End Role="WorkCategory" EntitySet="WorkCategories" />
+      <End Role="Listing" EntitySet="Listings" />
+    </AssociationSet>
+    <AssociationSet Name="WorkTypeListing" Association="Model.Store.WorkTypeListing">
+      <End Role="WorkType" EntitySet="WorkTypes" />
+      <End Role="Listing" EntitySet="Listings" />
+    </AssociationSet>
     <AssociationSet Name="FK_Employer_inherits_User" Association="Model.Store.FK_Employer_inherits_User">
       <End Role="User" EntitySet="Users" />
       <End Role="Employer" EntitySet="Users_Employer" />
@@ -76,7 +71,6 @@
     </Key>
     <Property Name="IdWorkCategory" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ListingIdListing" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="WorkTypes">
     <Key>
@@ -94,7 +88,8 @@
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="EmployerIdUser" Type="int" Nullable="false" />
     <Property Name="ToolsRequired" Type="bit" Nullable="false" />
-    <Property Name="WorkType_IdWorkType" Type="int" Nullable="false" />
+    <Property Name="WorkCategoryId" Type="int" Nullable="false" />
+    <Property Name="WorkTypeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -138,14 +133,6 @@
     <Property Name="Price" Type="float" Nullable="false" />
     <Property Name="HasTools" Type="bit" Nullable="false" />
   </EntityType>
-  <EntityType Name="WorkCategory_Listings">
-    <Key>
-      <PropertyRef Name="IdWorkCategory_Listing" />
-    </Key>
-    <Property Name="IdWorkCategory_Listing" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="WorkCategoryIdWorkCategory" Type="int" Nullable="false" />
-    <Property Name="Listing_IdListing" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="Transactions">
     <Key>
       <PropertyRef Name="IdTransaction" />
@@ -182,18 +169,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="ListingWorkType">
-    <End Role="Listing" Type="Model.Store.Listings" Multiplicity="*" />
-    <End Role="WorkType" Type="Model.Store.WorkTypes" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="WorkType">
-        <PropertyRef Name="IdWorkType" />
-      </Principal>
-      <Dependent Role="Listing">
-        <PropertyRef Name="WorkType_IdWorkType" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="EmployeeOffer">
     <End Role="Employee" Type="Model.Store.Users_Employee" Multiplicity="1" />
     <End Role="Offer" Type="Model.Store.Offers" Multiplicity="*" />
@@ -215,30 +190,6 @@
       </Principal>
       <Dependent Role="Offer">
         <PropertyRef Name="ListingIdListing" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="WorkCategory_ListingListing">
-    <End Role="WorkCategory_Listing" Type="Model.Store.WorkCategory_Listings" Multiplicity="*" />
-    <End Role="Listing" Type="Model.Store.Listings" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Listing">
-        <PropertyRef Name="IdListing" />
-      </Principal>
-      <Dependent Role="WorkCategory_Listing">
-        <PropertyRef Name="Listing_IdListing" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="WorkCategoryWorkCategory_Listing">
-    <End Role="WorkCategory" Type="Model.Store.WorkCategories" Multiplicity="1" />
-    <End Role="WorkCategory_Listing" Type="Model.Store.WorkCategory_Listings" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="WorkCategory">
-        <PropertyRef Name="IdWorkCategory" />
-      </Principal>
-      <Dependent Role="WorkCategory_Listing">
-        <PropertyRef Name="WorkCategoryIdWorkCategory" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -302,6 +253,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="WorkCategoryListing">
+    <End Role="WorkCategory" Type="Model.Store.WorkCategories" Multiplicity="1" />
+    <End Role="Listing" Type="Model.Store.Listings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkCategory">
+        <PropertyRef Name="IdWorkCategory" />
+      </Principal>
+      <Dependent Role="Listing">
+        <PropertyRef Name="WorkCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WorkTypeListing">
+    <End Role="WorkType" Type="Model.Store.WorkTypes" Multiplicity="1" />
+    <End Role="Listing" Type="Model.Store.Listings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkType">
+        <PropertyRef Name="IdWorkType" />
+      </Principal>
+      <Dependent Role="Listing">
+        <PropertyRef Name="WorkTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Employer_inherits_User">
     <End Role="User" Type="Model.Store.Users" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -345,10 +320,6 @@
             <End Role="Employer" EntitySet="Users" />
             <End Role="Listing" EntitySet="Listings" />
           </AssociationSet>
-          <AssociationSet Name="ListingWorkType" Association="Model.ListingWorkType">
-            <End Role="Listing" EntitySet="Listings" />
-            <End Role="WorkType" EntitySet="WorkTypes" />
-          </AssociationSet>
           <EntitySet Name="Offers" EntityType="Model.Offer" />
           <AssociationSet Name="EmployeeOffer" Association="Model.EmployeeOffer">
             <End Role="Employee" EntitySet="Users" />
@@ -357,15 +328,6 @@
           <AssociationSet Name="ListingOffer" Association="Model.ListingOffer">
             <End Role="Listing" EntitySet="Listings" />
             <End Role="Offer" EntitySet="Offers" />
-          </AssociationSet>
-          <EntitySet Name="WorkCategory_Listings" EntityType="Model.WorkCategory_Listing" />
-          <AssociationSet Name="WorkCategory_ListingListing" Association="Model.WorkCategory_ListingListing">
-            <End Role="WorkCategory_Listing" EntitySet="WorkCategory_Listings" />
-            <End Role="Listing" EntitySet="Listings" />
-          </AssociationSet>
-          <AssociationSet Name="WorkCategoryWorkCategory_Listing" Association="Model.WorkCategoryWorkCategory_Listing">
-            <End Role="WorkCategory" EntitySet="WorkCategories" />
-            <End Role="WorkCategory_Listing" EntitySet="WorkCategory_Listings" />
           </AssociationSet>
           <AssociationSet Name="UserReview" Association="Model.UserReview">
             <End Role="User" EntitySet="Users" />
@@ -388,6 +350,14 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Transaction" EntitySet="Transactions" />
           </AssociationSet>
+          <AssociationSet Name="WorkCategoryListing" Association="Model.WorkCategoryListing">
+            <End Role="WorkCategory" EntitySet="WorkCategories" />
+            <End Role="Listing" EntitySet="Listings" />
+          </AssociationSet>
+          <AssociationSet Name="WorkTypeListing" Association="Model.WorkTypeListing">
+            <End Role="WorkType" EntitySet="WorkTypes" />
+            <End Role="Listing" EntitySet="Listings" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="WorkCategory">
           <Key>
@@ -395,8 +365,7 @@
           </Key>
           <Property Name="IdWorkCategory" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
           <Property Name="Title" Nullable="false" Type="String" />
-          <Property Name="ListingIdListing" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="WorkCategory_Listing" Relationship="Model.WorkCategoryWorkCategory_Listing" FromRole="WorkCategory" ToRole="WorkCategory_Listing" />
+          <NavigationProperty Name="Listings" Relationship="Model.WorkCategoryListing" FromRole="WorkCategory" ToRole="Listing" />
         </EntityType>
         <EntityType Name="WorkType">
           <Key>
@@ -404,7 +373,7 @@
           </Key>
           <Property Name="IdWorkType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" Nullable="false" />
-          <NavigationProperty Name="Listings" Relationship="Model.ListingWorkType" FromRole="WorkType" ToRole="Listing" />
+          <NavigationProperty Name="Listings" Relationship="Model.WorkTypeListing" FromRole="WorkType" ToRole="Listing" />
         </EntityType>
         <EntityType Name="Listing">
           <Key>
@@ -415,11 +384,13 @@
           <Property Name="Description" Type="String" Nullable="false" />
           <NavigationProperty Name="Employer" Relationship="Model.EmployerListing" FromRole="Listing" ToRole="Employer" />
           <Property Name="EmployerIdUser" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="WorkType" Relationship="Model.ListingWorkType" FromRole="Listing" ToRole="WorkType" />
           <NavigationProperty Name="Offers" Relationship="Model.ListingOffer" FromRole="Listing" ToRole="Offer" />
-          <NavigationProperty Name="WorkCategory_Listings" Relationship="Model.WorkCategory_ListingListing" FromRole="Listing" ToRole="WorkCategory_Listing" />
           <NavigationProperty Name="Location" Relationship="Model.LocationListing" FromRole="Listing" ToRole="Location" />
           <Property Name="ToolsRequired" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="WorkCategory" Relationship="Model.WorkCategoryListing" FromRole="Listing" ToRole="WorkCategory" />
+          <Property Name="WorkCategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="WorkType" Relationship="Model.WorkTypeListing" FromRole="Listing" ToRole="WorkType" />
+          <Property Name="WorkTypeId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -477,10 +448,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="ListingWorkType">
-          <End Type="Model.Listing" Role="Listing" Multiplicity="*" />
-          <End Type="Model.WorkType" Role="WorkType" Multiplicity="1" />
-        </Association>
         <EntityType Name="Offer">
           <Key>
             <PropertyRef Name="IdOffer" />
@@ -514,31 +481,6 @@
             </Principal>
             <Dependent Role="Offer">
               <PropertyRef Name="ListingIdListing" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="WorkCategory_Listing">
-          <Key>
-            <PropertyRef Name="IdWorkCategory_Listing" />
-          </Key>
-          <Property Name="IdWorkCategory_Listing" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Listing" Relationship="Model.WorkCategory_ListingListing" FromRole="WorkCategory_Listing" ToRole="Listing" />
-          <NavigationProperty Name="WorkCategory" Relationship="Model.WorkCategoryWorkCategory_Listing" FromRole="WorkCategory_Listing" ToRole="WorkCategory" />
-          <Property Name="WorkCategoryIdWorkCategory" Type="Int32" Nullable="false" />
-        </EntityType>
-        <Association Name="WorkCategory_ListingListing">
-          <End Type="Model.WorkCategory_Listing" Role="WorkCategory_Listing" Multiplicity="*" />
-          <End Type="Model.Listing" Role="Listing" Multiplicity="1" />
-        </Association>
-        <Association Name="WorkCategoryWorkCategory_Listing">
-          <End Type="Model.WorkCategory" Role="WorkCategory" Multiplicity="1" />
-          <End Type="Model.WorkCategory_Listing" Role="WorkCategory_Listing" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WorkCategory">
-              <PropertyRef Name="IdWorkCategory" />
-            </Principal>
-            <Dependent Role="WorkCategory_Listing">
-              <PropertyRef Name="WorkCategoryIdWorkCategory" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -599,6 +541,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="WorkCategoryListing">
+          <End Type="Model.WorkCategory" Role="WorkCategory" Multiplicity="1" />
+          <End Type="Model.Listing" Role="Listing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkCategory">
+              <PropertyRef Name="IdWorkCategory" />
+            </Principal>
+            <Dependent Role="Listing">
+              <PropertyRef Name="WorkCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="WorkTypeListing">
+          <End Type="Model.WorkType" Role="WorkType" Multiplicity="1" />
+          <End Type="Model.Listing" Role="Listing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkType">
+              <PropertyRef Name="IdWorkType" />
+            </Principal>
+            <Dependent Role="Listing">
+              <PropertyRef Name="WorkTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -610,7 +576,6 @@
         <MappingFragment StoreEntitySet="WorkCategories">
           <ScalarProperty Name="IdWorkCategory" ColumnName="IdWorkCategory" />
           <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="ListingIdListing" ColumnName="ListingIdListing" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -630,6 +595,8 @@
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="EmployerIdUser" ColumnName="EmployerIdUser" />
           <ScalarProperty Name="ToolsRequired" ColumnName="ToolsRequired" />
+          <ScalarProperty Name="WorkCategoryId" ColumnName="WorkCategoryId" />
+          <ScalarProperty Name="WorkTypeId" ColumnName="WorkTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -688,14 +655,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="WorkCategory_Listings">
-      <EntityTypeMapping TypeName="IsTypeOf(Model.WorkCategory_Listing)">
-        <MappingFragment StoreEntitySet="WorkCategory_Listings">
-          <ScalarProperty Name="IdWorkCategory_Listing" ColumnName="IdWorkCategory_Listing" />
-          <ScalarProperty Name="WorkCategoryIdWorkCategory" ColumnName="WorkCategoryIdWorkCategory" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Transactions">
       <EntityTypeMapping TypeName="IsTypeOf(Model.Transaction)">
         <MappingFragment StoreEntitySet="Transactions">
@@ -708,22 +667,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="ListingWorkType" TypeName="Model.ListingWorkType" StoreEntitySet="Listings">
-      <EndProperty Name="WorkType">
-        <ScalarProperty Name="IdWorkType" ColumnName="WorkType_IdWorkType" />
-      </EndProperty>
-      <EndProperty Name="Listing">
-        <ScalarProperty Name="IdListing" ColumnName="IdListing" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="WorkCategory_ListingListing" TypeName="Model.WorkCategory_ListingListing" StoreEntitySet="WorkCategory_Listings">
-      <EndProperty Name="Listing">
-        <ScalarProperty Name="IdListing" ColumnName="Listing_IdListing" />
-      </EndProperty>
-      <EndProperty Name="WorkCategory_Listing">
-        <ScalarProperty Name="IdWorkCategory_Listing" ColumnName="IdWorkCategory_Listing" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="UserReview1" TypeName="Model.UserReview1" StoreEntitySet="Reviews">
       <EndProperty Name="User">
         <ScalarProperty Name="IdUser" ColumnName="UserReviewed_IdUser" />

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class WorkType {
 
     @SerializedName("IdWorkType")
-    private int idWorkCategory;
+    private int idWorkType;
 
     @SerializedName("Title")
     private String title;
@@ -18,17 +18,17 @@ public class WorkType {
     public WorkType() {
     }
 
-    public WorkType(int idWorkCategory, String title) {
-        this.idWorkCategory = idWorkCategory;
+    public WorkType(int idWorkType, String title) {
+        this.idWorkType = idWorkType;
         this.title = title;
     }
 
-    public int getIdWorkCategory() {
-        return idWorkCategory;
+    public int getIdWorkType() {
+        return idWorkType;
     }
 
-    public void setIdWorkCategory(int idWorkCategory) {
-        this.idWorkCategory = idWorkCategory;
+    public void setIdWorkType(int idWorkType) {
+        this.idWorkType = idWorkType;
     }
 
     public String getTitle() {

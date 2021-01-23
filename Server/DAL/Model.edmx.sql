@@ -2,9 +2,17 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/27/2020 13:50:47
--- Generated from EDMX file: D:\Mislav\ALGEBRA\S6\OICAR\Repo\Server\DAL\Model.edmx
+-- Date Created: 01/23/2021 16:03:36
+-- Generated from EDMX file: D:\Mislav\ALGEBRA\S6\OICAR\git\OICAR-Project_BLN\Server\DAL\Model.edmx
 -- --------------------------------------------------
+
+USE master
+
+DROP DATABASE [OICAR];
+GO
+
+CREATE DATABASE [OICAR];
+GO
 
 SET QUOTED_IDENTIFIER OFF;
 GO
@@ -20,20 +28,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_EmployerListing]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Listings] DROP CONSTRAINT [FK_EmployerListing];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ListingWorkType]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Listings] DROP CONSTRAINT [FK_ListingWorkType];
-GO
 IF OBJECT_ID(N'[dbo].[FK_EmployeeOffer]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Offers] DROP CONSTRAINT [FK_EmployeeOffer];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ListingOffer]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Offers] DROP CONSTRAINT [FK_ListingOffer];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WorkCategory_ListingListing]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WorkCategory_Listings] DROP CONSTRAINT [FK_WorkCategory_ListingListing];
-GO
-IF OBJECT_ID(N'[dbo].[FK_WorkCategoryWorkCategory_Listing]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WorkCategory_Listings] DROP CONSTRAINT [FK_WorkCategoryWorkCategory_Listing];
 GO
 IF OBJECT_ID(N'[dbo].[FK_UserReview]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_UserReview];
@@ -49,6 +48,12 @@ IF OBJECT_ID(N'[dbo].[FK_UserTransaction]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_UserTransaction_PaidTo]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Transactions] DROP CONSTRAINT [FK_UserTransaction_PaidTo];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WorkCategoryListing]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Listings] DROP CONSTRAINT [FK_WorkCategoryListing];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WorkTypeListing]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Listings] DROP CONSTRAINT [FK_WorkTypeListing];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Employer_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Employer] DROP CONSTRAINT [FK_Employer_inherits_User];
@@ -82,9 +87,6 @@ GO
 IF OBJECT_ID(N'[dbo].[Offers]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Offers];
 GO
-IF OBJECT_ID(N'[dbo].[WorkCategory_Listings]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[WorkCategory_Listings];
-GO
 IF OBJECT_ID(N'[dbo].[Transactions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Transactions];
 GO
@@ -102,8 +104,7 @@ GO
 -- Creating table 'WorkCategories'
 CREATE TABLE [dbo].[WorkCategories] (
     [IdWorkCategory] int IDENTITY(1,1) NOT NULL,
-    [Title] nvarchar(max)  NOT NULL,
-    [ListingIdListing] int  NOT NULL
+    [Title] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -121,7 +122,8 @@ CREATE TABLE [dbo].[Listings] (
     [Description] nvarchar(max)  NOT NULL,
     [EmployerIdUser] int  NOT NULL,
     [ToolsRequired] bit  NOT NULL,
-    [WorkType_IdWorkType] int  NOT NULL
+    [WorkCategoryId] int  NOT NULL,
+    [WorkTypeId] int  NOT NULL
 );
 GO
 
@@ -164,14 +166,6 @@ CREATE TABLE [dbo].[Offers] (
     [ListingIdListing] int  NOT NULL,
     [Price] float  NOT NULL,
     [HasTools] bit  NOT NULL
-);
-GO
-
--- Creating table 'WorkCategory_Listings'
-CREATE TABLE [dbo].[WorkCategory_Listings] (
-    [IdWorkCategory_Listing] int IDENTITY(1,1) NOT NULL,
-    [WorkCategoryIdWorkCategory] int  NOT NULL,
-    [Listing_IdListing] int  NOT NULL
 );
 GO
 
@@ -245,12 +239,6 @@ ADD CONSTRAINT [PK_Offers]
     PRIMARY KEY CLUSTERED ([IdOffer] ASC);
 GO
 
--- Creating primary key on [IdWorkCategory_Listing] in table 'WorkCategory_Listings'
-ALTER TABLE [dbo].[WorkCategory_Listings]
-ADD CONSTRAINT [PK_WorkCategory_Listings]
-    PRIMARY KEY CLUSTERED ([IdWorkCategory_Listing] ASC);
-GO
-
 -- Creating primary key on [IdTransaction] in table 'Transactions'
 ALTER TABLE [dbo].[Transactions]
 ADD CONSTRAINT [PK_Transactions]
@@ -288,21 +276,6 @@ ON [dbo].[Listings]
     ([EmployerIdUser]);
 GO
 
--- Creating foreign key on [WorkType_IdWorkType] in table 'Listings'
-ALTER TABLE [dbo].[Listings]
-ADD CONSTRAINT [FK_ListingWorkType]
-    FOREIGN KEY ([WorkType_IdWorkType])
-    REFERENCES [dbo].[WorkTypes]
-        ([IdWorkType])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ListingWorkType'
-CREATE INDEX [IX_FK_ListingWorkType]
-ON [dbo].[Listings]
-    ([WorkType_IdWorkType]);
-GO
-
 -- Creating foreign key on [EmployeeIdUser] in table 'Offers'
 ALTER TABLE [dbo].[Offers]
 ADD CONSTRAINT [FK_EmployeeOffer]
@@ -331,36 +304,6 @@ GO
 CREATE INDEX [IX_FK_ListingOffer]
 ON [dbo].[Offers]
     ([ListingIdListing]);
-GO
-
--- Creating foreign key on [Listing_IdListing] in table 'WorkCategory_Listings'
-ALTER TABLE [dbo].[WorkCategory_Listings]
-ADD CONSTRAINT [FK_WorkCategory_ListingListing]
-    FOREIGN KEY ([Listing_IdListing])
-    REFERENCES [dbo].[Listings]
-        ([IdListing])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_WorkCategory_ListingListing'
-CREATE INDEX [IX_FK_WorkCategory_ListingListing]
-ON [dbo].[WorkCategory_Listings]
-    ([Listing_IdListing]);
-GO
-
--- Creating foreign key on [WorkCategoryIdWorkCategory] in table 'WorkCategory_Listings'
-ALTER TABLE [dbo].[WorkCategory_Listings]
-ADD CONSTRAINT [FK_WorkCategoryWorkCategory_Listing]
-    FOREIGN KEY ([WorkCategoryIdWorkCategory])
-    REFERENCES [dbo].[WorkCategories]
-        ([IdWorkCategory])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_WorkCategoryWorkCategory_Listing'
-CREATE INDEX [IX_FK_WorkCategoryWorkCategory_Listing]
-ON [dbo].[WorkCategory_Listings]
-    ([WorkCategoryIdWorkCategory]);
 GO
 
 -- Creating foreign key on [UserIdUser] in table 'Reviews'
@@ -436,6 +379,36 @@ GO
 CREATE INDEX [IX_FK_UserTransaction_PaidTo]
 ON [dbo].[Transactions]
     ([UserIdPaidTo]);
+GO
+
+-- Creating foreign key on [WorkCategoryId] in table 'Listings'
+ALTER TABLE [dbo].[Listings]
+ADD CONSTRAINT [FK_WorkCategoryListing]
+    FOREIGN KEY ([WorkCategoryId])
+    REFERENCES [dbo].[WorkCategories]
+        ([IdWorkCategory])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_WorkCategoryListing'
+CREATE INDEX [IX_FK_WorkCategoryListing]
+ON [dbo].[Listings]
+    ([WorkCategoryId]);
+GO
+
+-- Creating foreign key on [WorkTypeId] in table 'Listings'
+ALTER TABLE [dbo].[Listings]
+ADD CONSTRAINT [FK_WorkTypeListing]
+    FOREIGN KEY ([WorkTypeId])
+    REFERENCES [dbo].[WorkTypes]
+        ([IdWorkType])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_WorkTypeListing'
+CREATE INDEX [IX_FK_WorkTypeListing]
+ON [dbo].[Listings]
+    ([WorkTypeId]);
 GO
 
 -- Creating foreign key on [IdUser] in table 'Users_Employer'
