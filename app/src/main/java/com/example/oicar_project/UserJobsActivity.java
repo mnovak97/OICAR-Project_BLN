@@ -25,15 +25,24 @@ import retrofit2.Response;
 public class UserJobsActivity extends AppCompatActivity {
     private BoardAdapter adapter;
     private RecyclerView recyclerView;
+    User currentUser;
+    ImageButton btnExitUserJobs;
+    JsonPlaceHolderApi service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_jobs);
-        User currentUser = PreferenceUtils.getUser(this);
-        ImageButton btnExitUserJobs = findViewById(R.id.btnExitUserJobs);
+        initializeComponents();
+        setOnClickListeners();
 
-        JsonPlaceHolderApi service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
+    }
+
+    private void initializeComponents() {
+        currentUser = PreferenceUtils.getUser(this);
+        btnExitUserJobs = findViewById(R.id.btnExitUserJobs);
+        service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
+
         Call<List<ListingModel>> call = service.getUserListings(currentUser.geteMail());
         call.enqueue(new Callback<List<ListingModel>>() {
             @Override
@@ -47,15 +56,15 @@ public class UserJobsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setOnClickListeners() {
         btnExitUserJobs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UserJobsActivity.this.finish();
             }
         });
-
-
-
     }
 
     private void generateDataList(List<ListingModel> userListings, Context context) {

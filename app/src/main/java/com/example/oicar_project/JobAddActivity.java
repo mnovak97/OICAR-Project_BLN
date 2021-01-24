@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.oicar_project.Model.Listing;
 import com.example.oicar_project.Model.ListingModel;
 import com.example.oicar_project.Model.User;
 import com.example.oicar_project.Model.WorkCategory;
@@ -30,6 +29,8 @@ import retrofit2.Response;
 
 public class JobAddActivity extends AppCompatActivity {
 
+    JsonPlaceHolderApi service;
+    User currentUser;
     TextView txtTitle;
     TextView txtDescription;
     Spinner workTypes;
@@ -42,11 +43,14 @@ public class JobAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_add);
         initializeComponents();
+        setOnClickListeners();
     }
 
+
+
     private void initializeComponents() {
-        final JsonPlaceHolderApi service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
-        final User currentUser = PreferenceUtils.getUser(this);
+        service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
+        currentUser = PreferenceUtils.getUser(this);
         workTypes = findViewById(R.id.ddlAddWorkType);
         workCategories = findViewById(R.id.ddlAddCategory);
         txtTitle = findViewById(R.id.txtAddTitle);
@@ -79,25 +83,26 @@ public class JobAddActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setOnClickListeners() {
         btnAddJob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addNewJob(txtTitle.getText().toString(), txtDescription.getText().toString(), currentUser, workTypes.getSelectedItem(), workCategories.getSelectedItem(), view.getContext(), service);
+                addNewJob();
             }
         });
-
     }
 
 
-
-    private void addNewJob(String title, String description, User user, Object typeitem, Object categoriyitem, Context context, JsonPlaceHolderApi service) {
-        WorkType workType = (WorkType) typeitem;
-        WorkCategory workCategory = (WorkCategory) categoriyitem;
+    private void addNewJob() {
+        WorkType workType = (WorkType) workTypes.getSelectedItem();
+        WorkCategory workCategory = (WorkCategory) workCategories.getSelectedItem();
 
         double latitude = 45.814556;
         double longitude = 15.944449;
 
-        ListingModel newListing = new ListingModel(title, description, latitude, longitude, user.getUserID(), toolsRequired, workType.getIdWorkType(), workCategory.getIdWorkCategory());
+        ListingModel newListing = new ListingModel(txtTitle.getText().toString(), txtDescription.getText().toString(), latitude, longitude, currentUser.getUserID(), toolsRequired, workType.getIdWorkType(), workCategory.getIdWorkCategory());
 
         Call<ListingModel> call = service.addNewListing(newListing);
         call.enqueue(new Callback<ListingModel>() {
@@ -105,7 +110,7 @@ public class JobAddActivity extends AppCompatActivity {
             public void onResponse(Call<ListingModel> call, Response<ListingModel> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK)
                 {
-                    Toast.makeText(JobAddActivity.this, "New Listing added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(JobAddActivity.this, "New listing added", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
