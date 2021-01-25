@@ -86,12 +86,7 @@ public class JobAddActivity extends AppCompatActivity {
     }
 
     private void setOnClickListeners() {
-        btnAddJob.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addNewJob();
-            }
-        });
+        btnAddJob.setOnClickListener(view -> addNewJob());
     }
 
 

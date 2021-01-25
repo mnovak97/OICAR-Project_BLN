@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserJobsActivity extends AppCompatActivity {
+public class UserJobsActivity extends AppCompatActivity implements BoardAdapter.OnItemClickedListener {
     private BoardAdapter adapter;
     private RecyclerView recyclerView;
     User currentUser;
@@ -69,8 +70,13 @@ public class UserJobsActivity extends AppCompatActivity {
 
     private void generateDataList(List<ListingModel> userListings, Context context) {
         recyclerView = findViewById(R.id.recyclerViewUserJobs);
-        adapter = new BoardAdapter(userListings,context);
+        adapter = new BoardAdapter(userListings,context,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
     }
 }

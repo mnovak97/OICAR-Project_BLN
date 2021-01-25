@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.oicar_project.Model.User;
 import com.example.oicar_project.utils.PreferenceUtils;

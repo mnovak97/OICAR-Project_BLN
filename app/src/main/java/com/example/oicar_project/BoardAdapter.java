@@ -17,17 +17,18 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
     private List<ListingModel> listings;
     private LayoutInflater inflater;
-
-    public BoardAdapter(List<ListingModel> listings, Context context) {
+    private OnItemClickedListener myOnItemClickedListener;
+    public BoardAdapter(List<ListingModel> listings, Context context,OnItemClickedListener onItemClickedListener) {
         this.listings = listings;
         this.inflater = LayoutInflater.from(context);
+        this.myOnItemClickedListener = onItemClickedListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.board_item,parent,false);
-        return new ViewHolder(view);
+        return new ViewHolder(view,myOnItemClickedListener);
     }
 
     @Override
@@ -44,16 +45,28 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         return listings.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
         TextView description;
         TextView location;
-
-         public ViewHolder(@NonNull View itemView) {
+        OnItemClickedListener onItemClickedListener;
+         public ViewHolder(@NonNull View itemView,OnItemClickedListener onItemClickedListener) {
              super(itemView);
              title = itemView.findViewById(R.id.txtTitle);
              description = itemView.findViewById(R.id.txtDescription);
              location = itemView.findViewById(R.id.txtLocation);
+             this.onItemClickedListener = onItemClickedListener;
+             itemView.setOnClickListener(this);
          }
-     }
+
+        @Override
+        public void onClick(View view) {
+            onItemClickedListener.onItemClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnItemClickedListener{
+        void onItemClick(int position);
+    }
+
 }

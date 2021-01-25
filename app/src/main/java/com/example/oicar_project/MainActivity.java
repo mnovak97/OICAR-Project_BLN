@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,13 +24,18 @@ import com.example.oicar_project.network.RetrofitClientInstance;
 import com.example.oicar_project.utils.PreferenceUtils;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.Serializable;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import static com.example.oicar_project.utils.Constants.FIRST_NAME;
+import static com.example.oicar_project.utils.Constants.LISTING;
+import static com.example.oicar_project.utils.Constants.PASSED_VALUE;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BoardAdapter.OnItemClickedListener {
 
     private BoardAdapter adapter;
     private RecyclerView recyclerView;
@@ -43,15 +49,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView userLastName;
     JsonPlaceHolderApi service;
     User currentUser;
-
+    List<ListingModel> listings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initializeComponents();
         setOnClickListeners();
-
+        //checkIfUserIsEmployer();
     }
+
 
     private void initializeComponents() {
         currentUser = PreferenceUtils.getUser(this);
@@ -68,11 +75,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userName.setText(currentUser.getFirstName());
         userLastName.setText(currentUser.getLastName());
 
+
         Call<List<ListingModel>> call = service.getAllListings();
         call.enqueue(new Callback<List<ListingModel>>() {
             @Override
             public void onResponse(Call<List<ListingModel>> call, Response<List<ListingModel>> response) {
-                generateDataList(response.body(),getApplicationContext());
+                listings = response.body();
+                generateDataList(getApplicationContext());
             }
 
             @Override
@@ -104,10 +113,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+    private void checkIfUserIsEmployer() {
+        if (currentUser.isEmployer()){
+            btnAdd.setVisibility(View.VISIBLE);
+        }else btnAdd.setVisibility(View.INVISIBLE);
+    }
 
-    private void generateDataList(List<ListingModel> listings, Context context) {
+    private void generateDataList (Context context) {
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new BoardAdapter(listings,context);
+        adapter = new BoardAdapter(listings,context,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
     }
@@ -147,4 +161,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    @Override
+    public void onItemClick(int position) {
+        ListingModel listing = listings.get(position);
+        Intent intent = new Intent(getApplicationContext(),DetailsActivity.class);
+        intent.putExtra(LISTING,listing);
+        startActivity(intent);
+    }
 }
