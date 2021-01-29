@@ -12,13 +12,13 @@ namespace Services.Controllers
 {
     public class ListingController : ApiController
     {
-        [Route("api/listings/{id}")]
-        public List<ListingModel> Get(int idUser)
+        [Route("api/listings/{idListing:int}")]
+        public ListingModel Get(int idListing)
         {
             try
             {
-                var listings = DAL.DAL.GetListings().Where(x => x.EmployerIdUser == idUser);
-                return listings.Select(x => ListingModel.FromListing(x)).ToList();
+                var listing = DAL.DAL.GetListings().FirstOrDefault(x => x.IdListing == idListing);
+                return (listing == null) ? null : ListingModel.FromListing(listing);
             }
             catch (Exception)
             {

@@ -32,6 +32,24 @@ namespace DAL
             }
         }
 
+        public static int UpdateUser(User user)
+        {
+            using (var db = new ModelContainer())
+            {
+                var ogUser = db.Users.Find(user.IdUser);
+                if (ogUser == null) return 0;
+
+                user.PasswordHash = ogUser.PasswordHash;
+                user.PasswordSalt = ogUser.PasswordSalt;
+                user.Balance = ogUser.Balance;
+                user.IdUser = ogUser.IdUser;
+
+                db.Entry(ogUser).CurrentValues.SetValues(user);
+
+                return db.SaveChanges();
+            }
+        }
+
         public static List<WorkType> GetWorkTypes()
         {
             using (var db = new ModelContainer())

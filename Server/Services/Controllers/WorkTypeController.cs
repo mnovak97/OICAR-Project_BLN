@@ -16,5 +16,19 @@ namespace Services.Controllers
             var workTypes = DAL.DAL.GetWorkTypes();
             return workTypes;
         }
+
+        [Route("api/worktype/{id}")]
+        public WorkType Get(int id)
+        {
+            try
+            {
+                var workType = DAL.DAL.GetWorkTypes().FirstOrDefault(x => x.IdWorkType == id);
+                return workType;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

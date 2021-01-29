@@ -13,7 +13,7 @@ namespace Services.Controllers
     {
 
         [Route("api/users/register")]
-        public User Post(UserModel model)
+        public UserModel Post(UserModel model)
         {
             try
             {
@@ -28,11 +28,12 @@ namespace Services.Controllers
         }
 
         [Route("api/users/login")]
-        public User Post(LoginModel user)
+        public UserModel Post(LoginModel model)
         {
             try
             {
-                return DAL.DAL.AuthorizeUser(user.Email, user.Password);
+                var user = DAL.DAL.AuthorizeUser(model.Email, model.Password);
+                return UserModel.FromUser(user);
             }
             catch (Exception)
             {
@@ -40,13 +41,14 @@ namespace Services.Controllers
             }
         }
 
-        [Route("api/users/profile/{email}")]
-        public User Get(string email)
+        [Route("api/users/update")]
+        public UserModel Update(UserModel model)
         {
             try
             {
-                return DAL.DAL.GetUsers().FirstOrDefault(x => x.Email == email);
-                //return DAL.DAL.AddUser(user) + "";
+                var user = model.GetUser();
+                DAL.DAL.UpdateUser(user);
+                return Get(model.IdUser);
             }
             catch (Exception)
             {
@@ -54,13 +56,27 @@ namespace Services.Controllers
             }
         }
 
-        [Route("api/users/profile/{id}")]
-        public User Get(int id)
+        [Route("api/users/{email}")]
+        public UserModel Get(string email)
+        {
+            try
+            {
+                var user = DAL.DAL.GetUsers().FirstOrDefault(x => x.Email == email);
+                return UserModel.FromUser(user);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        [Route("api/users/{id:int}")]
+        public UserModel Get(int id)
         {
             try
             {
                 var user = DAL.DAL.GetUsers().FirstOrDefault(x => x.IdUser == id);
-                return user;
+                return UserModel.FromUser(user);
             }
             catch (Exception)
             {

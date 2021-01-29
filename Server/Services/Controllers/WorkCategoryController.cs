@@ -13,8 +13,29 @@ namespace Services.Controllers
         [Route("api/workcategory/all")]
         public List<WorkCategory> Get()
         {
-            var workCategories = DAL.DAL.GetWorkCategories();
-            return workCategories;
+            try
+            {
+                var workCategories = DAL.DAL.GetWorkCategories();
+                return workCategories;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        [Route("api/workcategory/{id}")]
+        public WorkCategory Get(int id)
+        {
+            try
+            {
+                var workCategory = DAL.DAL.GetWorkCategories().FirstOrDefault(x => x.IdWorkCategory == id);
+                return workCategory;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

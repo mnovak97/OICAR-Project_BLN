@@ -58,5 +58,30 @@ namespace Services.Models
 
             return user;
         }
+
+        public static UserModel FromUser(User user)
+        {
+            var model = new UserModel()
+            {
+                IdUser = user.IdUser,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Balance = user.Balance
+            };
+
+            if (user is Employer)
+            {
+                model.IsEmployer = true;
+            }
+            else
+            {
+                model.IsEmployer = false;
+                model.IBAN = (user as Employee).IBAN;
+            }
+
+            return model;
+        }
     }
 }
