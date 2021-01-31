@@ -26,7 +26,7 @@ import retrofit2.Response;
 public class UserJobsActivity extends AppCompatActivity implements BoardAdapter.OnItemClickedListener {
     private BoardAdapter adapter;
     private RecyclerView recyclerView;
-    User currentUser;
+    String currentUserEmail;
     ImageButton btnExitUserJobs;
     JsonPlaceHolderApi service;
 
@@ -40,32 +40,25 @@ public class UserJobsActivity extends AppCompatActivity implements BoardAdapter.
     }
 
     private void initializeComponents() {
-        currentUser = PreferenceUtils.getUser(this);
+        currentUserEmail = PreferenceUtils.getUserEmail(this);
         btnExitUserJobs = findViewById(R.id.btnExitUserJobs);
         service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
 
-        Call<List<ListingModel>> call = service.getUserListings(currentUser.geteMail());
+        Call<List<ListingModel>> call = service.getUserListings(currentUserEmail);
         call.enqueue(new Callback<List<ListingModel>>() {
             @Override
             public void onResponse(Call<List<ListingModel>> call, Response<List<ListingModel>> response) {
                 generateDataList(response.body(),getApplicationContext());
             }
-
             @Override
             public void onFailure(Call<List<ListingModel>> call, Throwable t) {
                 call.cancel();
             }
         });
-
     }
 
     private void setOnClickListeners() {
-        btnExitUserJobs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UserJobsActivity.this.finish();
-            }
-        });
+        btnExitUserJobs.setOnClickListener(view -> UserJobsActivity.this.finish());
     }
 
     private void generateDataList(List<ListingModel> userListings, Context context) {

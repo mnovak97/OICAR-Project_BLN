@@ -48,21 +48,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView userName;
     TextView userLastName;
     JsonPlaceHolderApi service;
-    User currentUser;
+    int currentUserID;
     List<ListingModel> listings;
+    boolean isEmployer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
         initializeComponents();
         setOnClickListeners();
-        //checkIfUserIsEmployer();
+        checkIfUserIsEmployer();
     }
 
-
     private void initializeComponents() {
-        currentUser = PreferenceUtils.getUser(this);
-        service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
+        currentUserID = PreferenceUtils.getUserID(this);
+        isEmployer = PreferenceUtils.getIsEmployer(this);
         drawer = findViewById(R.id.drawer_layout);
         btnMenu = findViewById(R.id.btnMenu);
         btnAdd = findViewById(R.id.btnAdd);
@@ -72,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnProfile = headerView.findViewById(R.id.btnProfile);
         userName = headerView.findViewById(R.id.name);
         userLastName = headerView.findViewById(R.id.lastName);
-        userName.setText(currentUser.getFirstName());
-        userLastName.setText(currentUser.getLastName());
 
 
         Call<List<ListingModel>> call = service.getAllListings();
@@ -89,33 +89,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 call.cancel();
             }
         });
+
+        Call<User> userCall = service.getUserById(currentUserID);
+        userCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                setData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                call.cancel();
+            }
+        });
+
     }
 
+
     private void setOnClickListeners() {
-        btnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),EditProfileActivity.class);
-                startActivity(intent);
-            }
+        btnProfile.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(),EditProfileActivity.class);
+            startActivity(intent);
         });
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(Gravity.LEFT);
-            }
-        });
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),JobAddActivity.class);
-                startActivity(intent);
-            }
+        btnMenu.setOnClickListener(view -> drawer.openDrawer(Gravity.LEFT));
+        btnAdd.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(),JobAddActivity.class);
+            startActivity(intent);
         });
     }
     private void checkIfUserIsEmployer() {
-        if (currentUser.isEmployer()){
-            btnAdd.setVisibility(View.VISIBLE);
+       if (isEmployer){
+          btnAdd.setVisibility(View.VISIBLE);
         }else btnAdd.setVisibility(View.INVISIBLE);
     }
 
@@ -125,7 +129,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
     }
-
+    private void setData(User user) {
+        userName.setText(user.getFirstName());
+        userLastName.setText(user.getLastName());
+    }
 
     @Override
     public void onBackPressed() {

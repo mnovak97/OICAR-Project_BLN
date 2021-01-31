@@ -1,7 +1,6 @@
 package com.example.oicar_project;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -51,26 +50,22 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void setOnClickListeners() {
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                User user = createNewUser();
-                Call<User> call = service.userRegister(user);
-                call.enqueue(new Callback<User>() {
-                    @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
-                        if (response.code() == HttpURLConnection.HTTP_OK)
-                        {
-                            Toast.makeText(SignupActivity.this, "Signup successful", Toast.LENGTH_SHORT).show();
-                        }
+        btnSignUp.setOnClickListener(view -> {
+            User user = createNewUser();
+            Call<User> call = service.userRegister(user);
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.code() == HttpURLConnection.HTTP_OK)
+                    {
+                        Toast.makeText(SignupActivity.this, "Signup successful", Toast.LENGTH_SHORT).show();
                     }
-
-                    @Override
-                    public void onFailure(Call<User> call, Throwable t) {
-                        call.cancel();
-                    }
-                });
-            }
+                }
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    call.cancel();
+                }
+            });
         });
     }
 
@@ -80,7 +75,7 @@ public class SignupActivity extends AppCompatActivity {
                 etLastName.getText().toString(),
                 etMobilePhone.getText().toString(),
                 etEmailAddress.getText().toString(),
-                cbEmployer.isChecked());
+                cbEmployer.isChecked(),"");
         String salt = HashUtil.generateSalt().trim();
         String etPasswordText = etPassword.getText().toString().trim();
         String password = HashUtil.compute_SHA256(etPasswordText, salt);

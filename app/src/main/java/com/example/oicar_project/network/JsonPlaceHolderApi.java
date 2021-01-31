@@ -38,4 +38,16 @@ public interface JsonPlaceHolderApi {
     @GET("listings/{email}/")
     Call<List<ListingModel>> getUserListings(@Path("email") String email);
 
+    @POST("users/update")
+    Call<User> updateUser(@Body User user);
+
+    @GET("workcategory/{id}")
+    Call<WorkCategory> getWorkCategoryById(@Path("id") int id);
+
+    @GET("worktype/{id}")
+    Call<WorkType> getWorkTypeById(@Path("id") int id);
+
+    @GET("users/{id}")
+    Call<User> getUserById(@Path("id")int id);
+
 }

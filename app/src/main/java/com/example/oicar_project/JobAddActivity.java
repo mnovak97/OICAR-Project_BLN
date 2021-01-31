@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class JobAddActivity extends AppCompatActivity {
 
     JsonPlaceHolderApi service;
-    User currentUser;
+    int currentUserID;
     TextView txtTitle;
     TextView txtDescription;
     Spinner workTypes;
@@ -50,7 +50,7 @@ public class JobAddActivity extends AppCompatActivity {
 
     private void initializeComponents() {
         service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
-        currentUser = PreferenceUtils.getUser(this);
+        currentUserID = PreferenceUtils.getUserID(this);
         workTypes = findViewById(R.id.ddlAddWorkType);
         workCategories = findViewById(R.id.ddlAddCategory);
         txtTitle = findViewById(R.id.txtAddTitle);
@@ -97,7 +97,7 @@ public class JobAddActivity extends AppCompatActivity {
         double latitude = 45.814556;
         double longitude = 15.944449;
 
-        ListingModel newListing = new ListingModel(txtTitle.getText().toString(), txtDescription.getText().toString(), latitude, longitude, currentUser.getUserID(), toolsRequired, workType.getIdWorkType(), workCategory.getIdWorkCategory());
+        ListingModel newListing = new ListingModel(txtTitle.getText().toString(), txtDescription.getText().toString(), latitude, longitude, currentUserID, toolsRequired, workType.getIdWorkType(), workCategory.getIdWorkCategory());
 
         Call<ListingModel> call = service.addNewListing(newListing);
         call.enqueue(new Callback<ListingModel>() {

@@ -1,29 +1,26 @@
 package com.example.oicar_project;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.oicar_project.Model.ListingModel;
-import com.example.oicar_project.Model.User;
 import com.example.oicar_project.Model.WorkCategory;
 import com.example.oicar_project.Model.WorkType;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
 import com.example.oicar_project.network.RetrofitClientInstance;
 import com.example.oicar_project.utils.PreferenceUtils;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.oicar_project.utils.Constants.LISTING;
-import static com.example.oicar_project.utils.Constants.PASSED_VALUE;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -36,8 +33,8 @@ public class DetailsActivity extends AppCompatActivity {
     ImageButton btnExitDetails;
     Button btnOffer;
     JsonPlaceHolderApi service;
-    User currentUser;
     ListingModel listing;
+    boolean isEmployer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +42,46 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         initializeComponents();
         setOnClickListeners();
+        getWorkTypeTitle();
+        getWorkCategoryTitle();
         setData();
+        checkIfUserIsEmployer();
     }
 
+    private void getWorkTypeTitle() {
+        Call<WorkType> workTypeCall = service.getWorkTypeById(listing.getWorkTypeId());
+        workTypeCall.enqueue(new Callback<WorkType>() {
+            @Override
+            public void onResponse(Call<WorkType> call, Response<WorkType> response) {
+                txtWorkType.setText(response.body().getTitle());
+            }
 
+            @Override
+            public void onFailure(Call<WorkType> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+
+    private void getWorkCategoryTitle() {
+        Call<WorkCategory> workCategoryCall = service.getWorkCategoryById(listing.getWorkCategoryId());
+        workCategoryCall.enqueue(new Callback<WorkCategory>() {
+            @Override
+            public void onResponse(Call<WorkCategory> call, Response<WorkCategory> response) {
+                txtCategory.setText(response.body().getTitle());
+            }
+
+            @Override
+            public void onFailure(Call<WorkCategory> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
 
     private void initializeComponents() {
-        listing = (ListingModel) getIntent().getSerializableExtra(LISTING);
         service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
-        currentUser = PreferenceUtils.getUser(this);
+        isEmployer = PreferenceUtils.getIsEmployer(this);
+        listing = (ListingModel) getIntent().getSerializableExtra(LISTING);
         txtTitle = findViewById(R.id.txtTitleDetails);
         txtDescription = findViewById(R.id.txtDescriptionDetails);
         txtLocation = findViewById(R.id.txtLocationDetails);
@@ -74,13 +102,16 @@ public class DetailsActivity extends AppCompatActivity {
         txtTitle.setText(listing.getTitle());
         txtDescription.setText(listing.getDescription());
         txtLocation.setText("location");
-        txtWorkType.setText("type");
-        txtCategory.setText("category");
         if (!listing.isToolsRequired()){
             txtTools.setText("Tools are not required");
         }
         else{
             txtTools.setText("Tools are required");
         }
+    }
+    private void checkIfUserIsEmployer() {
+        if (isEmployer){
+            btnOffer.setVisibility(View.INVISIBLE);
+        }else btnOffer.setVisibility(View.VISIBLE);
     }
 }

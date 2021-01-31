@@ -2,7 +2,6 @@ package com.example.oicar_project;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,12 +32,10 @@ public class LoginActivity extends AppCompatActivity {
         initializeComponents();
         setOnClickListeners();
 
-        if (PreferenceUtils.getUser(this) != null){
+        if (PreferenceUtils.getUserID(this) != 0){
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
         }
-
-
     }
 
 
@@ -49,42 +46,38 @@ public class LoginActivity extends AppCompatActivity {
         btnSignIn = findViewById(R.id.btnSignIn);
     }
     private void setOnClickListeners() {
-        lblSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),SignupActivity.class);
-                startActivity(intent);
-            }
+        lblSignUp.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(),SignupActivity.class);
+            startActivity(intent);
         });
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText txtUsername = findViewById(R.id.txtUsername);
-                EditText txtPassword = findViewById(R.id.txtPassword);
-                LoginModel loginModel = new LoginModel(txtUsername.getText().toString(),txtPassword.getText().toString());
-                Call<User> call = service.userLogin(loginModel);
-                call.enqueue(new Callback<User>() {
-                    @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
-                        User user = response.body();
-                        if(user != null){
-                            PreferenceUtils.saveUser(user,getApplicationContext());
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                            startActivity(intent);
-                        }
-                        else{
-                            Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
-                        }
+        btnSignIn.setOnClickListener(view -> {
+            EditText txtUsername = findViewById(R.id.txtUsername);
+            EditText txtPassword = findViewById(R.id.txtPassword);
+            LoginModel loginModel = new LoginModel(txtUsername.getText().toString(),txtPassword.getText().toString());
+            Call<User> call = service.userLogin(loginModel);
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    User user = response.body();
+                    if(user != null){
+                        PreferenceUtils.saveUserID(user.getUserID(),getApplicationContext());
+                        PreferenceUtils.saveUserEmail(user.geteMail(),getApplicationContext());
+                        PreferenceUtils.saveUserEmployer(user.isEmployer(),getApplicationContext());
+                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                        startActivity(intent);
                     }
-
-                    @Override
-                    public void onFailure(Call<User> call, Throwable t) {
-                        call.cancel();
+                    else{
+                        Toast.makeText(LoginActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
 
-            }
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    call.cancel();
+                }
+            });
+
         });
     }
 }
