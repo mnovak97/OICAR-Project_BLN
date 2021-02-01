@@ -42,12 +42,20 @@ public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getUserData();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        getUserData();
         initializeData();
         setOnClickListeners();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserData();
+        initializeData();
+        setOnClickListeners();
     }
 
     private void getUserData() {

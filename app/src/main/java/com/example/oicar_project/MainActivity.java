@@ -62,6 +62,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         checkIfUserIsEmployer();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
+        initializeComponents();
+        setOnClickListeners();
+        checkIfUserIsEmployer();
+    }
+
     private void initializeComponents() {
         currentUserID = PreferenceUtils.getUserID(this);
         isEmployer = PreferenceUtils.getIsEmployer(this);
