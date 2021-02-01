@@ -100,15 +100,13 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void setOnClickListeners() {
         btnExitDetails.setOnClickListener(view -> DetailsActivity.this.finish());
-        btnOffer.setOnClickListener(v -> makeAnOffer());
+        btnOffer.setOnClickListener(v -> makeAnOffer(v));
     }
 
-    private void makeAnOffer() {
-        btnOffer.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), OfferActivity.class);
-            intent.putExtra(LISTING_ID, listing.getIdListing());
-            startActivity(intent);
-        });
+    private void makeAnOffer(View view) {
+        Intent intent = new Intent(view.getContext(), OfferActivity.class);
+        intent.putExtra(LISTING_ID, listing.getIdListing());
+        startActivity(intent);
     }
 
     private void setData() {
