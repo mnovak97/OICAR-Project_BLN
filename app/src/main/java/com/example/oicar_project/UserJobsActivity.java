@@ -1,10 +1,10 @@
 package com.example.oicar_project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.oicar_project.Model.ListingModel;
-import com.example.oicar_project.Model.User;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
 import com.example.oicar_project.network.RetrofitClientInstance;
 import com.example.oicar_project.utils.PreferenceUtils;
@@ -13,9 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -23,12 +21,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserJobsActivity extends AppCompatActivity implements BoardAdapter.OnItemClickedListener {
-    private BoardAdapter adapter;
+import static com.example.oicar_project.utils.Constants.LISTING_ID;
+
+public class UserJobsActivity extends AppCompatActivity implements  UserJobsAdapter.OnItemClickedListener{
+    private UserJobsAdapter adapter;
     private RecyclerView recyclerView;
     String currentUserEmail;
     ImageButton btnExitUserJobs;
     JsonPlaceHolderApi service;
+    List<ListingModel> userListings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,8 @@ public class UserJobsActivity extends AppCompatActivity implements BoardAdapter.
         call.enqueue(new Callback<List<ListingModel>>() {
             @Override
             public void onResponse(Call<List<ListingModel>> call, Response<List<ListingModel>> response) {
-                generateDataList(response.body(),getApplicationContext());
+                userListings = response.body();
+                generateDataList(getApplicationContext());
             }
             @Override
             public void onFailure(Call<List<ListingModel>> call, Throwable t) {
@@ -61,15 +63,18 @@ public class UserJobsActivity extends AppCompatActivity implements BoardAdapter.
         btnExitUserJobs.setOnClickListener(view -> UserJobsActivity.this.finish());
     }
 
-    private void generateDataList(List<ListingModel> userListings, Context context) {
+    private void generateDataList(Context context) {
         recyclerView = findViewById(R.id.recyclerViewUserJobs);
-        adapter = new BoardAdapter(userListings,context,this);
+        adapter = new UserJobsAdapter(userListings,context,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void onItemClick(int position) {
-        Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
+    public void onItemClicked(int position) {
+        ListingModel userListing = userListings.get(position);
+        Intent intent = new Intent(getApplicationContext(),JobOffersActivity.class);
+        intent.putExtra(LISTING_ID,userListing.getIdListing());
+        startActivity(intent);
     }
 }
