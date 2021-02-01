@@ -1,11 +1,13 @@
 package com.example.oicar_project;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,11 +18,14 @@ import com.example.oicar_project.network.JsonPlaceHolderApi;
 import com.example.oicar_project.network.RetrofitClientInstance;
 import com.example.oicar_project.utils.PreferenceUtils;
 
+import java.net.HttpURLConnection;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.oicar_project.utils.Constants.LISTING;
+import static com.example.oicar_project.utils.Constants.LISTING_ID;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -95,7 +100,17 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void setOnClickListeners() {
         btnExitDetails.setOnClickListener(view -> DetailsActivity.this.finish());
+        btnOffer.setOnClickListener(v -> makeAnOffer());
     }
+
+    private void makeAnOffer() {
+        btnOffer.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), OfferActivity.class);
+            intent.putExtra(LISTING_ID, listing.getIdListing());
+            startActivity(intent);
+        });
+    }
+
     private void setData() {
 
         //template

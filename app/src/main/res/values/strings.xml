@@ -48,4 +48,7 @@
     <string name="categories">Categories</string>
     <string name="title_activity_user_jobs">UserJobsActivity</string>
     <string name="your_jobs_title">Your jobs</string>
+    <string name="string_price">Offered price (HRK)</string>
+    <string name="enter_price">Enter price</string>
+    <string name="make_offer_hint">Make an offer</string>
 </resources>

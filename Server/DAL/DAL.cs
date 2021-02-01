@@ -157,5 +157,23 @@ namespace DAL
                 return db.SaveChanges();
             }
         }
+
+        public static List<Offer> GetOffers()
+        {
+            using (var db = new ModelContainer())
+            {
+                var offers = db.Offers?.ToList();
+                return offers;
+            }
+        }
+
+        public static int AddOffer(Offer offer)
+        {
+            using (var db = new ModelContainer())
+            {
+                db.Offers.Add(offer);
+                return db.SaveChanges();
+            }
+        }
     }
 }
