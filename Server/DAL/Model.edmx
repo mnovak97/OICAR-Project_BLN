@@ -90,6 +90,7 @@
     <Property Name="ToolsRequired" Type="bit" Nullable="false" />
     <Property Name="WorkCategoryId" Type="int" Nullable="false" />
     <Property Name="WorkTypeId" Type="int" Nullable="false" />
+    <Property Name="IsListed" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -132,6 +133,7 @@
     <Property Name="ListingIdListing" Type="int" Nullable="false" />
     <Property Name="Price" Type="float" Nullable="false" />
     <Property Name="HasTools" Type="bit" Nullable="false" />
+    <Property Name="IsAccepted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Transactions">
     <Key>
@@ -391,6 +393,7 @@
           <Property Name="WorkCategoryId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="WorkType" Relationship="Model.WorkTypeListing" FromRole="Listing" ToRole="WorkType" />
           <Property Name="WorkTypeId" Type="Int32" Nullable="false" />
+          <Property Name="IsListed" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -459,6 +462,7 @@
           <Property Name="ListingIdListing" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Double" Nullable="false" />
           <Property Name="HasTools" Type="Boolean" Nullable="false" />
+          <Property Name="IsAccepted" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="EmployeeOffer">
           <End Type="Model.Employee" Role="Employee" Multiplicity="1" />
@@ -597,6 +601,7 @@
           <ScalarProperty Name="ToolsRequired" ColumnName="ToolsRequired" />
           <ScalarProperty Name="WorkCategoryId" ColumnName="WorkCategoryId" />
           <ScalarProperty Name="WorkTypeId" ColumnName="WorkTypeId" />
+          <ScalarProperty Name="IsListed" ColumnName="IsListed" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -652,6 +657,7 @@
           <ScalarProperty Name="ListingIdListing" ColumnName="ListingIdListing" />
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="HasTools" ColumnName="HasTools" />
+          <ScalarProperty Name="IsAccepted" ColumnName="IsAccepted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

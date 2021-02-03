@@ -18,15 +18,19 @@ public class OfferModel {
     @SerializedName("HasTools")
     private boolean hasTools;
 
+    @SerializedName("IsAccepted")
+    private boolean isAccepted;
+
     public OfferModel() {
     }
 
-    public OfferModel(int employeeId, int listingId, double price, boolean hasTools) {
+    public OfferModel(int employeeId, int listingId, double price, boolean hasTools, boolean isAccepted) {
         this.offerId = 0;
         this.employeeId = employeeId;
         this.listingId = listingId;
         this.price = price;
         this.hasTools = hasTools;
+        this.isAccepted = isAccepted;
     }
 
     public int getOfferId() {
@@ -67,5 +71,13 @@ public class OfferModel {
 
     public void setHasTools(boolean hasTools) {
         this.hasTools = hasTools;
+    }
+
+    public boolean isAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        isAccepted = accepted;
     }
 }

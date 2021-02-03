@@ -26,16 +26,19 @@ public class ListingModel implements Serializable {
     @SerializedName("ToolsRequired")
     private boolean toolsRequired;
 
+    @SerializedName("IsListed")
+    private boolean isListed;
+
     @SerializedName("WorkTypeId")
     private int workTypeId;
 
     @SerializedName("WorkCategoryId")
-    private int WorkCategoryId;
+    private int workCategoryId;
 
     public ListingModel() {
     }
 
-    public ListingModel(String title, String description, double latitude, double longitude, int employerId, boolean toolsRequired, int workTypeId, int workCategoryId) {
+    public ListingModel(String title, String description, double latitude, double longitude, int employerId, boolean toolsRequired, int workTypeId, int workCategoryId, boolean isListed) {
         this.title = title;
         this.description = description;
         this.latitude = latitude;
@@ -43,7 +46,8 @@ public class ListingModel implements Serializable {
         this.employerId = employerId;
         this.toolsRequired = toolsRequired;
         this.workTypeId = workTypeId;
-        WorkCategoryId = workCategoryId;
+        this.workCategoryId = workCategoryId;
+        this.isListed = isListed;
     }
 
     public int getIdListing() {
@@ -111,10 +115,18 @@ public class ListingModel implements Serializable {
     }
 
     public int getWorkCategoryId() {
-        return WorkCategoryId;
+        return workCategoryId;
     }
 
     public void setWorkCategoryId(int workCategoryId) {
-        WorkCategoryId = workCategoryId;
+        this.workCategoryId = workCategoryId;
+    }
+
+    public boolean isListed() {
+        return isListed;
+    }
+
+    public void setListed(boolean listed) {
+        isListed = listed;
     }
 }

@@ -1,7 +1,5 @@
 package com.example.oicar_project;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +10,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.oicar_project.Model.ListingModel;
-import com.example.oicar_project.Model.User;
 import com.example.oicar_project.Model.WorkCategory;
 import com.example.oicar_project.Model.WorkType;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
@@ -45,8 +44,6 @@ public class JobAddActivity extends AppCompatActivity {
         initializeComponents();
         setOnClickListeners();
     }
-
-
 
     private void initializeComponents() {
         service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
@@ -82,32 +79,31 @@ public class JobAddActivity extends AppCompatActivity {
                 call.cancel();
             }
         });
-
     }
 
     private void setOnClickListeners() {
         btnAddJob.setOnClickListener(view -> addNewJob());
     }
 
-
     private void addNewJob() {
         WorkType workType = (WorkType) workTypes.getSelectedItem();
         WorkCategory workCategory = (WorkCategory) workCategories.getSelectedItem();
 
+        //todo - maps
         double latitude = 45.814556;
         double longitude = 15.944449;
 
-        ListingModel newListing = new ListingModel(txtTitle.getText().toString(), txtDescription.getText().toString(), latitude, longitude, currentUserID, toolsRequired, workType.getIdWorkType(), workCategory.getIdWorkCategory());
+        ListingModel newListing = new ListingModel(txtTitle.getText().toString(), txtDescription.getText().toString(), latitude, longitude, currentUserID, toolsRequired, workType.getIdWorkType(), workCategory.getIdWorkCategory(), true);
 
         Call<ListingModel> call = service.addNewListing(newListing);
         call.enqueue(new Callback<ListingModel>() {
             @Override
             public void onResponse(Call<ListingModel> call, Response<ListingModel> response) {
-                if (response.code() == HttpURLConnection.HTTP_OK)
-                {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
                     Toast.makeText(JobAddActivity.this, "New listing added", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<ListingModel> call, Throwable t) {
                 call.cancel();
@@ -116,22 +112,20 @@ public class JobAddActivity extends AppCompatActivity {
     }
 
     private void populateSpinnerCategories(List<WorkCategory> workCategoriesList, Context context) {
-        ArrayAdapter<WorkCategory> dataAdapter = new ArrayAdapter<WorkCategory>(context,android.R.layout.simple_spinner_item,workCategoriesList);
+        ArrayAdapter<WorkCategory> dataAdapter = new ArrayAdapter<WorkCategory>(context, android.R.layout.simple_spinner_item, workCategoriesList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         workCategories.setAdapter(dataAdapter);
     }
 
     private void populateSpinnerTypes(List<WorkType> workTypesList, Context context) {
-        ArrayAdapter<WorkType> dataAdapter = new ArrayAdapter<WorkType>(context,android.R.layout.simple_spinner_item,workTypesList);
+        ArrayAdapter<WorkType> dataAdapter = new ArrayAdapter<WorkType>(context, android.R.layout.simple_spinner_item, workTypesList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         workTypes.setAdapter(dataAdapter);
     }
 
     public void onCheckboxClicked(View view) {
-
         boolean checked = ((CheckBox) view).isChecked();
-
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.cbTools:
                 toolsRequired = !checked;
                 break;

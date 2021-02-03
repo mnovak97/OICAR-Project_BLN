@@ -29,8 +29,23 @@ namespace Services.Controllers
         {
             try
             {
+                offer.IsAccepted = false;
                 DAL.DAL.AddOffer(offer);
                 return Get(offer.EmployeeIdUser);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        [Route("api/offers/accept")]
+        public Offer Update(Offer offer)
+        {
+            try
+            {
+                DAL.DAL.AcceptOffer(offer);
+                return DAL.DAL.GetOffers().FirstOrDefault(x => x.IdOffer == offer.IdOffer);
             }
             catch (Exception)
             {

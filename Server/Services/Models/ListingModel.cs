@@ -28,6 +28,8 @@ namespace Services.Models
         public double Longitude { get; set; }
         [DataMember]
         public double Latitude { get; set; }
+        [DataMember]
+        public bool IsListed { get; set; }
 
         public Listing GetListing()
         {
@@ -38,7 +40,8 @@ namespace Services.Models
                 EmployerIdUser = EmployerIdUser,
                 ToolsRequired = ToolsRequired,
                 WorkCategoryId = WorkCategoryId,
-                WorkTypeId = WorkTypeId
+                WorkTypeId = WorkTypeId,
+                IsListed = IsListed
             };
             return listing;
         }
@@ -54,6 +57,7 @@ namespace Services.Models
                 ToolsRequired = listing.ToolsRequired,
                 WorkCategoryId = listing.WorkCategoryId,
                 WorkTypeId = listing.WorkTypeId,
+                IsListed = listing.IsListed,
                 Longitude = listing.Location?.Coordinates.Longitude ?? 0,
                 Latitude = listing.Location?.Coordinates.Latitude ?? 0
             };

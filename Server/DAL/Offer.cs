@@ -26,7 +26,9 @@ namespace DAL
         public double Price { get; set; }
         [DataMember]
         public bool HasTools { get; set; }
-    
+        [DataMember]
+        public bool IsAccepted { get; set; }
+
         public virtual Employee Employee { get; set; }
         public virtual Listing Listing { get; set; }
     }

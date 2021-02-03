@@ -49,9 +49,10 @@ public class User {
                 '}';
     }
 
-    public User() {}
+    public User() {
+    }
 
-    public User(String firstname, String lastname, String mobilephone, String email, boolean isEmployer,String iban) {
+    public User(String firstname, String lastname, String mobilephone, String email, boolean isEmployer, String iban) {
         this.firstName = firstname;
         this.lastName = lastname;
         this.mobilePhone = mobilephone;

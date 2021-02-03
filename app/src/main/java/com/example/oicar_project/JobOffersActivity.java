@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.oicar_project.Model.OfferModel;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
@@ -31,7 +32,6 @@ public class JobOffersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_offers);
         initializeComponents();
-
     }
 
     private void initializeComponents() {
@@ -54,8 +54,9 @@ public class JobOffersActivity extends AppCompatActivity {
 
     private void generateDataList(Context context) {
         recyclerView = findViewById(R.id.recyclerViewOffers);
-        adapter = new OffersAdapter(offers,context);
+        adapter = new OffersAdapter(offers, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        //recyclerView.setOnClickListener
         recyclerView.setAdapter(adapter);
     }
 }

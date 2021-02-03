@@ -2,15 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/23/2021 16:03:36
+-- Date Created: 02/02/2021 19:43:44
 -- Generated from EDMX file: D:\Mislav\ALGEBRA\S6\OICAR\git\OICAR-Project_BLN\Server\DAL\Model.edmx
 -- --------------------------------------------------
 
 USE master
-
 DROP DATABASE [OICAR];
 GO
-
 CREATE DATABASE [OICAR];
 GO
 
@@ -123,7 +121,8 @@ CREATE TABLE [dbo].[Listings] (
     [EmployerIdUser] int  NOT NULL,
     [ToolsRequired] bit  NOT NULL,
     [WorkCategoryId] int  NOT NULL,
-    [WorkTypeId] int  NOT NULL
+    [WorkTypeId] int  NOT NULL,
+    [IsListed] bit  NOT NULL DEFAULT 1
 );
 GO
 
@@ -165,7 +164,8 @@ CREATE TABLE [dbo].[Offers] (
     [EmployeeIdUser] int  NOT NULL,
     [ListingIdListing] int  NOT NULL,
     [Price] float  NOT NULL,
-    [HasTools] bit  NOT NULL
+    [HasTools] bit  NOT NULL,
+    [IsAccepted] bit  NOT NULL DEFAULT 0
 );
 GO
 

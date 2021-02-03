@@ -58,7 +58,7 @@ public class OfferActivity extends AppCompatActivity {
     }
 
     private void makeAnOffer() {
-        OfferModel newOffer = new OfferModel(currentUserID, listingID, Double.parseDouble(txtPrice.getText().toString()), hasTools.isChecked());
+        OfferModel newOffer = new OfferModel(currentUserID, listingID, Double.parseDouble(txtPrice.getText().toString()), hasTools.isChecked(), false);
 
         Call<OfferModel> call = service.addNewOffer(newOffer);
         call.enqueue(new Callback<OfferModel>() {

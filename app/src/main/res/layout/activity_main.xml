@@ -4,42 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-    tools:openDrawer="start"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity"
+    tools:openDrawer="start">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageButton
             android:id="@+id/btnMenu"
             android:layout_width="@dimen/roundBtnWH"
             android:layout_height="@dimen/roundBtnWH"
-            android:src="@drawable/baseline_menu_24"
-            android:background="@drawable/round_image_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/fab_margin"
             android:layout_marginStart="@dimen/fab_margin"
-            />
+            android:layout_marginTop="@dimen/fab_margin"
+            android:background="@drawable/round_image_button"
+            android:src="@drawable/baseline_menu_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/btnAdd"
             android:layout_width="@dimen/roundBtnWH"
             android:layout_height="@dimen/roundBtnWH"
-            android:src="@drawable/baseline_add_24"
-            android:background="@drawable/round_image_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="@dimen/fab_margin"
             android:layout_marginTop="@dimen/fab_margin"
-            />
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:background="@drawable/round_image_button"
+            android:src="@drawable/baseline_add_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -49,10 +47,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnMenu" />
+
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -62,7 +62,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_profile_layout"
-        app:menu="@menu/drawer_menu"/>
-
+        app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

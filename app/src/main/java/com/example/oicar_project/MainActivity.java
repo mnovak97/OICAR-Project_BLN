@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,21 +23,17 @@ import com.example.oicar_project.network.RetrofitClientInstance;
 import com.example.oicar_project.utils.PreferenceUtils;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.oicar_project.utils.Constants.FIRST_NAME;
 import static com.example.oicar_project.utils.Constants.LISTING;
-import static com.example.oicar_project.utils.Constants.PASSED_VALUE;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BoardAdapter.OnItemClickedListener {
 
-    private BoardAdapter adapter;
-    private RecyclerView recyclerView;
     DrawerLayout drawer;
     ImageButton btnMenu;
     ImageButton btnAdd;
@@ -51,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     int currentUserID;
     List<ListingModel> listings;
     boolean isEmployer;
+    private BoardAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,30 +111,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
     private void setOnClickListeners() {
         btnProfile.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(),EditProfileActivity.class);
+            Intent intent = new Intent(view.getContext(), EditProfileActivity.class);
             startActivity(intent);
         });
         btnMenu.setOnClickListener(view -> drawer.openDrawer(Gravity.LEFT));
         btnAdd.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(),JobAddActivity.class);
+            Intent intent = new Intent(view.getContext(), JobAddActivity.class);
             startActivity(intent);
         });
     }
+
     private void checkIfUserIsEmployer() {
-       if (isEmployer){
-          btnAdd.setVisibility(View.VISIBLE);
-        }else btnAdd.setVisibility(View.INVISIBLE);
+        if (isEmployer) {
+            btnAdd.setVisibility(View.VISIBLE);
+        } else btnAdd.setVisibility(View.INVISIBLE);
     }
 
-    private void generateDataList (Context context) {
+    private void generateDataList(Context context) {
+        List<ListingModel> listed = listings.stream().filter(listingModel -> listingModel.isListed()).collect(Collectors.toList());
+
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new BoardAdapter(listings,context,this);
+        adapter = new BoardAdapter(listed, context, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
     }
+
     private void setData(User user) {
         userName.setText(user.getFirstName());
         userLastName.setText(user.getLastName());
@@ -146,10 +146,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else{
+        } else {
             super.onBackPressed();
         }
     }
@@ -158,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.menuJobs:{
+            case R.id.menuJobs: {
                 Intent intent = new Intent(MainActivity.this, UserJobsActivity.class);
                 startActivity(intent);
                 break;
@@ -172,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
         }
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -180,8 +179,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onItemClick(int position) {
         ListingModel listing = listings.get(position);
-        Intent intent = new Intent(getApplicationContext(),DetailsActivity.class);
-        intent.putExtra(LISTING,listing);
+        Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+        intent.putExtra(LISTING, listing);
         startActivity(intent);
     }
 }

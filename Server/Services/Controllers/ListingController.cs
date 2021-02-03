@@ -46,6 +46,7 @@ namespace Services.Controllers
             try
             {
                 Listing listing = listingModel.GetListing();
+                listing.IsListed = true;
                 listing.Location = new Location()
                 {
                     IdLocation = 0,

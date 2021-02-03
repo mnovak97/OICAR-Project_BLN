@@ -19,8 +19,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder
     private List<OfferModel> offers;
     private LayoutInflater inflater;
 
-
-    public OffersAdapter (List<OfferModel>offers,Context context){
+    public OffersAdapter(List<OfferModel> offers, Context context) {
         this.offers = offers;
         this.inflater = LayoutInflater.from(context);
     }
@@ -28,7 +27,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder
     @NonNull
     @Override
     public OffersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.offer_layout,parent,false);
+        View view = inflater.inflate(R.layout.offer_layout, parent, false);
         return new ViewHolder(view);
     }
 
@@ -36,10 +35,12 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder
     public void onBindViewHolder(@NonNull OffersAdapter.ViewHolder holder, int position) {
         OfferModel offer = offers.get(position);
         holder.txtPrice.setText(String.valueOf(offer.getPrice()));
-        if (offer.isHasTools()){
+        if (offer.isHasTools()) {
             holder.txtTools.setText("Has his own tools");
+        } else holder.txtTools.setText("Doesn't have his own tools");
+        if (offer.isAccepted()) {
+            holder.txtAccepted.setText("Accepted");
         }
-        else holder.txtTools.setText("Doesn't have his own tools");
     }
 
     @Override
@@ -49,11 +50,13 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtPrice;
+        TextView txtAccepted;
         TextView txtTools;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtPrice = itemView.findViewById(R.id.txtPrice);
+            txtAccepted = itemView.findViewById(R.id.txtAccepted);
             txtTools = itemView.findViewById(R.id.txtToolsOffer);
         }
     }

@@ -175,5 +175,19 @@ namespace DAL
                 return db.SaveChanges();
             }
         }
+
+        public static int AcceptOffer(Offer offer)
+        {
+            using (var db = new ModelContainer())
+            {
+                var listing = db.Listings.Find(offer.ListingIdListing);
+                var offerOg = listing.Offers.First(x => x.IdOffer == offer.IdOffer);
+                offerOg.IsAccepted = true;
+                listing.IsListed = false;
+                db.Entry(offerOg).State = EntityState.Modified;
+                db.Entry(listing).State = EntityState.Modified;
+                return db.SaveChanges();
+            }
+        }
     }
 }
