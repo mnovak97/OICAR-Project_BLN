@@ -90,7 +90,7 @@ public class UserJobsAdapter extends RecyclerView.Adapter<UserJobsAdapter.ViewHo
 
 
         @Override
-        public void onClick(View view) {
+            public void onClick(View view) {
             onItemClickedListener.onItemClicked(getAdapterPosition());
         }
     }

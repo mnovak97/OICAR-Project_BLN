@@ -67,6 +67,7 @@ public class OfferActivity extends AppCompatActivity {
                 if (response.code() == HttpURLConnection.HTTP_OK)
                 {
                     Toast.makeText(OfferActivity.this, "New offer made", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
             @Override

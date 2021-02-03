@@ -181,10 +181,23 @@ namespace DAL
             using (var db = new ModelContainer())
             {
                 var listing = db.Listings.Find(offer.ListingIdListing);
-                var offerOg = listing.Offers.First(x => x.IdOffer == offer.IdOffer);
-                offerOg.IsAccepted = true;
+                foreach (var offerIt in listing.Offers)
+                {
+                    if (offerIt.IdOffer == offer.IdOffer)
+                    {
+                        offerIt.IsAccepted = true;
+                        db.Entry(offerIt).State = EntityState.Modified;
+                        continue;
+                    }
+
+                    if (offerIt.IsAccepted)
+                    {
+                        offerIt.IsAccepted = false;
+                        db.Entry(offerIt).State = EntityState.Modified;
+                    }
+                }
+
                 listing.IsListed = false;
-                db.Entry(offerOg).State = EntityState.Modified;
                 db.Entry(listing).State = EntityState.Modified;
                 return db.SaveChanges();
             }

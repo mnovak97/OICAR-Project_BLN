@@ -87,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(Call<List<ListingModel>> call, Response<List<ListingModel>> response) {
                 listings = response.body();
+                if (listings != null) {
+                    listings = listings.stream().filter(x -> x.isListed()).collect(Collectors.toList());
+                }
                 generateDataList(getApplicationContext());
             }
 

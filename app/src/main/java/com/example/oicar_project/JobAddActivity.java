@@ -101,6 +101,7 @@ public class JobAddActivity extends AppCompatActivity {
             public void onResponse(Call<ListingModel> call, Response<ListingModel> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     Toast.makeText(JobAddActivity.this, "New listing added", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
 

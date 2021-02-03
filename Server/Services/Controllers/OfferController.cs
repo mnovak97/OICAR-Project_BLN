@@ -25,13 +25,13 @@ namespace Services.Controllers
         }
 
         [Route("api/offers/add")]
-        public List<Offer> Post(Offer offer)
+        public Offer Post(Offer offer)
         {
             try
             {
                 offer.IsAccepted = false;
                 DAL.DAL.AddOffer(offer);
-                return Get(offer.EmployeeIdUser);
+                return DAL.DAL.GetOffers().LastOrDefault(x => x.EmployeeIdUser == offer.EmployeeIdUser);
             }
             catch (Exception)
             {
@@ -40,12 +40,12 @@ namespace Services.Controllers
         }
 
         [Route("api/offers/accept")]
-        public Offer Update(Offer offer)
+        public List<Offer> Update(Offer offer)
         {
             try
             {
                 DAL.DAL.AcceptOffer(offer);
-                return DAL.DAL.GetOffers().FirstOrDefault(x => x.IdOffer == offer.IdOffer);
+                return Get(offer.ListingIdListing);
             }
             catch (Exception)
             {
