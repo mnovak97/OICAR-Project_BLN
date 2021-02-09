@@ -23,7 +23,9 @@ namespace DAL
         [DataMember]
         public string Comment { get; set; }
         [DataMember]
-        public int UserIdUser { get; set; }
+        public int UserIdReviewer { get; set; }
+        [DataMember]
+        public int UserIdReviewed { get; set; }
     
         public virtual User UserReviewer { get; set; }
         public virtual User UserReviewed { get; set; }

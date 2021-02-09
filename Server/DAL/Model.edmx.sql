@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/02/2021 19:43:44
+-- Date Created: 02/09/2021 17:53:02
 -- Generated from EDMX file: D:\Mislav\ALGEBRA\S6\OICAR\git\OICAR-Project_BLN\Server\DAL\Model.edmx
 -- --------------------------------------------------
 
@@ -153,8 +153,8 @@ CREATE TABLE [dbo].[Reviews] (
     [IdReview] int IDENTITY(1,1) NOT NULL,
     [Grade] int  NOT NULL,
     [Comment] nvarchar(max)  NOT NULL,
-    [UserIdUser] int  NOT NULL,
-    [UserReviewed_IdUser] int  NOT NULL
+    [UserIdReviewer] int  NOT NULL,
+    [UserIdReviewed] int  NOT NULL
 );
 GO
 
@@ -306,10 +306,10 @@ ON [dbo].[Offers]
     ([ListingIdListing]);
 GO
 
--- Creating foreign key on [UserIdUser] in table 'Reviews'
+-- Creating foreign key on [UserIdReviewer] in table 'Reviews'
 ALTER TABLE [dbo].[Reviews]
 ADD CONSTRAINT [FK_UserReview]
-    FOREIGN KEY ([UserIdUser])
+    FOREIGN KEY ([UserIdReviewer])
     REFERENCES [dbo].[Users]
         ([IdUser])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -318,22 +318,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_UserReview'
 CREATE INDEX [IX_FK_UserReview]
 ON [dbo].[Reviews]
-    ([UserIdUser]);
-GO
-
--- Creating foreign key on [UserReviewed_IdUser] in table 'Reviews'
-ALTER TABLE [dbo].[Reviews]
-ADD CONSTRAINT [FK_UserReview1]
-    FOREIGN KEY ([UserReviewed_IdUser])
-    REFERENCES [dbo].[Users]
-        ([IdUser])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_UserReview1'
-CREATE INDEX [IX_FK_UserReview1]
-ON [dbo].[Reviews]
-    ([UserReviewed_IdUser]);
+    ([UserIdReviewer]);
 GO
 
 -- Creating foreign key on [Listing_IdListing] in table 'Locations'
@@ -409,6 +394,21 @@ GO
 CREATE INDEX [IX_FK_WorkTypeListing]
 ON [dbo].[Listings]
     ([WorkTypeId]);
+GO
+
+-- Creating foreign key on [UserIdReviewed] in table 'Reviews'
+ALTER TABLE [dbo].[Reviews]
+ADD CONSTRAINT [FK_UserReview1]
+    FOREIGN KEY ([UserIdReviewed])
+    REFERENCES [dbo].[Users]
+        ([IdUser])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserReview1'
+CREATE INDEX [IX_FK_UserReview1]
+ON [dbo].[Reviews]
+    ([UserIdReviewed]);
 GO
 
 -- Creating foreign key on [IdUser] in table 'Users_Employer'

@@ -35,6 +35,9 @@ public class User {
     @SerializedName("IBAN")
     private String IBAN;
 
+    @SerializedName("Grade")
+    private String grade;
+
     @Override
     public String toString() {
         return "User{" +
@@ -46,6 +49,7 @@ public class User {
                 ", passwordSalt='" + passwordSalt + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 ", balance=" + balance +
+                ", grade=" + grade +
                 '}';
     }
 
@@ -59,6 +63,14 @@ public class User {
         this.eMail = email;
         this.isEmployer = isEmployer;
         this.IBAN = iban;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public String getIBAN() {

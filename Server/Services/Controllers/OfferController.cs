@@ -10,13 +10,25 @@ namespace Services.Controllers
 {
     public class OfferController : ApiController
     {
-
         [Route("api/offers/{listingId}")]
         public List<Offer> Get(int listingId)
         {
             try
             {
                 return DAL.DAL.GetOffers().Where(x => listingId == x.ListingIdListing).ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        [Route("api/offers/user/{userId}")]
+        public List<Offer> GetForUserId(int userId)
+        {
+            try
+            {
+                return DAL.DAL.GetOffers().Where(x => userId == x.EmployeeIdUser).ToList();
             }
             catch (Exception)
             {

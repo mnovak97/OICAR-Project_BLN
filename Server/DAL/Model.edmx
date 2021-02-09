@@ -32,10 +32,6 @@
       <End Role="User" EntitySet="Users" />
       <End Role="Review" EntitySet="Reviews" />
     </AssociationSet>
-    <AssociationSet Name="UserReview1" Association="Model.Store.UserReview1">
-      <End Role="User" EntitySet="Users" />
-      <End Role="Review" EntitySet="Reviews" />
-    </AssociationSet>
     <AssociationSet Name="LocationListing" Association="Model.Store.LocationListing">
       <End Role="Location" EntitySet="Locations" />
       <End Role="Listing" EntitySet="Listings" />
@@ -55,6 +51,10 @@
     <AssociationSet Name="WorkTypeListing" Association="Model.Store.WorkTypeListing">
       <End Role="WorkType" EntitySet="WorkTypes" />
       <End Role="Listing" EntitySet="Listings" />
+    </AssociationSet>
+    <AssociationSet Name="UserReview1" Association="Model.Store.UserReview1">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Review" EntitySet="Reviews" />
     </AssociationSet>
     <AssociationSet Name="FK_Employer_inherits_User" Association="Model.Store.FK_Employer_inherits_User">
       <End Role="User" EntitySet="Users" />
@@ -121,8 +121,8 @@
     <Property Name="IdReview" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Grade" Type="int" Nullable="false" />
     <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="UserIdUser" Type="int" Nullable="false" />
-    <Property Name="UserReviewed_IdUser" Type="int" Nullable="false" />
+    <Property Name="UserIdReviewer" Type="int" Nullable="false" />
+    <Property Name="UserIdReviewed" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Offers">
     <Key>
@@ -203,19 +203,7 @@
         <PropertyRef Name="IdUser" />
       </Principal>
       <Dependent Role="Review">
-        <PropertyRef Name="UserIdUser" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UserReview1">
-    <End Role="User" Type="Model.Store.Users" Multiplicity="1" />
-    <End Role="Review" Type="Model.Store.Reviews" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="IdUser" />
-      </Principal>
-      <Dependent Role="Review">
-        <PropertyRef Name="UserReviewed_IdUser" />
+        <PropertyRef Name="UserIdReviewer" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -279,6 +267,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="UserReview1">
+    <End Role="User" Type="Model.Store.Users" Multiplicity="1" />
+    <End Role="Review" Type="Model.Store.Reviews" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="UserIdReviewed" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Employer_inherits_User">
     <End Role="User" Type="Model.Store.Users" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -335,10 +335,6 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Review" EntitySet="Reviews" />
           </AssociationSet>
-          <AssociationSet Name="UserReview1" Association="Model.UserReview1">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Review" EntitySet="Reviews" />
-          </AssociationSet>
           <EntitySet Name="Transactions" EntityType="Model.Transaction" />
           <AssociationSet Name="LocationListing" Association="Model.LocationListing">
             <End Role="Location" EntitySet="Locations" />
@@ -359,6 +355,10 @@
           <AssociationSet Name="WorkTypeListing" Association="Model.WorkTypeListing">
             <End Role="WorkType" EntitySet="WorkTypes" />
             <End Role="Listing" EntitySet="Listings" />
+          </AssociationSet>
+          <AssociationSet Name="UserReview1" Association="Model.UserReview1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Review" EntitySet="Reviews" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="WorkCategory">
@@ -408,9 +408,9 @@
           <Property Name="PasswordSalt" Type="String" Nullable="false" />
           <Property Name="Balance" Type="Double" Nullable="false" />
           <NavigationProperty Name="Reviews" Relationship="Model.UserReview" FromRole="User" ToRole="Review" />
-          <NavigationProperty Name="Reviewed" Relationship="Model.UserReview1" FromRole="User" ToRole="Review" />
           <NavigationProperty Name="TransactionsPaid" Relationship="Model.UserTransaction" FromRole="User" ToRole="Transaction" />
           <NavigationProperty Name="TransactionsPaidTo" Relationship="Model.UserTransaction_PaidTo" FromRole="User" ToRole="Transaction" />
+          <NavigationProperty Name="Reviewed" Relationship="Model.UserReview1" FromRole="User" ToRole="Review" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -429,8 +429,9 @@
           <Property Name="Grade" Type="Int32" Nullable="false" />
           <Property Name="Comment" Type="String" Nullable="false" />
           <NavigationProperty Name="UserReviewer" Relationship="Model.UserReview" FromRole="Review" ToRole="User" />
-          <Property Name="UserIdUser" Type="Int32" Nullable="false" />
+          <Property Name="UserIdReviewer" Type="Int32" Nullable="false" />
           <NavigationProperty Name="UserReviewed" Relationship="Model.UserReview1" FromRole="Review" ToRole="User" />
+          <Property Name="UserIdReviewed" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Employee" BaseType="Model.User" >
           <Property Name="IBAN" Type="String" Nullable="false" />
@@ -496,13 +497,9 @@
               <PropertyRef Name="IdUser" />
             </Principal>
             <Dependent Role="Review">
-              <PropertyRef Name="UserIdUser" />
+              <PropertyRef Name="UserIdReviewer" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="UserReview1">
-          <End Type="Model.User" Role="User" Multiplicity="1" />
-          <End Type="Model.Review" Role="Review" Multiplicity="*" />
         </Association>
         <EntityType Name="Transaction">
           <Key>
@@ -566,6 +563,18 @@
             </Principal>
             <Dependent Role="Listing">
               <PropertyRef Name="WorkTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserReview1">
+          <End Type="Model.User" Role="User" Multiplicity="1" />
+          <End Type="Model.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="IdUser" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="UserIdReviewed" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -645,7 +654,8 @@
           <ScalarProperty Name="IdReview" ColumnName="IdReview" />
           <ScalarProperty Name="Grade" ColumnName="Grade" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
-          <ScalarProperty Name="UserIdUser" ColumnName="UserIdUser" />
+          <ScalarProperty Name="UserIdReviewer" ColumnName="UserIdReviewer" />
+          <ScalarProperty Name="UserIdReviewed" ColumnName="UserIdReviewed" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -673,14 +683,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="UserReview1" TypeName="Model.UserReview1" StoreEntitySet="Reviews">
-      <EndProperty Name="User">
-        <ScalarProperty Name="IdUser" ColumnName="UserReviewed_IdUser" />
-      </EndProperty>
-      <EndProperty Name="Review">
-        <ScalarProperty Name="IdReview" ColumnName="IdReview" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="LocationListing" TypeName="Model.LocationListing" StoreEntitySet="Locations">
       <EndProperty Name="Listing">
         <ScalarProperty Name="IdListing" ColumnName="Listing_IdListing" />

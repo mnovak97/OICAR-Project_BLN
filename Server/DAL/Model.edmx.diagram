@@ -20,13 +20,13 @@
         <AssociationConnector Association="Model.EmployeeOffer" />
         <AssociationConnector Association="Model.ListingOffer" />
         <AssociationConnector Association="Model.UserReview" />
-        <AssociationConnector Association="Model.UserReview1" />
         <EntityTypeShape EntityType="Model.Transaction" Width="1.5" PointX="15" PointY="0.5" />
         <AssociationConnector Association="Model.LocationListing" />
         <AssociationConnector Association="Model.UserTransaction" />
         <AssociationConnector Association="Model.UserTransaction_PaidTo" />
         <AssociationConnector Association="Model.WorkCategoryListing" />
         <AssociationConnector Association="Model.WorkTypeListing" />
+        <AssociationConnector Association="Model.UserReview1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

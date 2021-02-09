@@ -126,7 +126,7 @@ namespace DAL
         {
             using (var db = new ModelContainer())
             {
-                var reviews = db.Reviews?.ToList();
+                var reviews = db.Reviews?.Include(m => m.UserReviewer).Include(m => m.UserReviewed).ToList();
                 return reviews;
             }
         }

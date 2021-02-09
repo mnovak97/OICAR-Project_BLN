@@ -31,6 +31,8 @@ namespace Services.Models
         public bool IsEmployer { get; set; }
         [DataMember]
         public string IBAN { get; set; }
+        [DataMember]
+        public int Grade { get; set; }
 
 
         public User GetUser()
@@ -70,6 +72,10 @@ namespace Services.Models
                 PhoneNumber = user.PhoneNumber,
                 Balance = user.Balance
             };
+            var reviews = DAL.DAL.GetReviews().Where(x => x.UserReviewed.IdUser == user.IdUser);
+            model.Grade = reviews.Count() > 0
+                ? reviews.Sum(x => x.Grade) / reviews.Count()
+                : 0;
 
             if (user is Employer)
             {
