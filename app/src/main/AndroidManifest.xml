@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".JobOffersActivity"></activity>
+        <activity android:name=".UserOffers"></activity>
+        <activity android:name=".JobOffersActivity" />
         <activity android:name=".OfferActivity" />
         <activity android:name=".DetailsActivity" />
         <activity

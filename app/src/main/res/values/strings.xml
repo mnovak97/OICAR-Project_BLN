@@ -51,4 +51,5 @@
     <string name="string_price">Offered price (HRK)</string>
     <string name="enter_price">Enter price</string>
     <string name="make_offer_hint">Make an offer</string>
+    <string name="user_offers">Your offers</string>
 </resources>

@@ -58,5 +58,11 @@ public interface JsonPlaceHolderApi {
     Call<List<OfferModel>> acceptOffer(@Body OfferModel offer);
 
     @GET("offers/{listingId}")
-    Call<List<OfferModel>> getOffersForListingId(@Path("listingId") int lisingId);
+    Call<List<OfferModel>> getOffersForListingId(@Path("listingId") int listingId);
+
+    @GET("offers/user/{userId}")
+    Call<List<OfferModel>> getOffersForUserId(@Path("userId")int userId);
+
+    @GET("listings/{idListing}")
+    Call<ListingModel> getListingById(@Path("idListing")int listingID);
 }

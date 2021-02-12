@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -30,7 +31,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.oicar_project.utils.Constants.FROM_LISTINGS;
 import static com.example.oicar_project.utils.Constants.LISTING;
+import static com.example.oicar_project.utils.Constants.PASSED_VALUE;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BoardAdapter.OnItemClickedListener {
 
@@ -80,6 +83,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnProfile = headerView.findViewById(R.id.btnProfile);
         userName = headerView.findViewById(R.id.name);
         userLastName = headerView.findViewById(R.id.lastName);
+        Menu menu = navigationView.getMenu();
+        MenuItem btnJobs = menu.findItem(R.id.menuJobs);
+
+        if (!isEmployer){
+            btnJobs.setTitle("Your offers");
+        }
 
 
         Call<List<ListingModel>> call = service.getAllListings();
@@ -161,9 +170,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
 
             case R.id.menuJobs: {
-                Intent intent = new Intent(MainActivity.this, UserJobsActivity.class);
-                startActivity(intent);
-                break;
+                if (isEmployer){
+                    Intent intent = new Intent(MainActivity.this, UserJobsActivity.class);
+                    startActivity(intent);
+                    break;
+                }
+                else{
+                    Intent intent = new Intent(MainActivity.this,UserOffers.class);
+                    startActivity(intent);
+                    break;
+                }
             }
 
             case R.id.menuLogOut: {
@@ -183,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onItemClick(int position) {
         ListingModel listing = listings.get(position);
         Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+        intent.putExtra(PASSED_VALUE,FROM_LISTINGS);
         intent.putExtra(LISTING, listing);
         startActivity(intent);
     }

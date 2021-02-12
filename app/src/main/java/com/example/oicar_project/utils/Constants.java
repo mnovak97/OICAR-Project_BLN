@@ -13,4 +13,7 @@ public class Constants {
     public static final String LISTING = "Listing";
     public static final String IS_EMPLOYER = "is_employer";
     public static final String LISTING_ID = "listing_id";
+    public static final String OFFER = "offer";
+    public static final String FROM_OFFERS = "from_offers";
+    public static final String FROM_LISTINGS = "from_listings";
 }

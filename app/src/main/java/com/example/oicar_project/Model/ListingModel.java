@@ -35,6 +35,22 @@ public class ListingModel implements Serializable {
     @SerializedName("WorkCategoryId")
     private int workCategoryId;
 
+    @Override
+    public String toString() {
+        return "ListingModel{" +
+                "idListing=" + idListing +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", employerId=" + employerId +
+                ", toolsRequired=" + toolsRequired +
+                ", isListed=" + isListed +
+                ", workTypeId=" + workTypeId +
+                ", workCategoryId=" + workCategoryId +
+                '}';
+    }
+
     public ListingModel() {
     }
 

@@ -62,7 +62,6 @@ public class JobOffersActivity extends AppCompatActivity implements OffersAdapte
         recyclerView = findViewById(R.id.recyclerViewOffers);
         adapter = new OffersAdapter(offers, context, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        //recyclerView.setOnClickListener
         recyclerView.setAdapter(adapter);
     }
 

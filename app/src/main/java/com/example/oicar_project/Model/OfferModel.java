@@ -2,7 +2,9 @@ package com.example.oicar_project.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OfferModel {
+import java.io.Serializable;
+
+public class OfferModel implements Serializable {
     @SerializedName("IdOffer")
     private int offerId;
 
