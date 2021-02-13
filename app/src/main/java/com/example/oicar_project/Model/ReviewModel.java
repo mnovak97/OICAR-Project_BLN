@@ -10,7 +10,7 @@ public class ReviewModel {
     private int grade;
 
     @SerializedName("Comment")
-    private int comment;
+    private String comment;
 
     @SerializedName("UserReviewerId")
     private int userReviewerId;
@@ -21,7 +21,7 @@ public class ReviewModel {
     public ReviewModel() {
     }
 
-    public ReviewModel(int idReview, int grade, int comment, int userReviewerId, int userReviewedId) {
+    public ReviewModel(int idReview, int grade, String comment, int userReviewerId, int userReviewedId) {
         this.idReview = idReview;
         this.grade = grade;
         this.comment = comment;
@@ -45,11 +45,11 @@ public class ReviewModel {
         this.grade = grade;
     }
 
-    public int getComment() {
+    public String getComment() {
         return comment;
     }
 
-    public void setComment(int comment) {
+    public void setComment(String comment) {
         this.comment = comment;
     }
 

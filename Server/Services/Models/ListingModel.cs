@@ -30,6 +30,10 @@ namespace Services.Models
         public double Latitude { get; set; }
         [DataMember]
         public bool IsListed { get; set; }
+        [DataMember]
+        public bool IsEmployerReviewed { get; set; }
+        [DataMember]
+        public bool IsEmployeeReviewed { get; set; }
 
         public Listing GetListing()
         {
@@ -61,6 +65,20 @@ namespace Services.Models
                 Longitude = listing.Location?.Coordinates.Longitude ?? 0,
                 Latitude = listing.Location?.Coordinates.Latitude ?? 0
             };
+            if (listing.Offers != null && listing.Offers.Count > 0)
+            {
+                var acceptedOffer = listing.Offers.FirstOrDefault(x => x.IsAccepted);
+                if (acceptedOffer != null)
+                {
+                    var employeeId = acceptedOffer.EmployeeIdUser;
+                    var employerId = listing.EmployerIdUser;
+
+                    var reviews = DAL.DAL.GetReviews();
+
+                    model.IsEmployerReviewed = reviews.Any(x => x.UserIdReviewed == employeeId && x.UserIdReviewer == employerId);
+                    model.IsEmployeeReviewed = reviews.Any(x => x.UserIdReviewed == employerId && x.UserIdReviewer == employeeId);
+                }
+            }
             return model;
         }
     }

@@ -5,18 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.oicar_project.Model.ListingModel;
 import com.example.oicar_project.Model.OfferModel;
+import com.example.oicar_project.Model.ReviewModel;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
 import com.example.oicar_project.network.RetrofitClientInstance;
 
+import java.net.HttpURLConnection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,7 +37,7 @@ public class JobOffersActivity extends AppCompatActivity implements OffersAdapte
     private RecyclerView recyclerView;
     List<OfferModel> offers;
     JsonPlaceHolderApi service;
-    int listingID;
+    ListingModel listing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +48,8 @@ public class JobOffersActivity extends AppCompatActivity implements OffersAdapte
 
     private void initializeComponents() {
         service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
-        listingID = getIntent().getIntExtra(LISTING_ID, -1);
-        Call<List<OfferModel>> call = service.getOffersForListingId(listingID);
+        listing = (ListingModel) getIntent().getSerializableExtra(LISTING);
+        Call<List<OfferModel>> call = service.getOffersForListingId(listing.getIdListing());
         call.enqueue(new Callback<List<OfferModel>>() {
             @Override
             public void onResponse(Call<List<OfferModel>> call, Response<List<OfferModel>> response) {
@@ -67,10 +73,49 @@ public class JobOffersActivity extends AppCompatActivity implements OffersAdapte
 
     @Override
     public void onItemClicked(int position) {
+        OfferModel offer = offers.get(position);
         if (offers.stream().anyMatch(x -> x.isAccepted())) {
+            if (offer.isAccepted() && !listing.isEmployerReviewed()) {
+                Dialog rankDialog = new Dialog(this);
+                rankDialog.setContentView(R.layout.rank_layout);
+                rankDialog.setCancelable(true);
+                RatingBar ratingBar = (RatingBar) rankDialog.findViewById(R.id.ratingBar);
+                TextView txtNotes = (TextView) rankDialog.findViewById(R.id.txtNotes);
+                TextView lblTitle = (TextView) rankDialog.findViewById(R.id.lblTitle);
+                lblTitle.setText("Rate employee");
+
+                Button btnRank = (Button) rankDialog.findViewById(R.id.btnRank);
+                btnRank.setOnClickListener(v -> {
+                    ReviewModel reviewModel = new ReviewModel();
+                    reviewModel.setGrade((int) ratingBar.getRating() * 20);
+                    reviewModel.setComment(txtNotes.getText().toString());
+                    reviewModel.setUserReviewedId(offer.getEmployeeId());
+                    reviewModel.setUserReviewerId(listing.getEmployerId());
+
+
+                    Call<ReviewModel> call = service.addNewReview(reviewModel);
+                    call.enqueue(new Callback<ReviewModel>() {
+                        @Override
+                        public void onResponse(Call<ReviewModel> call, Response<ReviewModel> response) {
+                            if (response.code() == HttpURLConnection.HTTP_OK) {
+                                Toast.makeText(JobOffersActivity.this, "Employee successfully rated", Toast.LENGTH_SHORT).show();
+                                rankDialog.dismiss();
+                                JobOffersActivity.this.finish();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReviewModel> call, Throwable t) {
+                            call.cancel();
+                            Toast.makeText(JobOffersActivity.this, "Error rating employee", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    rankDialog.dismiss();
+                });
+                rankDialog.show();
+            }
             return;
         }
-        OfferModel offer = offers.get(position);
 
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             switch (which) {

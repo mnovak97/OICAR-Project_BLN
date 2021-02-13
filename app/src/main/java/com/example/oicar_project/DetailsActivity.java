@@ -1,10 +1,12 @@
 package com.example.oicar_project;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,12 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.oicar_project.Model.ListingModel;
 import com.example.oicar_project.Model.OfferModel;
+import com.example.oicar_project.Model.ReviewModel;
 import com.example.oicar_project.Model.WorkCategory;
 import com.example.oicar_project.Model.WorkType;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
 import com.example.oicar_project.network.RetrofitClientInstance;
 import com.example.oicar_project.utils.PreferenceUtils;
 
+
+import java.net.HttpURLConnection;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,8 +56,8 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
-        getIntentExtra();
         initializeComponents();
+        getIntentExtra();
         setOnClickListeners();
         getWorkTypeTitle();
         getWorkCategoryTitle();
@@ -60,19 +65,31 @@ public class DetailsActivity extends AppCompatActivity {
         checkIfUserIsEmployer();
     }
 
-    private void getIntentExtra(){
+    private void getIntentExtra() {
         Bundle extras = getIntent().getExtras();
         passedValue = extras.getString(PASSED_VALUE);
-        switch (passedValue){
+        switch (passedValue) {
             case FROM_LISTINGS:
                 listing = (ListingModel) extras.getSerializable(LISTING);
+                btnOffer.setOnClickListener(v -> makeAnOffer(v));
                 break;
             case FROM_OFFERS:
                 listing = (ListingModel) extras.getSerializable(LISTING);
                 offer = (OfferModel) extras.getSerializable(OFFER);
-                break;
-        }
 
+                if (listing.isEmployeeReviewed()) {
+                    btnOffer.setText("Job completed");
+                    btnOffer.setEnabled(false);
+                } else {
+                    if (offer.isAccepted() && !listing.isListed()) {
+                        btnOffer.setOnClickListener(v -> markAsCompleted(v));
+                        btnOffer.setText("Mark as completed");
+                    } else {
+                        btnOffer.setEnabled(false);
+                        btnOffer.setText("Offer made");
+                    }
+                }
+        }
     }
 
     private void initializeComponents() {
@@ -91,7 +108,45 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void setOnClickListeners() {
         btnExitDetails.setOnClickListener(view -> DetailsActivity.this.finish());
-        btnOffer.setOnClickListener(v -> makeAnOffer(v));
+    }
+
+    private void markAsCompleted(View view) {
+        Dialog rankDialog = new Dialog(this);
+        rankDialog.setContentView(R.layout.rank_layout);
+        rankDialog.setCancelable(true);
+        RatingBar ratingBar = (RatingBar) rankDialog.findViewById(R.id.ratingBar);
+        TextView txtNotes = (TextView) rankDialog.findViewById(R.id.txtNotes);
+
+        Button btnRank = (Button) rankDialog.findViewById(R.id.btnRank);
+        btnRank.setOnClickListener(v -> {
+            ReviewModel reviewModel = new ReviewModel();
+            reviewModel.setGrade((int) ratingBar.getRating() * 20);
+            reviewModel.setComment(txtNotes.getText().toString());
+            reviewModel.setUserReviewedId(listing.getEmployerId());
+            reviewModel.setUserReviewerId(offer.getEmployeeId());
+
+
+            Call<ReviewModel> call = service.addNewReview(reviewModel);
+            call.enqueue(new Callback<ReviewModel>() {
+                @Override
+                public void onResponse(Call<ReviewModel> call, Response<ReviewModel> response) {
+                    if (response.code() == HttpURLConnection.HTTP_OK) {
+                        Toast.makeText(DetailsActivity.this, "Employer successfully rated", Toast.LENGTH_SHORT).show();
+                        rankDialog.dismiss();
+                        DetailsActivity.this.finish();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ReviewModel> call, Throwable t) {
+                    call.cancel();
+                    Toast.makeText(DetailsActivity.this, "Error rating employer", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            rankDialog.dismiss();
+        });
+        rankDialog.show();
     }
 
     private void makeAnOffer(View view) {
@@ -136,16 +191,16 @@ public class DetailsActivity extends AppCompatActivity {
         txtTitle.setText(listing.getTitle());
         txtDescription.setText(listing.getDescription());
         txtLocation.setText("location");
-        if (!listing.isToolsRequired()){
+        if (!listing.isToolsRequired()) {
             txtTools.setText("Tools are not required");
-        }
-        else{
+        } else {
             txtTools.setText("Tools are required");
         }
     }
+
     private void checkIfUserIsEmployer() {
-        if (isEmployer){
+        if (isEmployer) {
             btnOffer.setVisibility(View.INVISIBLE);
-        }else btnOffer.setVisibility(View.VISIBLE);
+        } else btnOffer.setVisibility(View.VISIBLE);
     }
 }

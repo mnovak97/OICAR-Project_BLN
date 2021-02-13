@@ -29,12 +29,12 @@ namespace Services.Controllers
         }
 
         [Route("api/reviews/add")]
-        public List<ReviewModel> Post(ReviewModel model)
+        public ReviewModel Post(ReviewModel model)
         {
             try
             {
                 DAL.DAL.AddReview(model.GetReview());
-                return Get(model.UserReviewedId);
+                return Get(model.UserReviewedId).LastOrDefault();
             }
             catch (Exception)
             {

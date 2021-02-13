@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.oicar_project.Model.ListingModel;
@@ -34,7 +36,7 @@ public class UserOffers extends AppCompatActivity implements OffersAdapter.OnIte
     private RecyclerView recyclerView;
     JsonPlaceHolderApi service;
     int currentUserId;
-    ListingModel listing = new ListingModel();
+    ImageButton btnExitUserOffers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,9 @@ public class UserOffers extends AppCompatActivity implements OffersAdapter.OnIte
     }
 
     private void initializeComponents() {
+        btnExitUserOffers = UserOffers.this.findViewById(R.id.btnExitUserOffers);
+        btnExitUserOffers.setOnClickListener(view -> this.finish());
+
         service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
         currentUserId = PreferenceUtils.getUserID(this);
         Call<List<OfferModel>> offersCall = service.getOffersForUserId(currentUserId);
@@ -76,18 +81,22 @@ public class UserOffers extends AppCompatActivity implements OffersAdapter.OnIte
         listingModelCall.enqueue(new Callback<ListingModel>() {
             @Override
             public void onResponse(Call<ListingModel> call, Response<ListingModel> response) {
-                listing = response.body();
-                Toast.makeText(UserOffers.this, listing.toString(), Toast.LENGTH_SHORT).show();
+                ListingModel listing = response.body();
+                showListingDetails(listing, offer);
             }
+
             @Override
             public void onFailure(Call<ListingModel> call, Throwable t) {
                 call.cancel();
             }
         });
-        Intent intent = new Intent(getApplicationContext(),DetailsActivity.class);
-        intent.putExtra(PASSED_VALUE,FROM_OFFERS);
-        intent.putExtra(LISTING,listing);
-        intent.putExtra(OFFER,offer);
-        //startActivity(intent);
+    }
+
+    private void showListingDetails(ListingModel listing, OfferModel offer) {
+        Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+        intent.putExtra(PASSED_VALUE, FROM_OFFERS);
+        intent.putExtra(LISTING, listing);
+        intent.putExtra(OFFER, offer);
+        startActivity(intent);
     }
 }

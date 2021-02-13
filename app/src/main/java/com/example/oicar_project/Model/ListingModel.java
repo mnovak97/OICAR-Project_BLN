@@ -26,6 +26,12 @@ public class ListingModel implements Serializable {
     @SerializedName("ToolsRequired")
     private boolean toolsRequired;
 
+    @SerializedName("IsEmployeeReviewed")
+    private boolean isEmployeeReviewed;
+
+    @SerializedName("IsEmployerReviewed")
+    private boolean isEmployerReviewed;
+
     @SerializedName("IsListed")
     private boolean isListed;
 
@@ -45,6 +51,8 @@ public class ListingModel implements Serializable {
                 ", latitude=" + latitude +
                 ", employerId=" + employerId +
                 ", toolsRequired=" + toolsRequired +
+                ", IsEmployeeReviewed=" + isEmployeeReviewed +
+                ", isEmployerReviewed=" + isEmployerReviewed +
                 ", isListed=" + isListed +
                 ", workTypeId=" + workTypeId +
                 ", workCategoryId=" + workCategoryId +
@@ -64,6 +72,22 @@ public class ListingModel implements Serializable {
         this.workTypeId = workTypeId;
         this.workCategoryId = workCategoryId;
         this.isListed = isListed;
+    }
+
+    public boolean isEmployeeReviewed() {
+        return isEmployeeReviewed;
+    }
+
+    public void setEmployeeReviewed(boolean employeeReviewed) {
+        isEmployeeReviewed = employeeReviewed;
+    }
+
+    public boolean isEmployerReviewed() {
+        return isEmployerReviewed;
+    }
+
+    public void setEmployerReviewed(boolean employerReviewed) {
+        isEmployerReviewed = employerReviewed;
     }
 
     public int getIdListing() {

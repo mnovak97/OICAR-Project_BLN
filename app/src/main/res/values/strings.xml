@@ -52,4 +52,7 @@
     <string name="enter_price">Enter price</string>
     <string name="make_offer_hint">Make an offer</string>
     <string name="user_offers">Your offers</string>
+    <string name="rate">Rate</string>
+    <string name="additional_info">Additional info</string>
+    <string name="rate_employer">Rate employer</string>
 </resources>

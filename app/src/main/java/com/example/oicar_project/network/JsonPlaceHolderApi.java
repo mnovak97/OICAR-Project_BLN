@@ -4,6 +4,7 @@ package com.example.oicar_project.network;
 import com.example.oicar_project.Model.ListingModel;
 import com.example.oicar_project.Model.LoginModel;
 import com.example.oicar_project.Model.OfferModel;
+import com.example.oicar_project.Model.ReviewModel;
 import com.example.oicar_project.Model.User;
 import com.example.oicar_project.Model.WorkCategory;
 import com.example.oicar_project.Model.WorkType;
@@ -65,4 +66,7 @@ public interface JsonPlaceHolderApi {
 
     @GET("listings/{idListing}")
     Call<ListingModel> getListingById(@Path("idListing")int listingID);
+
+    @POST("reviews/add")
+    Call<ReviewModel> addNewReview(@Body ReviewModel offer);
 }
