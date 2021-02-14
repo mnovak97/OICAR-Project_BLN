@@ -36,8 +36,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         ListingModel listing = listings.get(position);
         holder.title.setText(listing.getTitle());
         holder.description.setText(listing.getDescription());
-        //zasada hardkodirano dok nemam lokacije jer inace baca null
-        holder.location.setText("Lokacija");
+        holder.location.setText(listing.getAddress());
     }
 
     @Override

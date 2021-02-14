@@ -50,7 +50,7 @@ namespace Services.Controllers
                 listing.Location = new Location()
                 {
                     IdLocation = 0,
-                    Title = "",
+                    Title = listingModel.Address,
                     Coordinates = DbGeography.FromText(string.Format("POINT({0} {1})", listingModel.Longitude, listingModel.Latitude), 4326)
                 };
 

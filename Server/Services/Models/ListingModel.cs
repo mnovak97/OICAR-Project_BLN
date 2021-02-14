@@ -29,6 +29,8 @@ namespace Services.Models
         [DataMember]
         public double Latitude { get; set; }
         [DataMember]
+        public string Address { get; set; }
+        [DataMember]
         public bool IsListed { get; set; }
         [DataMember]
         public bool IsEmployerReviewed { get; set; }
@@ -63,7 +65,8 @@ namespace Services.Models
                 WorkTypeId = listing.WorkTypeId,
                 IsListed = listing.IsListed,
                 Longitude = listing.Location?.Coordinates.Longitude ?? 0,
-                Latitude = listing.Location?.Coordinates.Latitude ?? 0
+                Latitude = listing.Location?.Coordinates.Latitude ?? 0,
+                Address = listing.Location?.Title
             };
             if (listing.Offers != null && listing.Offers.Count > 0)
             {

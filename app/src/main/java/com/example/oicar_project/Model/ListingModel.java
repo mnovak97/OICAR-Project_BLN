@@ -20,6 +20,9 @@ public class ListingModel implements Serializable {
     @SerializedName("Latitude")
     private double latitude;
 
+    @SerializedName("Address")
+    private String address;
+
     @SerializedName("EmployerIdUser")
     private int employerId;
 
@@ -49,9 +52,10 @@ public class ListingModel implements Serializable {
                 ", description='" + description + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
+                ", address='" + address + '\'' +
                 ", employerId=" + employerId +
                 ", toolsRequired=" + toolsRequired +
-                ", IsEmployeeReviewed=" + isEmployeeReviewed +
+                ", isEmployeeReviewed=" + isEmployeeReviewed +
                 ", isEmployerReviewed=" + isEmployerReviewed +
                 ", isListed=" + isListed +
                 ", workTypeId=" + workTypeId +
@@ -62,16 +66,25 @@ public class ListingModel implements Serializable {
     public ListingModel() {
     }
 
-    public ListingModel(String title, String description, double latitude, double longitude, int employerId, boolean toolsRequired, int workTypeId, int workCategoryId, boolean isListed) {
+    public ListingModel(String title, String description, double latitude, double longitude,String address, int employerId, boolean toolsRequired, int workTypeId, int workCategoryId, boolean isListed) {
         this.title = title;
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.address = address;
         this.employerId = employerId;
         this.toolsRequired = toolsRequired;
         this.workTypeId = workTypeId;
         this.workCategoryId = workCategoryId;
         this.isListed = isListed;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public boolean isEmployeeReviewed() {

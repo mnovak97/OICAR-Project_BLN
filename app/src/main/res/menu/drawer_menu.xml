@@ -5,10 +5,6 @@
     <group android:checkableBehavior="single">
         <item android:id="@+id/menuJobs"
             android:title="@string/your_jobs"/>
-        <item android:id="@+id/menuPayment"
-            android:title="@string/payment"/>
-        <item android:id="@+id/menuSettings"
-            android:title="@string/settings"/>
         <item android:id="@+id/menuLogOut"
             android:title="@string/log_out"/>
     </group>

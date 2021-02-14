@@ -190,7 +190,7 @@ public class DetailsActivity extends AppCompatActivity {
         //template
         txtTitle.setText(listing.getTitle());
         txtDescription.setText(listing.getDescription());
-        txtLocation.setText("location");
+        txtLocation.setText(listing.getAddress());
         if (!listing.isToolsRequired()) {
             txtTools.setText("Tools are not required");
         } else {
