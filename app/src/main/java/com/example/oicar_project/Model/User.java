@@ -36,7 +36,8 @@ public class User {
     private String IBAN;
 
     @SerializedName("Grade")
-    private String grade;
+    private int grade;
+
 
     @Override
     public String toString() {
@@ -65,14 +66,13 @@ public class User {
         this.IBAN = iban;
     }
 
-    public String getGrade() {
+    public int getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(int grade) {
         this.grade = grade;
     }
-
     public String getIBAN() {
         return IBAN;
     }

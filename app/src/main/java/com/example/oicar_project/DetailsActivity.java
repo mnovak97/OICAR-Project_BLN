@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.oicar_project.Model.ListingModel;
 import com.example.oicar_project.Model.OfferModel;
 import com.example.oicar_project.Model.ReviewModel;
+import com.example.oicar_project.Model.User;
 import com.example.oicar_project.Model.WorkCategory;
 import com.example.oicar_project.Model.WorkType;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
@@ -43,6 +44,8 @@ public class DetailsActivity extends AppCompatActivity {
     TextView txtWorkType;
     TextView txtCategory;
     TextView txtTools;
+    TextView txtUserName;
+    TextView txtUserSurname;
     ImageButton btnExitDetails;
     Button btnOffer;
     JsonPlaceHolderApi service;
@@ -59,11 +62,13 @@ public class DetailsActivity extends AppCompatActivity {
         initializeComponents();
         getIntentExtra();
         setOnClickListeners();
+        getUserEmployer();
         getWorkTypeTitle();
         getWorkCategoryTitle();
         setData();
         checkIfUserIsEmployer();
     }
+
 
     private void getIntentExtra() {
         Bundle extras = getIntent().getExtras();
@@ -100,10 +105,11 @@ public class DetailsActivity extends AppCompatActivity {
         txtLocation = findViewById(R.id.txtLocationDetails);
         txtWorkType = findViewById(R.id.txtWorkTypeDetails);
         txtCategory = findViewById(R.id.txtWorkCategoryDetails);
-        txtTools = findViewById(R.id.txtToolsDetails);
+        txtUserName = findViewById(R.id.txtUserNameDetails);
+        txtUserSurname = findViewById(R.id.txtUserSurnameDetails);
+        txtTools = findViewById(R.id.txtToolsRequired);
         btnExitDetails = findViewById(R.id.btnExitDetails);
         btnOffer = findViewById(R.id.btnOffer);
-
     }
 
     private void setOnClickListeners() {
@@ -155,7 +161,21 @@ public class DetailsActivity extends AppCompatActivity {
         intent.putExtra(LISTING_ID, listing.getIdListing());
         startActivity(intent);
     }
+    private void getUserEmployer() {
+        Call<User> userCall = service.getUserById(listing.getEmployerId());
+        userCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                txtUserName.setText(response.body().getFirstName());
+                txtUserSurname.setText(response.body().getLastName());
+            }
 
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
     private void getWorkTypeTitle() {
         Call<WorkType> workTypeCall = service.getWorkTypeById(listing.getWorkTypeId());
         workTypeCall.enqueue(new Callback<WorkType>() {
@@ -187,15 +207,13 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void setData() {
-
-        //template
         txtTitle.setText(listing.getTitle());
         txtDescription.setText(listing.getDescription());
         txtLocation.setText(listing.getAddress());
         if (!listing.isToolsRequired()) {
-            txtTools.setText("Tools are not required");
+            txtTools.setText("Not required");
         } else {
-            txtTools.setText("Tools are required");
+            txtTools.setText("Required");
         }
     }
 

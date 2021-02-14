@@ -30,7 +30,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageButton btnProfile;
     TextView userName;
     TextView userLastName;
+    TextView userGrade;
     JsonPlaceHolderApi service;
     int currentUserID;
     List<ListingModel> listings;
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setData(User user) {
         userName.setText(user.getFirstName());
         userLastName.setText(user.getLastName());
+
     }
 
     @Override
