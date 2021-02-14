@@ -62,6 +62,19 @@ namespace Services
                     PasswordHash = DAL.Utils.Hmac.ComputeSHA256("password", salt),
                     Balance = 0.0
                 });
+                salt = DAL.Utils.Hmac.GenerateSalt();
+                DAL.DAL.AddUser(new Employee()
+                {
+                    IdUser = 0,
+                    FirstName = "Test",
+                    LastName = "Employee",
+                    PhoneNumber = "0987654321",
+                    Email = "emp@mail.hr",
+                    PasswordSalt = salt,
+                    PasswordHash = DAL.Utils.Hmac.ComputeSHA256("password", salt),
+                    Balance = 0.0,
+                    IBAN = ""
+                });
             }
         }
     }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:id="@+id/item"
     android:layout_margin="16dp"
-    android:background="@drawable/border_layout"
+    android:background="@drawable/border_bottom"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/title_Item"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/holo_green_dark"
             android:textSize="24dp"
             android:textStyle="bold" />
 

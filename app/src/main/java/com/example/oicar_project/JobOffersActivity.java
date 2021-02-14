@@ -66,7 +66,7 @@ public class JobOffersActivity extends AppCompatActivity implements OffersAdapte
 
     private void generateDataList(Context context) {
         recyclerView = findViewById(R.id.recyclerViewOffers);
-        adapter = new OffersAdapter(offers, context, this);
+        adapter = new OffersAdapter(offers, context, this, listing);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
     }
@@ -91,6 +91,7 @@ public class JobOffersActivity extends AppCompatActivity implements OffersAdapte
                     reviewModel.setComment(txtNotes.getText().toString());
                     reviewModel.setUserReviewedId(offer.getEmployeeId());
                     reviewModel.setUserReviewerId(listing.getEmployerId());
+                    reviewModel.setListingId(listing.getIdListing());
 
 
                     Call<ReviewModel> call = service.addNewReview(reviewModel);

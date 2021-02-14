@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@drawable/border_layout">
+    android:background="@drawable/border_bottom">
 
     <LinearLayout
         android:id="@+id/linearLayoutUserJob"
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/title_Item"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/holo_green_dark"
             android:textSize="24dp"
             android:textStyle="bold" />
 
@@ -54,7 +54,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:textSize="16dp"
+        android:textSize="20dp"
+        android:text="@string/_0"
         app:layout_constraintBottom_toTopOf="@+id/imgOfferUserJob"
         app:layout_constraintEnd_toEndOf="@+id/imgOfferUserJob" />
 

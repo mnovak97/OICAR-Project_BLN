@@ -75,11 +75,14 @@ namespace Services.Models
                 {
                     var employeeId = acceptedOffer.EmployeeIdUser;
                     var employerId = listing.EmployerIdUser;
-                    
+
                     var reviews = DAL.DAL.GetReviewsForListing(listing.IdListing);
 
-                    model.IsEmployerReviewed = reviews.Any(x => x.UserIdReviewed == employeeId && x.UserIdReviewer == employerId);
-                    model.IsEmployeeReviewed = reviews.Any(x => x.UserIdReviewed == employerId && x.UserIdReviewer == employeeId);
+                    if (reviews != null && reviews.Count != 0)
+                    {
+                        model.IsEmployerReviewed = reviews.Any(x => x.UserIdReviewed == employeeId && x.UserIdReviewer == employerId);
+                        model.IsEmployeeReviewed = reviews.Any(x => x.UserIdReviewed == employerId && x.UserIdReviewer == employeeId);
+                    }
                 }
             }
             return model;

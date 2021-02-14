@@ -19,6 +19,7 @@ import com.example.oicar_project.network.RetrofitClientInstance;
 import com.example.oicar_project.utils.PreferenceUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +32,8 @@ import static com.example.oicar_project.utils.Constants.PASSED_VALUE;
 
 public class UserOffers extends AppCompatActivity implements OffersAdapter.OnItemClickedListener {
 
-    List<OfferModel> offers;
+    private List<OfferModel> offers;
+    private List<ListingModel> listings;
     private OffersAdapter adapter;
     private RecyclerView recyclerView;
     JsonPlaceHolderApi service;
@@ -51,6 +53,7 @@ public class UserOffers extends AppCompatActivity implements OffersAdapter.OnIte
 
         service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
         currentUserId = PreferenceUtils.getUserID(this);
+
         Call<List<OfferModel>> offersCall = service.getOffersForUserId(currentUserId);
         offersCall.enqueue(new Callback<List<OfferModel>>() {
             @Override
@@ -69,9 +72,23 @@ public class UserOffers extends AppCompatActivity implements OffersAdapter.OnIte
 
     private void generateDataList(Context context) {
         recyclerView = findViewById(R.id.recyclerViewUserOffers);
-        adapter = new OffersAdapter(offers, context, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(adapter);
+
+        Call<List<ListingModel>> call = service.getAllListings();
+        call.enqueue(new Callback<List<ListingModel>>() {
+            @Override
+            public void onResponse(Call<List<ListingModel>> call, Response<List<ListingModel>> response) {
+                listings = response.body();
+
+                adapter = new OffersAdapter(offers, context, UserOffers.this, listings);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<ListingModel>> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
     @Override

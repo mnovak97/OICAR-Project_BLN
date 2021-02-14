@@ -124,6 +124,7 @@ public class DetailsActivity extends AppCompatActivity {
             reviewModel.setComment(txtNotes.getText().toString());
             reviewModel.setUserReviewedId(listing.getEmployerId());
             reviewModel.setUserReviewerId(offer.getEmployeeId());
+            reviewModel.setListingId(listing.getIdListing());
 
 
             Call<ReviewModel> call = service.addNewReview(reviewModel);

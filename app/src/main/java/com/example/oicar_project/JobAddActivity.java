@@ -124,8 +124,7 @@ public class JobAddActivity extends AppCompatActivity {
         WorkCategory workCategory = (WorkCategory) workCategories.getSelectedItem();
 
         ListingModel newListing = new ListingModel(txtTitle.getText().toString(), txtDescription.getText().toString(), currentLatLng.latitude, currentLatLng.longitude,currentAddress, currentUserID, toolsRequired, workType.getIdWorkType(), workCategory.getIdWorkCategory(), true);
-        Toast.makeText(this, newListing.getAddress(), Toast.LENGTH_SHORT).show();
-        /*Call<ListingModel> call = service.addNewListing(newListing);
+        Call<ListingModel> call = service.addNewListing(newListing);
         call.enqueue(new Callback<ListingModel>() {
             @Override
             public void onResponse(Call<ListingModel> call, Response<ListingModel> response) {
@@ -137,9 +136,10 @@ public class JobAddActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ListingModel> call, Throwable t) {
+                Toast.makeText(JobAddActivity.this, "Unable to add new listing", Toast.LENGTH_SHORT).show();
                 call.cancel();
             }
-        });*/
+        });
     }
 
     private void populateSpinnerCategories(List<WorkCategory> workCategoriesList, Context context) {

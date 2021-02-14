@@ -90,7 +90,7 @@ namespace DAL
         {
             using (var db = new ModelContainer())
             {
-                var listings = db.Listings.Include(l => l.Location).Include(l => l.Employer).Include(l => l.Offers).ToList();
+                var listings = db.Listings.Include(l => l.Location).Include(l => l.Employer).Include(l => l.Offers).Include(l => l.Reviews).ToList();
                 return listings;
             }
         }

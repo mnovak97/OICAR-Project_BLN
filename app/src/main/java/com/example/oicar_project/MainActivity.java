@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -190,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 }
                 else{
-                    Intent intent = new Intent(MainActivity.this,UserOffers.class);
+                    Intent intent = new Intent(MainActivity.this, UserOffers.class);
                     startActivity(intent);
                     break;
                 }

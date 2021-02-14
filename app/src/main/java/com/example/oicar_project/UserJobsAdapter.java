@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -58,7 +59,10 @@ public class UserJobsAdapter extends RecyclerView.Adapter<UserJobsAdapter.ViewHo
                 {
                     holder.txtNumberOfOffers.setText(String.valueOf(offers.size()));
                 }
-                else holder.txtNumberOfOffers.setText("");
+                else {
+                    holder.imgOfferUserJob.setVisibility(View.INVISIBLE);
+                    holder.txtNumberOfOffers.setText("");
+                }
 
             }
 
@@ -78,12 +82,16 @@ public class UserJobsAdapter extends RecyclerView.Adapter<UserJobsAdapter.ViewHo
         TextView txtTitleUserJob;
         TextView txtDescriptionUserJob;
         TextView txtNumberOfOffers;
+        ImageView imgOfferUserJob;
+
         OnItemClickedListener onItemClickedListener;
         public ViewHolder(@NonNull View itemView,OnItemClickedListener onItemClickedListener) {
             super(itemView);
             txtTitleUserJob = itemView.findViewById(R.id.txtTitleUserJob);
             txtDescriptionUserJob = itemView.findViewById(R.id.txtDescriptionUserJob);
             txtNumberOfOffers = itemView.findViewById(R.id.txtNumberOfOffers);
+            imgOfferUserJob =itemView.findViewById(R.id.imgOfferUserJob);
+
             this.onItemClickedListener = onItemClickedListener;
             itemView.setOnClickListener(this);
         }
