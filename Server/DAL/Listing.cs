@@ -20,6 +20,7 @@ namespace DAL
         public Listing()
         {
             this.Offers = new HashSet<Offer>();
+            this.Reviews = new HashSet<Review>();
         }
 
         [DataMember]
@@ -38,12 +39,14 @@ namespace DAL
         public int WorkTypeId { get; set; }
         [DataMember]
         public bool IsListed { get; set; }
-
+    
         public virtual Employer Employer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual Location Location { get; set; }
         public virtual WorkCategory WorkCategory { get; set; }
         public virtual WorkType WorkType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

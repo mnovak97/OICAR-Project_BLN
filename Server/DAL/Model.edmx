@@ -56,6 +56,10 @@
       <End Role="User" EntitySet="Users" />
       <End Role="Review" EntitySet="Reviews" />
     </AssociationSet>
+    <AssociationSet Name="ListingReview" Association="Model.Store.ListingReview">
+      <End Role="Listing" EntitySet="Listings" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
     <AssociationSet Name="FK_Employer_inherits_User" Association="Model.Store.FK_Employer_inherits_User">
       <End Role="User" EntitySet="Users" />
       <End Role="Employer" EntitySet="Users_Employer" />
@@ -123,6 +127,7 @@
     <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserIdReviewer" Type="int" Nullable="false" />
     <Property Name="UserIdReviewed" Type="int" Nullable="false" />
+    <Property Name="ListingId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Offers">
     <Key>
@@ -279,6 +284,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ListingReview">
+    <End Role="Listing" Type="Model.Store.Listings" Multiplicity="1" />
+    <End Role="Review" Type="Model.Store.Reviews" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Listing">
+        <PropertyRef Name="IdListing" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="ListingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Employer_inherits_User">
     <End Role="User" Type="Model.Store.Users" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -360,6 +377,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Review" EntitySet="Reviews" />
           </AssociationSet>
+          <AssociationSet Name="ListingReview" Association="Model.ListingReview">
+            <End Role="Listing" EntitySet="Listings" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="WorkCategory">
           <Key>
@@ -394,6 +415,7 @@
           <NavigationProperty Name="WorkType" Relationship="Model.WorkTypeListing" FromRole="Listing" ToRole="WorkType" />
           <Property Name="WorkTypeId" Type="Int32" Nullable="false" />
           <Property Name="IsListed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Reviews" Relationship="Model.ListingReview" FromRole="Listing" ToRole="Review" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -432,6 +454,8 @@
           <Property Name="UserIdReviewer" Type="Int32" Nullable="false" />
           <NavigationProperty Name="UserReviewed" Relationship="Model.UserReview1" FromRole="Review" ToRole="User" />
           <Property Name="UserIdReviewed" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Listing" Relationship="Model.ListingReview" FromRole="Review" ToRole="Listing" />
+          <Property Name="ListingId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Employee" BaseType="Model.User" >
           <Property Name="IBAN" Type="String" Nullable="false" />
@@ -578,6 +602,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ListingReview">
+          <End Type="Model.Listing" Role="Listing" Multiplicity="1" />
+          <End Type="Model.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listing">
+              <PropertyRef Name="IdListing" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ListingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -656,6 +692,7 @@
           <ScalarProperty Name="Comment" ColumnName="Comment" />
           <ScalarProperty Name="UserIdReviewer" ColumnName="UserIdReviewer" />
           <ScalarProperty Name="UserIdReviewed" ColumnName="UserIdReviewed" />
+          <ScalarProperty Name="ListingId" ColumnName="ListingId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

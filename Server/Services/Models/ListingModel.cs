@@ -75,8 +75,8 @@ namespace Services.Models
                 {
                     var employeeId = acceptedOffer.EmployeeIdUser;
                     var employerId = listing.EmployerIdUser;
-
-                    var reviews = DAL.DAL.GetReviews();
+                    
+                    var reviews = DAL.DAL.GetReviewsForListing(listing.IdListing);
 
                     model.IsEmployerReviewed = reviews.Any(x => x.UserIdReviewed == employeeId && x.UserIdReviewer == employerId);
                     model.IsEmployeeReviewed = reviews.Any(x => x.UserIdReviewed == employerId && x.UserIdReviewer == employeeId);

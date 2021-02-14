@@ -131,6 +131,11 @@ namespace DAL
             }
         }
 
+        public static List<Review> GetReviewsForListing(int listingId)
+        {
+            return GetListings().FirstOrDefault(x => listingId == x.IdListing)?.Reviews.ToList();
+        }
+
         public static int AddReview(Review review)
         {
             using (var db = new ModelContainer())

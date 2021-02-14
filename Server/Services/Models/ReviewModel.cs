@@ -21,6 +21,8 @@ namespace Services.Models
         public int UserReviewerId { get; set; }
         [DataMember]
         public int UserReviewedId { get; set; }
+        [DataMember]
+        public int ListingId { get; set; }
 
         public static ReviewModel FromReview(Review review)
         {
@@ -30,7 +32,8 @@ namespace Services.Models
                 Grade = review.Grade,
                 Comment = review.Comment,
                 UserReviewedId = review.UserReviewed.IdUser,
-                UserReviewerId = review.UserReviewer.IdUser
+                UserReviewerId = review.UserReviewer.IdUser,
+                ListingId = review.ListingId
             };
             return model;
         }
@@ -46,6 +49,7 @@ namespace Services.Models
                 Comment = Comment,
                 UserIdReviewed = UserReviewedId,
                 UserIdReviewer  = UserReviewerId,
+                ListingId = ListingId
             };
             return review;
         }

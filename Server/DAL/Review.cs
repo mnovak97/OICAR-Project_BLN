@@ -26,8 +26,11 @@ namespace DAL
         public int UserIdReviewer { get; set; }
         [DataMember]
         public int UserIdReviewed { get; set; }
+        [DataMember]
+        public int ListingId { get; set; }
     
         public virtual User UserReviewer { get; set; }
         public virtual User UserReviewed { get; set; }
+        public virtual Listing Listing { get; set; }
     }
 }

@@ -18,6 +18,9 @@ public class ReviewModel {
     @SerializedName("UserReviewedId")
     private int userReviewedId;
 
+    @SerializedName("ListingId")
+    public int listingId;
+
     public ReviewModel() {
     }
 
@@ -27,6 +30,14 @@ public class ReviewModel {
         this.comment = comment;
         this.userReviewerId = userReviewerId;
         this.userReviewedId = userReviewedId;
+    }
+
+    public int getListingId() {
+        return listingId;
+    }
+
+    public void setListingId(int listingId) {
+        this.listingId = listingId;
     }
 
     public int getIdReview() {

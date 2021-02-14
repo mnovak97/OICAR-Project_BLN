@@ -2,11 +2,12 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/09/2021 17:53:02
+-- Date Created: 02/14/2021 20:24:42
 -- Generated from EDMX file: D:\Mislav\ALGEBRA\S6\OICAR\git\OICAR-Project_BLN\Server\DAL\Model.edmx
 -- --------------------------------------------------
 
 USE master
+GO
 DROP DATABASE [OICAR];
 GO
 CREATE DATABASE [OICAR];
@@ -35,9 +36,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_UserReview]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_UserReview];
 GO
-IF OBJECT_ID(N'[dbo].[FK_UserReview1]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_UserReview1];
-GO
 IF OBJECT_ID(N'[dbo].[FK_LocationListing]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Locations] DROP CONSTRAINT [FK_LocationListing];
 GO
@@ -52,6 +50,9 @@ IF OBJECT_ID(N'[dbo].[FK_WorkCategoryListing]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_WorkTypeListing]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Listings] DROP CONSTRAINT [FK_WorkTypeListing];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserReview1]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_UserReview1];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Employer_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Employer] DROP CONSTRAINT [FK_Employer_inherits_User];
@@ -122,7 +123,7 @@ CREATE TABLE [dbo].[Listings] (
     [ToolsRequired] bit  NOT NULL,
     [WorkCategoryId] int  NOT NULL,
     [WorkTypeId] int  NOT NULL,
-    [IsListed] bit  NOT NULL DEFAULT 1
+    [IsListed] bit  NOT NULL
 );
 GO
 
@@ -154,7 +155,8 @@ CREATE TABLE [dbo].[Reviews] (
     [Grade] int  NOT NULL,
     [Comment] nvarchar(max)  NOT NULL,
     [UserIdReviewer] int  NOT NULL,
-    [UserIdReviewed] int  NOT NULL
+    [UserIdReviewed] int  NOT NULL,
+    [ListingId] int  NOT NULL
 );
 GO
 
@@ -165,7 +167,7 @@ CREATE TABLE [dbo].[Offers] (
     [ListingIdListing] int  NOT NULL,
     [Price] float  NOT NULL,
     [HasTools] bit  NOT NULL,
-    [IsAccepted] bit  NOT NULL DEFAULT 0
+    [IsAccepted] bit  NOT NULL
 );
 GO
 
@@ -409,6 +411,21 @@ GO
 CREATE INDEX [IX_FK_UserReview1]
 ON [dbo].[Reviews]
     ([UserIdReviewed]);
+GO
+
+-- Creating foreign key on [ListingId] in table 'Reviews'
+ALTER TABLE [dbo].[Reviews]
+ADD CONSTRAINT [FK_ListingReview]
+    FOREIGN KEY ([ListingId])
+    REFERENCES [dbo].[Listings]
+        ([IdListing])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ListingReview'
+CREATE INDEX [IX_FK_ListingReview]
+ON [dbo].[Reviews]
+    ([ListingId]);
 GO
 
 -- Creating foreign key on [IdUser] in table 'Users_Employer'

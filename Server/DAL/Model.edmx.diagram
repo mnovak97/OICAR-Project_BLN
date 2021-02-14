@@ -27,6 +27,7 @@
         <AssociationConnector Association="Model.WorkCategoryListing" />
         <AssociationConnector Association="Model.WorkTypeListing" />
         <AssociationConnector Association="Model.UserReview1" />
+        <AssociationConnector Association="Model.ListingReview" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
