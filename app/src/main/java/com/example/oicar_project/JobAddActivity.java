@@ -1,15 +1,19 @@
 package com.example.oicar_project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.oicar_project.Model.ListingModel;
@@ -18,8 +22,15 @@ import com.example.oicar_project.Model.WorkType;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
 import com.example.oicar_project.network.RetrofitClientInstance;
 import com.example.oicar_project.utils.PreferenceUtils;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.net.HttpURLConnection;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,10 +39,12 @@ import retrofit2.Response;
 
 public class JobAddActivity extends AppCompatActivity {
 
+    private static final int AUTOCOMPLETE_REQUEST_CODE = 1;
     JsonPlaceHolderApi service;
     int currentUserID;
     TextView txtTitle;
     TextView txtDescription;
+    TextView txtAddLocation;
     Spinner workTypes;
     Spinner workCategories;
     Boolean toolsRequired = true;
@@ -53,6 +66,7 @@ public class JobAddActivity extends AppCompatActivity {
         txtTitle = findViewById(R.id.txtAddTitle);
         txtDescription = findViewById(R.id.txtAddDescription);
         btnAddJob = findViewById(R.id.btnAddJob);
+        txtAddLocation = findViewById(R.id.txtAddLocation);
 
         Call<List<WorkType>> callTypes = service.getAllWorkTypes();
         callTypes.enqueue(new Callback<List<WorkType>>() {
@@ -82,7 +96,19 @@ public class JobAddActivity extends AppCompatActivity {
     }
 
     private void setOnClickListeners() {
+
         btnAddJob.setOnClickListener(view -> addNewJob());
+        txtAddLocation.setOnClickListener(view -> {
+            if (!Places.isInitialized()) {
+                Places.initialize(getApplicationContext(),getResources().getString(R.string.map_key));
+            }
+            List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+            Intent intent = new Autocomplete.IntentBuilder(
+                    AutocompleteActivityMode.FULLSCREEN, fields)
+                    .build(this);
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+        });
+
     }
 
     private void addNewJob() {
@@ -90,8 +116,8 @@ public class JobAddActivity extends AppCompatActivity {
         WorkCategory workCategory = (WorkCategory) workCategories.getSelectedItem();
 
         //todo - maps
-        double latitude = 45.814556;
-        double longitude = 15.944449;
+        double latitude = 45.844515;
+        double longitude = 16.009059;
 
         ListingModel newListing = new ListingModel(txtTitle.getText().toString(), txtDescription.getText().toString(), latitude, longitude, currentUserID, toolsRequired, workType.getIdWorkType(), workCategory.getIdWorkCategory(), true);
 
@@ -130,6 +156,23 @@ public class JobAddActivity extends AppCompatActivity {
             case R.id.cbTools:
                 toolsRequired = !checked;
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                Toast.makeText(JobAddActivity.this, place.getName(), Toast.LENGTH_SHORT).show();
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i("tagcina", status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+
+            }
         }
     }
 }

@@ -22,6 +22,12 @@ import com.example.oicar_project.Model.User;
 import com.example.oicar_project.network.JsonPlaceHolderApi;
 import com.example.oicar_project.network.RetrofitClientInstance;
 import com.example.oicar_project.utils.PreferenceUtils;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
@@ -35,7 +41,7 @@ import static com.example.oicar_project.utils.Constants.FROM_LISTINGS;
 import static com.example.oicar_project.utils.Constants.LISTING;
 import static com.example.oicar_project.utils.Constants.PASSED_VALUE;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BoardAdapter.OnItemClickedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BoardAdapter.OnItemClickedListener, OnMapReadyCallback{
 
     DrawerLayout drawer;
     ImageButton btnMenu;
@@ -51,15 +57,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     boolean isEmployer;
     private BoardAdapter adapter;
     private RecyclerView recyclerView;
+    private GoogleMap mMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
         service = RetrofitClientInstance.getRetrofitInstance().create(JsonPlaceHolderApi.class);
         initializeComponents();
         setOnClickListeners();
         checkIfUserIsEmployer();
+
     }
 
     @Override
@@ -100,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     listings = listings.stream().filter(x -> x.isListed()).collect(Collectors.toList());
                 }
                 generateDataList(getApplicationContext());
+                setListingsLocations(mMap,response.body());
+
             }
 
             @Override
@@ -203,4 +217,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         intent.putExtra(LISTING, listing);
         startActivity(intent);
     }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        LatLng zagreb = new LatLng(45.844515, 16.009059);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(zagreb));
+    }
+
+    private void setListingsLocations(GoogleMap mMap,List<ListingModel> jobs) {
+        for (ListingModel listing : jobs) {
+            LatLng newMarker = new LatLng(listing.getLatitude(),listing.getLongitude());
+            mMap.addMarker(new MarkerOptions()
+                    .position(newMarker)
+                    .title(listing.getTitle()));
+        }
+    }
+
 }

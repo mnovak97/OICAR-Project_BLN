@@ -4,6 +4,8 @@
     package="com.example.oicar_project">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".config.MyApplication"
@@ -13,7 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserOffers"></activity>
+        <activity android:name=".LocationActivity"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" />
+
+        <activity android:name=".UserOffers" />
         <activity android:name=".JobOffersActivity" />
         <activity android:name=".OfferActivity" />
         <activity android:name=".DetailsActivity" />
