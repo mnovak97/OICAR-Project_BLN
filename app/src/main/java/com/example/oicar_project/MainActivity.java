@@ -41,7 +41,7 @@ import static com.example.oicar_project.utils.Constants.FROM_LISTINGS;
 import static com.example.oicar_project.utils.Constants.LISTING;
 import static com.example.oicar_project.utils.Constants.PASSED_VALUE;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BoardAdapter.OnItemClickedListener, OnMapReadyCallback{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BoardAdapter.OnItemClickedListener, OnMapReadyCallback {
 
     DrawerLayout drawer;
     ImageButton btnMenu;
@@ -96,10 +96,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnProfile = headerView.findViewById(R.id.btnProfile);
         userName = headerView.findViewById(R.id.name);
         userLastName = headerView.findViewById(R.id.lastName);
+        userGrade = headerView.findViewById(R.id.grade);
         Menu menu = navigationView.getMenu();
         MenuItem btnJobs = menu.findItem(R.id.menuJobs);
 
-        if (!isEmployer){
+        if (!isEmployer) {
             btnJobs.setTitle("Your offers");
         }
 
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     listings = listings.stream().filter(x -> x.isListed()).collect(Collectors.toList());
                 }
                 generateDataList(getApplicationContext());
-                setListingsLocations(mMap,response.body());
+                setListingsLocations(mMap, response.body());
 
             }
 
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setData(User user) {
         userName.setText(user.getFirstName());
         userLastName.setText(user.getLastName());
-
+        userGrade.setText("" + ((float)user.getGrade() / 20));
 
     }
 
@@ -187,12 +188,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
 
             case R.id.menuJobs: {
-                if (isEmployer){
+                if (isEmployer) {
                     Intent intent = new Intent(MainActivity.this, UserJobsActivity.class);
                     startActivity(intent);
                     break;
-                }
-                else{
+                } else {
                     Intent intent = new Intent(MainActivity.this, UserOffers.class);
                     startActivity(intent);
                     break;
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onItemClick(int position) {
         ListingModel listing = listings.get(position);
         Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-        intent.putExtra(PASSED_VALUE,FROM_LISTINGS);
+        intent.putExtra(PASSED_VALUE, FROM_LISTINGS);
         intent.putExtra(LISTING, listing);
         startActivity(intent);
     }
@@ -228,11 +228,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mMap.moveCamera(CameraUpdateFactory.newLatLng(zagreb));
     }
 
-    private void setListingsLocations(GoogleMap mMap,List<ListingModel> jobs) {
+    private void setListingsLocations(GoogleMap mMap, List<ListingModel> jobs) {
         mMap.clear();
         for (ListingModel listing : jobs) {
-            if (listing.isListed()){
-                LatLng newMarker = new LatLng(listing.getLatitude(),listing.getLongitude());
+            if (listing.isListed()) {
+                LatLng newMarker = new LatLng(listing.getLatitude(), listing.getLongitude());
                 mMap.addMarker(new MarkerOptions()
                         .position(newMarker)
                         .title(listing.getTitle()));
