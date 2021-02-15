@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userName.setText(user.getFirstName());
         userLastName.setText(user.getLastName());
 
+
     }
 
     @Override
@@ -228,11 +229,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setListingsLocations(GoogleMap mMap,List<ListingModel> jobs) {
+        mMap.clear();
         for (ListingModel listing : jobs) {
-            LatLng newMarker = new LatLng(listing.getLatitude(),listing.getLongitude());
-            mMap.addMarker(new MarkerOptions()
-                    .position(newMarker)
-                    .title(listing.getTitle()));
+            if (listing.isListed()){
+                LatLng newMarker = new LatLng(listing.getLatitude(),listing.getLongitude());
+                mMap.addMarker(new MarkerOptions()
+                        .position(newMarker)
+                        .title(listing.getTitle()));
+            }
         }
     }
 

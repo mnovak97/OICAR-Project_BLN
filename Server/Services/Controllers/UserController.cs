@@ -17,6 +17,10 @@ namespace Services.Controllers
         {
             try
             {
+                if (Get(model.Email) != null)
+                {
+                    return null;
+                }
                 User user = model.GetUser();
                 DAL.DAL.AddUser(user);
                 return Get(user.Email);

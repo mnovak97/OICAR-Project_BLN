@@ -58,7 +58,14 @@ public class SignupActivity extends AppCompatActivity {
                 public void onResponse(Call<User> call, Response<User> response) {
                     if (response.code() == HttpURLConnection.HTTP_OK)
                     {
-                        Toast.makeText(SignupActivity.this, "Signup successful", Toast.LENGTH_SHORT).show();
+                        if (response.body() == null)
+                        {
+                            Toast.makeText(SignupActivity.this, "There is already an account with that E-mail address", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(SignupActivity.this, "Signup successful", Toast.LENGTH_SHORT).show();
+
+                        }
                     }
                 }
                 @Override
